@@ -3,6 +3,10 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.ianluo = { pkgs, ...}: with lib; {
+    xdg.configFile.vim = {
+      source = ./vim;
+      recursive = true;
+    };
 
     home.stateVersion = "21.11";
 
@@ -113,6 +117,10 @@
       };
     };
 
+    programs.vim = {
+      enable = true;
+    };
+
     programs.alacritty = {
       enable = true;
     };
@@ -155,6 +163,7 @@
     };
 
     programs.tmate.enable = true;
+
 
   };
 

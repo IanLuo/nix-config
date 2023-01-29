@@ -1,0 +1,111 @@
+" disable compatibility with vi which cause unexpected issues.
+set nocompatible
+
+" enable type file detection vim will be able to try to detect the type of
+" file in use.
+
+filetype on
+
+" enable plugins and load plugin for the detected file type
+filetype plugin on
+
+" load an indent file for the detected file type
+filetype indent on
+
+" turn syntax highlighting on
+syntax on
+
+" show exiting tab with 2 spaces
+:set shiftwidth=2
+
+" when indent with >, use 2 spaces
+:set tabstop=2
+
+" On pressing tab, inser 2 spaces
+:set expandtab
+
+" Show line numbers
+:set number
+
+:set autoindent
+
+" highlight cursor line underneath the cursor horizontally
+set cursorline
+
+" do not backup files
+set nobackup
+
+" while searching though a file incrementally hightlight matching characters
+" as you type
+set incsearch
+
+" do not wrap
+set nowrap
+
+" ignore capital letters during search
+set ignorecase
+
+" override the ignore case option if searching for capital letters
+" this will allow you to search specifically for capital letters
+set smartcase
+
+" show partial command you type in the last line of the screen
+set showcmd
+
+" show the mode you are on last line
+set showmode
+
+" show matching works during a search
+set showmatch
+
+" show lightlighting when doing a search
+set hlsearch
+
+" set the commands to save in history default number is 20
+set history=1000
+
+" enable auto completion menu after pressing TAB
+set wildmenu
+
+"make wildmenu behave like similar to bash completion
+set wildmode=list:longest
+
+" ignore files for vim
+set wildignore=*.docx,*.jgp,*.gif,*.pdf,*.pyc,*.exe,*.img,*.xlsx
+
+set foldmethod=marker
+
+
+" STATUS {{{
+
+set statusline=
+
+" status line left side
+set statusline+=\ %F\ %M\ %Y\ %R
+
+" use a divider to separate the left side from the right side
+set statusline+=%=
+
+" status line right side
+set statusline+=\ %l\ C:\ %c\ t:\ %p%%
+
+" show the status on the second to last line
+set laststatus=2
+
+" }}}
+
+"PLUGINS {{{
+
+call plug#begin()
+
+Plug 'junegunn/fzf.vim' 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+call plug#end()
+
+"}}}
+
+"{{{
+nnoremap <silent> <C-f> :Files<CR>
+nnoremap <silent> <C-g> :GFiles<CR>
+"}}}
