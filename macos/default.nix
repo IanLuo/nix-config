@@ -16,6 +16,7 @@
       any-nix-shell
       tmate
       ruby
+      alacritty
     ] ++ lib.optionals stdenv.isDarwin [
       cocoapods
       m-cli
@@ -44,6 +45,7 @@
           "poetry"
           "z"
           "git"
+          "tmux"
         ];
       };
 
@@ -66,47 +68,53 @@
 
       initExtra = ''
         any-nix-shell zsh --info-right | source /dev/stdin
-        '';
+      '';
 
-        plugins = [
-          {
-            name = "zsh-syntax-highlighting";
-            src = pkgs.fetchFromGitHub {
-              owner = "zsh-users";
-              repo = "zsh-syntax-highlighting";
-              rev = "v0.6.4";
-              sha256 = "1pnxr39cayhsvggxihsfa3rqys8rr2pag3ddil01w96kw84z4id2";
-            };
-          }
+      plugins = [
+        {
+          name = "zsh-syntax-highlighting";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-syntax-highlighting";
+            rev = "v0.6.4";
+            sha256 = "1pnxr39cayhsvggxihsfa3rqys8rr2pag3ddil01w96kw84z4id2";
+          };
+        }
 
-          {
-            name = "zsh-autosuggestions";
-            src = pkgs.fetchFromGitHub {
-              owner = "zsh-users";
-              repo = "zsh-autosuggestions";
-              rev = "v0.6.4";
-              sha256 = "0h52p2waggzfshvy1wvhj4hf06fmzd44bv6j18k3l9rcx6aixzn6";
-            };
-          }
+        {
+          name = "zsh-autosuggestions";
+          src = pkgs.fetchFromGitHub {
+            owner = "zsh-users";
+            repo = "zsh-autosuggestions";
+            rev = "v0.6.4";
+            sha256 = "0h52p2waggzfshvy1wvhj4hf06fmzd44bv6j18k3l9rcx6aixzn6";
+          };
+        }
 
-          {
-            name = "powerlevel10k";
-            src = pkgs.zsh-powerlevel10k;
-            file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-          }
+        {
+          name = "powerlevel10k";
+          src = pkgs.zsh-powerlevel10k;
+          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+        }
 
-          {
-            name = "powerlevel10k-config";
-            src = lib.cleanSource ./p10k-config;
-            file = "p10k.zsh";
-          }
-        ];
-        localVariables = {
-          EDITOR = "vim";
-        };
-        shellAliases = {
-          vi = "vim";
-        };
+        {
+          name = "powerlevel10k-config";
+          src = lib.cleanSource ./p10k-config;
+          file = "p10k.zsh";
+        }
+      ];
+
+      localVariables = {
+        EDITOR = "vim";
+      };
+
+      shellAliases = {
+        vi = "vim";
+      };
+    };
+
+    programs.alacritty = {
+      enable = true;
     };
 
     programs.fzf = {
@@ -134,20 +142,15 @@
       ];
 
       extraConfig = ''
-        set -g default-terminal "xterm-256color"
-        set -ga terminal-overrides ",*256col*:Tc"
-        set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
-        set-environment -g COLORTERM "truecolor"
+        set -g default-terminal "screen-256color
 
         # Mouse works as expected
         set-option -g mouse on
 
-      # easy-to-remember split pane commands
+        # easy-to-remember split pane commands
         bind | split-window -h -c "#{pane_current_path}"
         bind - split-window -v -c "#{pane_current_path}"
         bind c new-window -c "#{pane_current_path}"
-
-        set-option -g default-shell "$(which zsh)"
       '';
     };
 
