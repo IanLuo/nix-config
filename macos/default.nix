@@ -13,6 +13,9 @@
       wget
       zsh
       tree
+      any-nix-shell
+      tmate
+      ruby
     ] ++ lib.optionals stdenv.isDarwin [
       cocoapods
       m-cli
@@ -44,20 +47,25 @@
         ];
       };
 
-      initExtra = ''
-         if [ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" ]; then
+      initExtraBeforeCompInit = ''
+        if [ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" ]; then
            . /nix/store/w5ry32li85iywmgmz6f8gcrdb2ixnl96-set-environment
          fi
-   
+
         # Nix
         if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
           . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
         fi
         # End Nix
 
-        if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh]; then 
+        if [ -e '$HOME/.nix-profile/etc/profile.d/nix.sh' ]; then 
           . $HOME/.nix-profile/etc/profile.d/nix.sh;
         fi # added by Nix installer
+
+      '';
+
+      initExtra = ''
+        any-nix-shell zsh --info-right | source /dev/stdin
         '';
 
         plugins = [
@@ -115,6 +123,35 @@
     programs.gitui = {
       enable = true;
     };
+
+
+    programs.tmux = {
+      enable = true;
+      newSession = true;
+      escapeTime = 0;
+      plugins = with pkgs; [
+        tmuxPlugins.better-mouse-mode
+      ];
+
+      extraConfig = ''
+        set -g default-terminal "xterm-256color"
+        set -ga terminal-overrides ",*256col*:Tc"
+        set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
+        set-environment -g COLORTERM "truecolor"
+
+        # Mouse works as expected
+        set-option -g mouse on
+
+      # easy-to-remember split pane commands
+        bind | split-window -h -c "#{pane_current_path}"
+        bind - split-window -v -c "#{pane_current_path}"
+        bind c new-window -c "#{pane_current_path}"
+
+        set-option -g default-shell "$(which zsh)"
+      '';
+    };
+
+    programs.tmate.enable = true;
 
   };
 
