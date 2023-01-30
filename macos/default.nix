@@ -5,7 +5,6 @@
   home-manager.users.ianluo = { pkgs, ...}: with lib; {
     xdg.configFile.vim = {
       source = ./vim;
-      recursive = true;
     };
 
     home.stateVersion = "21.11";
@@ -21,6 +20,7 @@
       tmate
       ruby
       alacritty
+      tmux
     ] ++ lib.optionals stdenv.isDarwin [
       cocoapods
       m-cli
@@ -46,10 +46,8 @@
         enable = true;
         plugins = [
           "command-not-found"
-          "poetry"
-          "z"
           "git"
-          "tmux"
+	  "tmux"
         ];
       };
 
@@ -68,6 +66,7 @@
           . $HOME/.nix-profile/etc/profile.d/nix.sh;
         fi # added by Nix installer
 
+	if [ "$TMUX" = "" ]; then tmux attach; fi
       '';
 
       initExtra = ''
@@ -151,6 +150,9 @@
 
       extraConfig = ''
         set -g default-terminal "screen-256color
+	set -ga terminal-overrides ",*256col*:Tc"
+        set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
+        set-environment -g COLORTERM "truecolor"
 
         # Mouse works as expected
         set-option -g mouse on
