@@ -94,18 +94,7 @@ set laststatus=2
 
 " }}}
 
-"PLUGINS {{{
-
-call plug#begin()
-
-Plug 'junegunn/fzf.vim' 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-
-call plug#end()
-
-"}}}
-
-"{{{
+"KEYMAP {{{
 nnoremap <silent> <C-f> :Files<CR>
 nnoremap <silent> <C-g> :GFiles<CR>
 "}}}
