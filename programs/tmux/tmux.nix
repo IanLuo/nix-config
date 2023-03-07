@@ -13,7 +13,7 @@
           set -ga terminal-overrides ",*256col*:Tc"
           set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
           set-option -g automatic-rename on
-          set-option -g automatic-rename-format '#{pane_index}:#(echo "#{pane_current_path}" | rev | cut -d'/' -f-1 | rev)'
+          set-option -g automatic-rename-format '#{command}:#(echo "#{pane_current_path}" | rev | cut -d'/' -f-3 | rev)'
           set-environment -g COLORTERM "truecolor"
 
         # Mouse works as expected

@@ -29,6 +29,7 @@ in
       imports = [
         ../programs/vim/vim.nix 
         ../programs/tmux/tmux.nix
+        ../programs/gitui/gitui.nix
         (import ../programs/zsh/zsh.nix { inherit pkgs lib brewBinPrefix; })
       ];
       
@@ -63,12 +64,9 @@ in
         };
       };
 
-      programs.gitui = {
-        enable = true;
-      };
-
       programs.tmate.enable = true;
     };
+
 
   # make sure the nix daemon is always runs
   services.nix-daemon.enable = true;

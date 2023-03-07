@@ -8,6 +8,7 @@
     plugins = with pkgs.vimPlugins; [
       fzf-vim
       fzfWrapper
+      vim-rails
     ];
   };
 }

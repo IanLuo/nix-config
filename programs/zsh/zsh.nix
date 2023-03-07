@@ -28,6 +28,9 @@
               fi # added by Nix installer
 
               if [ "$TMUX" = "" ]; then tmux attach; fi
+
+              export PATH=$PATH:~/Documents/flutter/bin
+
     '';
 
     initExtra = ''
