@@ -97,4 +97,9 @@ set laststatus=2
 "KEYMAP {{{
 nnoremap <silent> <C-f> :Files<CR>
 nnoremap <silent> <C-g> :GFiles<CR>
+
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
 "}}}

@@ -9,6 +9,7 @@
       fzf-vim
       fzfWrapper
       vim-rails
+      nerdtree
     ];
   };
 }
