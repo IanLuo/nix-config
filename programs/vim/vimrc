@@ -67,19 +67,20 @@ set hlsearch
 " set the commands to save in history default number is 20
 set history=1000
 
+" ignore files for vim
+set wildignore=*.docx,*.jgp,*.gif,*.pdf,*.pyc,*.exe,*.img,*.xlsx
+
+set foldmethod=marker
+
+set list
+
+"Wilder.vim {{{
 " enable auto completion menu after pressing TAB
 set wildmenu
 
 "make wildmenu behave like similar to bash completion
 set wildmode=list:longest
 
-" ignore files for vim
-set wildignore=*.docx,*.jgp,*.gif,*.pdf,*.pyc,*.exe,*.img,*.xlsx
-
-set foldmethod=marker
-
-set cc=80
-set list
 
 packadd! nvim-colorizer.lua
 lua require 'colorizer'.setup()
@@ -100,7 +101,9 @@ call wilder#set_option('renderer', wilder#popupmenu_renderer({
       \   ' ', wilder#popupmenu_scrollbar(),
       \ ],
       \ }))
+"}}}
 
+" Formatter {{{
 " formatter
 " format on save
 augroup FormatAutogroup
@@ -163,8 +166,7 @@ require("formatter").setup {
   }
 }
 EOF
-
-
+" }}}
 
 " STATUS {{{
 

@@ -76,7 +76,7 @@ in
 
   homebrew = {
     enable = true;
-    # onActivation.autoUpdate = true;
+    onActivation.autoUpdate = false;
     # updates homebrew packages on activation
     # can make darwin-rebuid much slower but otherwise will do it manually
     brewPrefix = brewBinPrefix;
