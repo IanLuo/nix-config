@@ -1,4 +1,16 @@
 { pkgs, ... }:
+
+let
+  my-nord-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "my-nord-nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "shaunsingh";
+      repo = "nord.nvim";
+      sha256 = "sha256-0Dg7A7CX8zWCHT/xZFUv/cQEAp+1naYno2IMHCBU6wc=";
+      rev = "fab04b2dd4b64f4b1763b9250a8824d0b5194b8f";
+    };
+  };
+in
 {
   programs.neovim = {
     enable = true;
@@ -107,9 +119,9 @@
       vim-nix
       nvim-colorizer-lua
 
-
       # theming
-      nord-nvim
+      my-nord-nvim
+      lualine-nvim
     ];
 
     extraPackages = with pkgs; [
