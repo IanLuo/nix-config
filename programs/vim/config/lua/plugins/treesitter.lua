@@ -18,6 +18,11 @@ treesitter.setup({
 	highlight = {
 		enable = true,
 	},
+	rainbow = {
+		enable = true,
+		extended_mode = true,
+		max_file_lines = nil,
+	},
 	-- enable indentation
 	indent = { enable = true },
 	-- enable autotagging (w/ nvim-ts-autotag plugin)

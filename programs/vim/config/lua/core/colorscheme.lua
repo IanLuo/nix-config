@@ -1,6 +1,6 @@
-require("plugins.tokyonight-config")
+-- require("plugins.tokyonight-config")
 
-local status, _ = pcall(vim.cmd, "colorscheme tokyonight")
+local status, _ = pcall(vim.cmd, "colorscheme nightfly")
 if not status then
 	print("colorschme not found!")
 	return
