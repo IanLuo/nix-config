@@ -114,63 +114,43 @@ vim.fn.sign_define(
 )
 
 local dap = require("dap")
--- Elixir
-local elixir_ls_home = vim.api.nvim_get_var("elixir_ls_home")
-dap.adapters.mix_task = {
-	type = "executable",
-	command = elixir_ls_home .. "/lib/debugger.sh",
-	args = {},
-}
 
-dap.configurations.elixir = {
-	{
-		type = "mix_task",
-		name = "mix test",
-		task = "test",
-		taskArgs = { "--trace" },
-		request = "launch",
-		startApps = true,
-		projectDir = "${workspaceFolder}",
-		requireFiles = {
-			"test/**/test_helper.exs",
-			"test/**/*_test.exs",
-		},
-	},
-}
+-- ruby
+dap.adapters.ruby = {}
 
--- Python
-local python_debug_home = vim.api.nvim_get_var("python_debug_home")
-dap.adapters.python = {
-	type = "executable",
-	command = python_debug_home .. "/bin/python",
-	args = { "-m", "debugpy.adapter" },
-}
-
-dap.configurations.python = {
-	{
-		type = "python",
-		request = "launch",
-		name = "Launch file",
-
-		-- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
-		program = "${file}", -- This configuration will launch the current file if used.
-		python = { "python" },
-	},
-	{
-		type = "python",
-		request = "launch",
-		name = "Django",
-
-		program = "${workspaceFolder}/manage.py",
-		args = { "runserver", "--noreload" },
-		python = { "python" },
-	},
-	{
-		type = "python",
-		request = "attach",
-		name = "Attach remote",
-
-		host = "127.0.0.1",
-		port = 5678,
-	},
-}
+-- -- Python
+-- local python_debug_home = vim.api.nvim_get_var("python_debug_home")
+-- dap.adapters.python = {
+-- 	type = "executable",
+-- 	command = python_debug_home .. "/bin/python",
+-- 	args = { "-m", "debugpy.adapter" },
+-- }
+--
+-- dap.configurations.python = {
+-- 	{
+-- 		type = "python",
+-- 		request = "launch",
+-- 		name = "Launch file",
+--
+-- 		-- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+-- 		program = "${file}", -- This configuration will launch the current file if used.
+-- 		python = { "python" },
+-- 	},
+-- 	{
+-- 		type = "python",
+-- 		request = "launch",
+-- 		name = "Django",
+--
+-- 		program = "${workspaceFolder}/manage.py",
+-- 		args = { "runserver", "--noreload" },
+-- 		python = { "python" },
+-- 	},
+-- 	{
+-- 		type = "python",
+-- 		request = "attach",
+-- 		name = "Attach remote",
+--
+-- 		host = "127.0.0.1",
+-- 		port = 5678,
+-- 	},
+-- }

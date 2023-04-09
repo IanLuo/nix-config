@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  my-nord-nvim = pkgs.vimUtils.buildVimPlugin {
+  _ = pkgs.vimUtils.buildVimPlugin {
     name = "my-nord-nvim";
     src = pkgs.fetchFromGitHub {
       owner = "shaunsingh";
@@ -114,13 +114,14 @@ in
       telescope-dap-nvim
       nvim-dap-ui
       nvim-dap-virtual-text
+      nvim-dap
 
-      formatter-nvim
       vim-nix
       nvim-colorizer-lua
 
       # theming
-      my-nord-nvim
+      nord-nvim
+      tokyonight-nvim
       lualine-nvim
     ];
 
