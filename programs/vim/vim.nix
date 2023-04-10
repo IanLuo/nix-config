@@ -20,9 +20,21 @@ in
     plugins = with pkgs.vimPlugins; [
       # basics
       vim-sensible
+      packer-nvim
+
+      # All the lua functions I don't want to write twice.
+      plenary-nvim
 
       # Add syntax/detection/indentation for langs
       dart-vim-plugin
+
+      vim-tmux-navigator
+
+      # add, delete, change surroundings (it's awesome)
+      nvim-surround
+
+      # Replacing an existing text with the contents of a register
+      vim-ReplaceWithRegister
 
       # ruby and rails
       vim-rails
@@ -46,6 +58,7 @@ in
 
       # fuzzy finder
       telescope-nvim
+      telescope-fzf-native-nvim
 
       # diagnostics window
       trouble-nvim
@@ -79,10 +92,13 @@ in
 
       # syngax highlighting
       nvim-treesitter.withAllGrammars
+      nvim-treesitter
 
       # lsp
       nvim-lspconfig
       nvim-lsp-ts-utils
+      lspsaga-nvim
+      lspkind-nvim
 
       # lsp status window
       fidget-nvim
@@ -104,10 +120,13 @@ in
       cmp-nvim-lsp-signature-help
       nvim-cmp
       lspkind-nvim
+      cmp-nvim-lsp-document-symbol
+
 
       # snippets
       luasnip
       cmp_luasnip
+      friendly-snippets
 
       # debug adapter protocol
       nvim-dap
@@ -123,6 +142,8 @@ in
       nord-nvim
       tokyonight-nvim
       lualine-nvim
+      lualine-lsp-progress
+      nvim-web-devicons
     ];
 
     extraPackages = with pkgs; [

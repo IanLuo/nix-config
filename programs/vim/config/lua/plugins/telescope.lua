@@ -16,8 +16,6 @@ if not builtin_setup then
 	return
 end
 
-builtin.lsp_references()
-
 -- configure telescope
 telescope.setup({
 	-- configure custom mappings
