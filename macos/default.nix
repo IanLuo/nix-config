@@ -21,6 +21,7 @@ in
         ruby
         alacritty
         tmux
+        nodejs
       ] ++ lib.optionals stdenv.isDarwin [
         cocoapods
         m-cli
