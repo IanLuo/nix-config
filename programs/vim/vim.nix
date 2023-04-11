@@ -97,7 +97,6 @@ in
       # lsp
       nvim-lspconfig
       nvim-lsp-ts-utils
-      lspsaga-nvim
       lspkind-nvim
 
       # lsp status window
@@ -139,11 +138,9 @@ in
       nvim-colorizer-lua
 
       # theming
-      nord-nvim
       tokyonight-nvim
       lualine-nvim
       lualine-lsp-progress
-      nvim-web-devicons
     ];
 
     extraPackages = with pkgs; [
@@ -174,7 +171,7 @@ in
 
     extraConfig = ''
       :luafile ~/.config/init.lua
-      '';
+    '';
   };
 
   xdg.configFile.nvim = {
