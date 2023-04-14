@@ -34,7 +34,7 @@ return packer.startup(function(use)
 	use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
 
 	use("bluz71/vim-nightfly-guicolors") -- preferred colorscheme
-  use { "catppuccin/nvim", as = "catppuccin" }
+	use({ "catppuccin/nvim", as = "catppuccin" })
 
 	use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
 
@@ -80,12 +80,12 @@ return packer.startup(function(use)
 	use("hrsh7th/cmp-nvim-lsp") -- for autocompletion
 	use({
 		"glepnir/lspsaga.nvim",
-    opt = true,
-    event = "LspAttach",
+		opt = true,
+		event = "LspAttach",
 		branch = "main",
-    config = function() 
-      require("lspsaga").setup({})
-    end,
+		config = function()
+			require("lspsaga").setup({})
+		end,
 		requires = {
 			{ "nvim-tree/nvim-web-devicons" },
 			{ "nvim-treesitter/nvim-treesitter" },
