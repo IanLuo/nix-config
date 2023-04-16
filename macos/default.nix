@@ -1,72 +1,72 @@
-{ pkgs, lib, ... }: 
+{ pkgs, lib, ... }:
 let brewBinPrefix = if pkgs.system == "aarch64-darwin" then "/opt/homebrew/bin" else "/usr/local/bin";
 in
 
-  {
-    home-manager.useGlobalPkgs = true;
-    home-manager.useUserPackages = true;
-    home-manager.users.ianluo = { pkgs, ...}: with lib; {
+{
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.ianluo = { pkgs, ... }: with lib; {
 
-      home.stateVersion = "21.11";
+    home.stateVersion = "21.11";
 
-      home.packages = with pkgs; [
-        git
-        direnv
-        curl
-        wget
-        zsh
-        tree
-        any-nix-shell
-        tmate
-        ruby
-        alacritty
-        tmux
-        nodejs
-      ] ++ lib.optionals stdenv.isDarwin [
-        cocoapods
-        m-cli
-      ];
+    home.packages = with pkgs; [
+      git
+      direnv
+      curl
+      wget
+      zsh
+      tree
+      any-nix-shell
+      tmate
+      alacritty
+      tmux
+      nodejs
+      jdk11
+    ] ++ lib.optionals stdenv.isDarwin [
+      cocoapods
+      m-cli
+    ];
 
-      imports = [
-        ../programs/vim/vim.nix 
-        ../programs/tmux/tmux.nix
-        ../programs/gitui/gitui.nix
-        (import ../programs/zsh/zsh.nix { inherit pkgs lib brewBinPrefix; })
-      ];
-      
+    imports = [
+      ../programs/vim/vim.nix
+      ../programs/tmux/tmux.nix
+      ../programs/gitui/gitui.nix
+      (import ../programs/zsh/zsh.nix { inherit pkgs lib brewBinPrefix; })
+    ];
 
-      programs.command-not-found.enable = true;
 
-      programs.htop = {
-        enable = true;
-        settings.show_program_path = true;
-      };
+    programs.command-not-found.enable = true;
 
-      programs.direnv = {
-        enable = true;
-        enableZshIntegration = true;
-        nix-direnv.enable = true;
-      }; 
-
-      
-
-      programs.alacritty = {
-        enable = true;
-      };
-
-      programs.fzf = {
-        enable = true;
-      };
-
-      programs.git = {
-        enable = true;
-        extraConfig = {
-          core.editor = "nvim";
-        };
-      };
-
-      programs.tmate.enable = true;
+    programs.htop = {
+      enable = true;
+      settings.show_program_path = true;
     };
+
+    programs.direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
+
+
+
+    programs.alacritty = {
+      enable = true;
+    };
+
+    programs.fzf = {
+      enable = true;
+    };
+
+    programs.git = {
+      enable = true;
+      extraConfig = {
+        core.editor = "nvim";
+      };
+    };
+
+    programs.tmate.enable = true;
+  };
 
 
   # make sure the nix daemon is always runs
@@ -82,11 +82,11 @@ in
     # can make darwin-rebuid much slower but otherwise will do it manually
     brewPrefix = brewBinPrefix;
     casks = [
-      "hammerspoon"      
+      "hammerspoon"
       "amethyst"
       "iina"
       "iterm2"
-    ]; 
+    ];
 
     brews = [
       "xcodegen"
