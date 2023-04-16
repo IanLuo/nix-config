@@ -34,7 +34,7 @@ return packer.startup(function(use)
 	use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
 
 	use("bluz71/vim-nightfly-guicolors") -- preferred colorscheme
-  use { "catppuccin/nvim", as = "catppuccin" }
+	use({ "catppuccin/nvim", as = "catppuccin" })
 
 	use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
 
@@ -71,7 +71,7 @@ return packer.startup(function(use)
 	use("rafamadriz/friendly-snippets") -- useful snippets
 
 	-- managing & installing lsp servers, linters & formatters
-	use("williamboman/mason.nvim") -- in charge of managing lsp servers, linters & formatters
+	use({ "williamboman/mason.nvim", run = ":MasonUpdate" }) -- in charge of managing lsp servers, linters & formatters
 	use("williamboman/mason-lspconfig.nvim") -- bridges gap b/w mason & lspconfig
 
 	-- configuring lsp servers
@@ -80,12 +80,12 @@ return packer.startup(function(use)
 	use("hrsh7th/cmp-nvim-lsp") -- for autocompletion
 	use({
 		"glepnir/lspsaga.nvim",
-    opt = true,
-    event = "LspAttach",
+		opt = true,
+		event = "LspAttach",
 		branch = "main",
-    config = function() 
-      require("lspsaga").setup({})
-    end,
+		config = function()
+			require("lspsaga").setup({})
+		end,
 		requires = {
 			{ "nvim-tree/nvim-web-devicons" },
 			{ "nvim-treesitter/nvim-treesitter" },
@@ -113,6 +113,15 @@ return packer.startup(function(use)
 
 	-- git integration
 	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
+
+	-- flutter dev
+	use({
+		"akinsho/flutter-tools.nvim",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"stevearc/dressing.nvim", -- optional for vim.ui.select
+		},
+	})
 
 	if packer_bootstrap then
 		require("packer").sync()
