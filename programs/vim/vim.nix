@@ -21,6 +21,7 @@ in
       # basics
       vim-sensible
       packer-nvim
+      copilot-vim
 
       # All the lua functions I don't want to write twice.
       plenary-nvim

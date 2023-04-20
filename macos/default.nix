@@ -18,10 +18,11 @@ in
       tree
       any-nix-shell
       tmate
-      alacritty
       tmux
       nodejs
       jdk11
+      element-desktop
+      dbeaver
     ] ++ lib.optionals stdenv.isDarwin [
       cocoapods
       m-cli
@@ -29,6 +30,7 @@ in
 
     imports = [
       ../programs/vim/vim.nix
+      ../programs/alacritty/alacritty.nix
       ../programs/tmux/tmux.nix
       ../programs/gitui/gitui.nix
       (import ../programs/zsh/zsh.nix { inherit pkgs lib brewBinPrefix; })
