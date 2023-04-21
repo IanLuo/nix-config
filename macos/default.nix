@@ -1,12 +1,10 @@
 { pkgs, lib, ... }:
 let brewBinPrefix = if pkgs.system == "aarch64-darwin" then "/opt/homebrew/bin" else "/usr/local/bin";
 in
-
 {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.ianluo = { pkgs, ... }: with lib; {
-
     home.stateVersion = "21.11";
 
     home.packages = with pkgs; [
@@ -20,8 +18,6 @@ in
       tmate
       tmux
       nodejs
-      jdk11
-      element-desktop
       dbeaver
     ] ++ lib.optionals stdenv.isDarwin [
       cocoapods
@@ -84,10 +80,8 @@ in
     # can make darwin-rebuid much slower but otherwise will do it manually
     brewPrefix = brewBinPrefix;
     casks = [
-      "hammerspoon"
-      "amethyst"
-      "iina"
       "iterm2"
+      "raycast"
     ];
 
     brews = [

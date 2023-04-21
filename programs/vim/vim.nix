@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-
+{ pkgs, lib, ... }:
 let
   _ = pkgs.vimUtils.buildVimPlugin {
     name = "my-nord-nvim";

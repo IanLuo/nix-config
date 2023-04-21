@@ -1,3 +1,4 @@
+{ pkgs, lib, config, ... }:
 {
   programs.alacritty = {
     enable = true;
@@ -7,18 +8,6 @@
           family = "Fira Code";
           style = "Regular";
         };
-        bold = {
-          family = "Fira Code";
-          style = "Bold";
-        };
-        italic = {
-          family = "Fira Code";
-          style = "Italic";
-        };
-        bold_italic = {
-          family = "Fira Code";
-          style = "Bold Italic";
-        };
       };
       window = {
         padding = {
@@ -26,13 +15,6 @@
           y = 10;
         };
       };
-      key_bindings = [
-        {
-          key = "F12";
-          mods = "SUPER";
-          action = "SpawnNewInstance";
-        }
-      ];
     };
   };
 }

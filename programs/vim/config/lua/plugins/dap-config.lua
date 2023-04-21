@@ -118,6 +118,8 @@ local dap = require("dap")
 -- ruby
 dap.adapters.ruby = {}
 
+dap.adapters.dart = {}
+
 -- -- Python
 -- local python_debug_home = vim.api.nvim_get_var("python_debug_home")
 -- dap.adapters.python = {

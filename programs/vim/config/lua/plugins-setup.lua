@@ -122,6 +122,7 @@ return packer.startup(function(use)
 			"stevearc/dressing.nvim", -- optional for vim.ui.select
 		},
 	})
+  use("nash0x7e2/awesome-flutter-snippets") -- flutter snippets
 
 	if packer_bootstrap then
 		require("packer").sync()
