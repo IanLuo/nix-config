@@ -5,7 +5,7 @@ in
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.ianluo = { pkgs, ... }: with lib; {
-    home.stateVersion = "21.11";
+    home.stateVersion = "22.11";
 
     home.packages = with pkgs; [
       git
@@ -38,18 +38,6 @@ in
     programs.htop = {
       enable = true;
       settings.show_program_path = true;
-    };
-
-    programs.direnv = {
-      enable = true;
-      enableZshIntegration = true;
-      nix-direnv.enable = true;
-    };
-
-
-
-    programs.alacritty = {
-      enable = true;
     };
 
     programs.fzf = {

@@ -116,9 +116,29 @@ vim.fn.sign_define(
 local dap = require("dap")
 
 -- ruby
-dap.adapters.ruby = {}
+dap.adapters.rdbg = {
+  type = 'server',
+  host = '127.0.0.1',
+  port = 38697
+}
 
-dap.adapters.dart = {}
+dap.adapters.dart = {
+  type = 'server',
+  host = '127.0.0.1',
+  port = 6483,
+  name = 'flutter'
+}
+
+dap.configurations.dart = {
+  {
+    type = 'dart',
+    request = 'attach',
+    flutterMode = true,
+    name = 'attach flutter',
+    observatoryUri = 'http://127.0.0.1:64834',
+    cwd = '${workspaceFolder}'
+  }
+}
 
 -- -- Python
 -- local python_debug_home = vim.api.nvim_get_var("python_debug_home")

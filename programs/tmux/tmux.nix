@@ -8,6 +8,7 @@
       tmuxPlugins.better-mouse-mode
       tmuxPlugins.vim-tmux-navigator
       tmuxPlugins.sensible
+      tmuxPlugins.jump
     ];
 
     extraConfig = ''

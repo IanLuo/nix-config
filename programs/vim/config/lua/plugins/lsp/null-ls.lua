@@ -21,6 +21,7 @@ null_ls.setup({
 		formatting.nixpkgs_fmt,
 		-- formatting.prettier, -- js/ts formatter
 		formatting.stylua, -- lua formatter
+    formatting.dart_format
 		-- diagnostics.statix,
 		-- formatting.black,
 		-- diagnostics.eslint_d.with({ -- js/ts linter

@@ -1,11 +1,28 @@
-local colors = require("plugins.nord-colors")
-local util = require("plugins.util")
-
--- Setup lightbulb sign to indicate a code action is available
-vim.cmd([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]])
-
--- Change to yellow lightbulb icon
-util.colorize({
-	LightBulbSignColor = { fg = colors.nord13_gui },
+require('nvim-lightbulb').setup({
+  sign = {
+    enabled = true,
+    priority = 10,
+  },
+  float = {
+    enabled = true,
+    text = "💡",
+    win_opts = {
+      winblend = 100,
+      border = "none",
+    },
+    opts = {
+      position = 'bottom',
+      relative = 'cursor',
+      row = 0,
+      col = 1,
+    },
+  },
+  virtual_text = {
+    enabled = true,
+    text = "💡",
+  },
+  status_text = {
+    enabled = true,
+    text = "💡",
+  },
 })
-vim.fn.sign_define("LightBulbSign", { text = "", texthl = "LightBulbSignColor", linehl = "", numhl = "" })
