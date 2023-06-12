@@ -74,11 +74,15 @@
     ];
 
     localVariables = {
-      EDITOR = "vim";
+      EDITOR = "nvim";
     };
 
     shellAliases = {
-      vi = "vim";
+      vi = "nvim";
+    };
+
+    shellAliases = {
+      vim = "nvim";
     };
   };
 

@@ -5,7 +5,7 @@ in
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.ianluo = { pkgs, ... }: with lib; {
-    home.stateVersion = "22.11";
+    home.stateVersion = "23.05";
 
     home.packages = with pkgs; [
       git
@@ -19,6 +19,7 @@ in
       tmux
       nodejs
       dbeaver
+      iterm2
     ] ++ lib.optionals stdenv.isDarwin [
       cocoapods
       m-cli
@@ -47,7 +48,7 @@ in
     programs.git = {
       enable = true;
       extraConfig = {
-        core.editor = "nvim";
+        core.editor = "vi";
       };
     };
 
@@ -68,7 +69,6 @@ in
     # can make darwin-rebuid much slower but otherwise will do it manually
     brewPrefix = brewBinPrefix;
     casks = [
-      "iterm2"
       "raycast"
     ];
 
