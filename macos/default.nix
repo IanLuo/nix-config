@@ -20,8 +20,8 @@ in
       nodejs
       dbeaver
       iterm2
+      devbox
     ] ++ lib.optionals stdenv.isDarwin [
-      cocoapods
       m-cli
     ];
 

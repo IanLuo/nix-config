@@ -29,7 +29,6 @@
 
             if [ "$TMUX" = "" ]; then tmux attach; fi
 
-            export PATH=$PATH:~/Documents/flutter/bin
             export TERM=screen-256color
 
     '';
