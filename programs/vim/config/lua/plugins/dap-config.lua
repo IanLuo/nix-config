@@ -129,15 +129,36 @@ dap.adapters.dart = {
   name = 'flutter'
 }
 
+dap.adapters.dart = {
+  type = "executable",
+  command = "dart",
+  args = {"debug_adapter"}
+}
+
+dap.adapters.dart = {
+  type = "executable",
+  command = "flutter",
+  args = {"debug_adapter"}
+}
+
 dap.configurations.dart = {
   {
     type = 'dart',
-    request = 'attach',
-    flutterMode = true,
-    name = 'attach flutter',
-    observatoryUri = 'http://127.0.0.1:64834',
-    cwd = '${workspaceFolder}'
+    request = 'launch',
+    name = "Launch Dart Program",
+    program = "${file}",
+    cwd = "${workspaceFolder}",
+    args = {"--help"},
   }
+}
+
+dap.configurations.dart = {
+  type = "dart",
+  request = "launch",
+  name = "Launch flutter",
+  program = "${file}",
+  cwd = "${workspaceFolder}",
+  toolArgs = {"-d", "linux"}
 }
 
 -- -- Python
