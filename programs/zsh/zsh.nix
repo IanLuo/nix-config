@@ -77,11 +77,15 @@
     };
 
     shellAliases = {
+      sv = "spacevim";
+    };
+
+    shellAliases = {
       vi = "vi";
     };
 
     shellAliases = {
-      vim = "nvim";
+      vim = "vim";
     };
   };
 
