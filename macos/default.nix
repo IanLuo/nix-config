@@ -23,7 +23,7 @@
       discord
       fd
       raycast
-      rigprep
+      ripgrep
     ] ++ lib.optionals stdenv.isDarwin [
       m-cli
     ];

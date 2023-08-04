@@ -84,7 +84,7 @@
     };
 
     shellAliases = {
-      vim = "vim";
+      vim = "nvim";
     };
   };
 

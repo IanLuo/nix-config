@@ -97,7 +97,7 @@
     ];
 
     extraConfig = ''
-      :luafile ~/.config/init.lua
+      :luafile ~/.config/nvim/init.lua
     '';
   };
 
