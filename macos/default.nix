@@ -1,11 +1,10 @@
 { pkgs, lib, ... }:
-let brewBinPrefix = if pkgs.system == "aarch64-darwin" then "/opt/homebrew/bin" else "/usr/local/bin";
-in
 {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.ianluo = { pkgs, ... }: with lib; {
-    home.stateVersion = "23.05";
+  home-manager.users.ianluo = { pkgs, ... }: with lib;
+    {
+      home.stateVersion = "23.05";
 
     home.packages = with pkgs; [
       git
@@ -22,6 +21,9 @@ in
       iterm2
       element-desktop
       discord
+      fd
+      raycast
+      rigprep
     ] ++ lib.optionals stdenv.isDarwin [
       m-cli
     ];
@@ -33,47 +35,30 @@ in
       (import ../programs/zsh/zsh.nix { inherit pkgs lib; })
     ];
 
+      programs.command-not-found.enable = true;
 
-    programs.command-not-found.enable = true;
-
-    programs.htop = {
-      enable = true;
-      settings.show_program_path = true;
-    };
-
-    programs.fzf = {
-      enable = true;
-    };
-
-    programs.git = {
-      enable = true;
-      extraConfig = {
-        core.editor = "vi";
+      programs.htop = {
+        enable = true;
+        settings.show_program_path = true;
       };
-    };
 
-    programs.tmate.enable = true;
-  };
+      programs.fzf = {
+        enable = true;
+      };
+
+      programs.git = {
+        enable = true;
+        extraConfig = {
+          core.editor = "vi";
+        };
+      };
+
+      programs.tmate.enable = true;
+    };
 
 
   # make sure the nix daemon is always runs
   services.nix-daemon.enable = true;
   # install a version of nix, that doesn't need 'experimental-features = nix-command flakes" in /etc/nix/nix.conf 
   # services.nix-daemon.package = pkgs.nixFlakes;
-
-
-  homebrew = {
-    enable = true;
-    onActivation.autoUpdate = false;
-    # updates homebrew packages on activation
-    # can make darwin-rebuid much slower but otherwise will do it manually
-    brewPrefix = brewBinPrefix;
-    casks = [
-      "raycast"
-    ];
-
-    brews = [
-      "xcodegen"
-    ];
-  };
 } 
