@@ -14,20 +14,11 @@
       # All the lua functions I don't want to write twice.
       plenary-nvim
 
-      # Add syntax/detection/indentation for langs
-      dart-vim-plugin
-
-      vim-tmux-navigator
-
       # add, delete, change surroundings (it's awesome)
       nvim-surround
 
       # Replacing an existing text with the contents of a register
       vim-ReplaceWithRegister
-
-      # ruby and rails
-      vim-rails
-      vim-ruby
 
       # file tree
       nvim-web-devicons
@@ -35,9 +26,6 @@
 
       # status line
       feline-nvim
-
-      # git info
-      gitsigns-nvim
 
       #indent lines
       indent-blankline-nvim
@@ -48,9 +36,6 @@
       # fuzzy finder
       telescope-nvim
       telescope-fzf-native-nvim
-
-      # diagnostics window
-      trouble-nvim
 
       # keybindings window
       legendary-nvim
@@ -83,65 +68,27 @@
       nvim-treesitter.withAllGrammars
       nvim-treesitter
 
-      # lsp
-      nvim-lspconfig
-      nvim-lsp-ts-utils
-      lspkind-nvim
-
-      # lsp status window
-      fidget-nvim
-
-      # linting
-      null-ls-nvim
-
-      # code action sign
-      nvim-lightbulb
-
       # highlight selected symbol
       vim-illuminate
 
       # completions
-      cmp-nvim-lsp
       cmp-buffer
       cmp-path
       cmp-cmdline
-      cmp-nvim-lsp-signature-help
       nvim-cmp
       lspkind-nvim
       cmp-nvim-lsp-document-symbol
 
 
       # snippets
-      luasnip
-      cmp_luasnip
       friendly-snippets
-
-      # debug adapter protocol
-      nvim-dap
-      telescope-dap-nvim
-      nvim-dap-ui
-      nvim-dap-virtual-text
-      nvim-dap
-
-      vim-nix
-      nvim-colorizer-lua
 
       # theming
       tokyonight-nvim
-      lualine-nvim
-      lualine-lsp-progress
     ];
 
     extraPackages = with pkgs; [
       tree-sitter
-
-      # language server
-      nodePackages.bash-language-server
-
-      # nix
-      rnix-lsp
-      nixpkgs-fmt
-      statix
 
       # telescope tools
       ripgrep

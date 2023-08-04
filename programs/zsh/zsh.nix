@@ -1,4 +1,4 @@
-{ pkgs, lib, brewBinPrefix, ... }:
+{ pkgs, lib, ... }:
 {
   programs.zsh = {
     enable = true;
@@ -35,7 +35,6 @@
 
     initExtra = ''
       any-nix-shell zsh --info-right | source /dev/stdin
-      eval "$(${brewBinPrefix}/brew shellenv)" 
     '';
 
     plugins = [

@@ -20,19 +20,17 @@ in
       nodejs
       dbeaver
       iterm2
-      devbox
       element-desktop
-      spacevim
+      discord
     ] ++ lib.optionals stdenv.isDarwin [
       m-cli
     ];
 
     imports = [
-      # ../programs/vim/vim.nix
-      # ../programs/alacritty/alacritty.nix
+      ../programs/vim/vim.nix
       ../programs/tmux/tmux.nix
       ../programs/gitui/gitui.nix
-      (import ../programs/zsh/zsh.nix { inherit pkgs lib brewBinPrefix; })
+      (import ../programs/zsh/zsh.nix { inherit pkgs lib; })
     ];
 
 
