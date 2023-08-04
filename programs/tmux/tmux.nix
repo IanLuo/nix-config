@@ -8,7 +8,6 @@
       tmuxPlugins.better-mouse-mode
       tmuxPlugins.sensible
       tmuxPlugins.jump
-      tmuxPlugins.vim-tmux-navigator
     ];
 
     extraConfig = ''
@@ -28,9 +27,9 @@
         bind - split-window -v -c "#{pane_current_path}"
         bind c new-window -c "#{pane_current_path}"
 
-        unbind C-b
-        set -g prefix C-a
-        bind C-a send-prefix
+	unbind C-b
+        set -g prefix C-j
+        bind C-j send-prefix
     '';
   };
 }

@@ -2,8 +2,8 @@
 {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
-  home-manager.users.ianluo = { pkgs, ... }: with lib;
-    {
+  home-manager.users.ianluo = { pkgs, ... }:
+  with lib; {
       home.stateVersion = "23.05";
 
     home.packages = with pkgs; [
