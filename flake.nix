@@ -23,6 +23,7 @@
         system = myDarwin;
         config.allowUnfree = true;
       };
+      systemPackages = pkgs.callPackage ./programs/systemPackages.nix { inherit pkgs; };
     in {
       darwinConfigurations = pkgs.lib.attrsets.genAttrs myUsers (user:
         inputs.darwin.lib.darwinSystem {
@@ -34,7 +35,7 @@
             ./macos 
             ./misc/fonts.nix
           ];
-          specialArgs = { inherit inputs stateVersion user; };
+          specialArgs = { inherit inputs stateVersion user systemPackages; };
         });
     };
 }

@@ -1,4 +1,4 @@
-{ pkgs, lib, user, inputs, ... }:
+{ pkgs, lib, user, inputs, systemPackages, ... }:
 {
   users.users.${user}.home = "/Users/${user}";
 
