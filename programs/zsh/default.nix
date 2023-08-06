@@ -13,28 +13,32 @@
     };
 
     initExtraBeforeCompInit = ''
-            if [ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" ]; then
-            . /nix/store/w5ry32li85iywmgmz6f8gcrdb2ixnl96-set-environment
-            fi
+      if [ -z "$__NIX_DARWIN_SET_ENVIRONMENT_DONE" ]; then
+      . /nix/store/w5ry32li85iywmgmz6f8gcrdb2ixnl96-set-environment
+      fi
 
       # Nix
-            if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-            . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-            fi
+        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+        . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+        fi
       # End Nix
 
-            if [ -e '$HOME/.nix-profile/etc/profile.d/nix.sh' ]; then 
-            . $HOME/.nix-profile/etc/profile.d/nix.sh;
-            fi # added by Nix installer
+      if [ -e '$HOME/.nix-profile/etc/profile.d/nix.sh' ]; then 
+      . $HOME/.nix-profile/etc/profile.d/nix.sh;
+      fi # added by Nix installer
 
-            if [ "$TMUX" = "" ]; then tmux attach; fi
+      if [ "$TMUX" = "" ]; then tmux attach; fi
 
-            export TERM=screen-256color
-
+      export TERM=screen-256color
     '';
 
     initExtra = ''
       any-nix-shell zsh --info-right | source /dev/stdin
+
+      # For direnv
+
+      eval "$(direnv hook zsh)"
+      eval "$(direnv hook bash)"
     '';
 
     plugins = [
@@ -77,7 +81,6 @@
 
     shellAliases = {
       vim = "nvim";
-      emacs = "emacs -nw";
     };
   };
 

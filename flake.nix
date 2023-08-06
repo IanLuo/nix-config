@@ -7,36 +7,34 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Emacs
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
     nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
-    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , darwin
-    , nix-doom-emacs
-    , ...
-    }:
+  outputs = inputs@{ self, ... }:
     let
-      myMacs = [ "CDU-L737HCJ9FJ" "ianluo" ];
-      mySystem = "aarch64-darwin";
-      pkgs = import nixpkgs {
-        system = mySystem;
+      myUsers = [ "CDU-L737HCJ9FJ" "ianluo" ];
+      myDarwin = "aarch64-darwin";
+      myFonts = [ "fira-code" ];
+      stateVersion = "23.05";
+      pkgs = import inputs.nixpkgs {
+        system = myDarwin;
         config.allowUnfree = true;
       };
-    in
-    with pkgs; {
-      fonts.fonts = [ fira-code ];
-      darwinConfigurations = lib.attrsets.genAttrs myMacs (user:
-        darwin.lib.darwinSystem {
+    in {
+      darwinConfigurations = pkgs.lib.attrsets.genAttrs myUsers (user:
+        inputs.darwin.lib.darwinSystem {
           inherit pkgs;
-          system = mySystem;
+          
+          system = myDarwin;
           modules = [
-            home-manager.darwinModules.home-manager
-            ./macos/default.nix
+            inputs.home-manager.darwinModules.home-manager
+            ./macos 
+            ./misc/fonts.nix
           ];
+          specialArgs = { inherit inputs stateVersion user; };
         });
     };
 }
