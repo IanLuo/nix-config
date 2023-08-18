@@ -15,27 +15,53 @@
 
   outputs = inputs@{ self, ... }:
     let
-      myUsers = [ "CDU-L737HCJ9FJ" "ianluo" ];
+      darwinUsers = [ "CDU-L737HCJ9FJ" "ianluo" ];
+      linuxUsers = [ "ian" ];
       myDarwin = "aarch64-darwin";
-      myFonts = [ "fira-code" ];
+      aarchLinux = "aarch64-linux";
       stateVersion = "23.05";
-      pkgs = import inputs.nixpkgs {
+      darwinPkgs = import inputs.nixpkgs {
         system = myDarwin;
         config.allowUnfree = true;
       };
-      systemPackages = pkgs.callPackage ./programs/systemPackages.nix { inherit pkgs; };
+      aarchLinuxPkgs = import inputs.nixpkgs {
+        system = aarchLinux;
+        config.allowUnfree = true;
+      };
+
+      systemPackages = inputs.nixpkgs.callPackage ./programs/systemPackages.nix; 
     in {
-      darwinConfigurations = pkgs.lib.attrsets.genAttrs myUsers (user:
+      darwinConfigurations = darwinPkgs.lib.attrsets.genAttrs darwinUsers (user:
         inputs.darwin.lib.darwinSystem {
-          inherit pkgs;
+
+          pkgs = darwinPkgs;
           
           system = myDarwin;
+
           modules = [
             inputs.home-manager.darwinModules.home-manager
             ./macos 
             ./misc/fonts.nix
           ];
-          specialArgs = { inherit inputs stateVersion user systemPackages; };
+
+          specialArgs = { inherit inputs stateVersion user; 
+            systemPackages = (systemPackages { pkgs = darwinPkgs; }); 
+	  };
         });
+
+      homeConfigurations = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user: 
+        inputs.home-manager.lib.homeManagerConfiguration {
+
+	   pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
+
+	   modules = [
+	     ./linux
+             #./misc/fonts.nix
+	   ];
+
+           #specialArgs = { inherit inputs stateVersion user;
+	   #  systemPackages = (systemPackages { pkgs = aarchLinuxPkgs; }); 
+	   #};
+      });
     };
 }
