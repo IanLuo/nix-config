@@ -86,6 +86,7 @@
 
       # theming
       tokyonight-nvim
+      catppuccin-nvim
     ];
 
     extraPackages = with pkgs; [

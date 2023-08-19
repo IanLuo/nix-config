@@ -7,22 +7,21 @@ pkgs
 , stateVersion
 , ... 
 } : {
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.${user} = { pkgs, ... }:
-  {
+  #useGlobalPkgs = true;
+  #useUserPackages = true;
+  #users.${user} = { pkgs, ... }:
+  #{
     home = {
       username = user;
+      homeDirectory = "/home/${user}";
       stateVersion = stateVersion;
+      packages = systemPackages.packages;
     };
 
-    programs.home-manager.enable = true;
-    
-    imports = (import ../../programs).packages 
+    imports = (import ../programs).packages 
       ++ [ 
         inputs.nix-doom-emacs.hmModule 
-        ../../programs/others.nix
+        ../programs/others.nix
       ];
-
-  };
+  #};
 }

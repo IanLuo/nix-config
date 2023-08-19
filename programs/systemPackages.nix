@@ -5,6 +5,7 @@ stdenv
 } : with pkgs // lib; {
   packages = [
     git
+    gcc
     direnv
     curl
     wget
@@ -15,15 +16,17 @@ stdenv
     tmux
     nodejs
     dbeaver
-    iterm2
     element-desktop
-    discord
     fd
-    raycast
     ripgrep
     docker
     podman
     lorri
     nerdfonts 
-  ] ++ optionals stdenv.isDarwin [ m-cli ];
+  ] ++ optionals stdenv.isDarwin [ 
+    m-cli 
+    iterm2
+    discord
+    raycast
+  ];
 }

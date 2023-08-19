@@ -29,7 +29,7 @@
         config.allowUnfree = true;
       };
 
-      systemPackages = inputs.nixpkgs.callPackage ./programs/systemPackages.nix; 
+      systemPackagesFunc = aarchLinuxPkgs.callPackage ./programs/systemPackages.nix; 
     in {
       darwinConfigurations = darwinPkgs.lib.attrsets.genAttrs darwinUsers (user:
         inputs.darwin.lib.darwinSystem {
@@ -45,23 +45,23 @@
           ];
 
           specialArgs = { inherit inputs stateVersion user; 
-            systemPackages = (systemPackages { pkgs = darwinPkgs; }); 
-	  };
+            systemPackages = (systemPackagesFunc { pkgs = darwinPkgs; }); 
+          };
         });
 
       homeConfigurations = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user: 
         inputs.home-manager.lib.homeManagerConfiguration {
 
-	   pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
+        pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
 
-	   modules = [
-	     ./linux
-             #./misc/fonts.nix
-	   ];
+        modules = [
+          ./linux
+          # ./misc/fonts.nix
+        ];
 
-           #specialArgs = { inherit inputs stateVersion user;
-	   #  systemPackages = (systemPackages { pkgs = aarchLinuxPkgs; }); 
-	   #};
+        extraSpecialArgs = { inherit inputs stateVersion user;
+          systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
+        };
       });
     };
 }
