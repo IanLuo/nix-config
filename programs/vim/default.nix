@@ -99,6 +99,10 @@
 
     extraConfig = ''
       :luafile ~/.config/nvim/init.lua
+
+      set tabstop=2
+      set shiftwidth=2
+      set expandtab
     '';
   };
 

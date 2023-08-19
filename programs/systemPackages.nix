@@ -9,7 +9,6 @@ stdenv
     direnv
     curl
     wget
-    zsh
     tree
     any-nix-shell
     tmate
@@ -21,7 +20,6 @@ stdenv
     ripgrep
     docker
     podman
-    lorri
     nerdfonts 
   ] ++ optionals stdenv.isDarwin [ 
     m-cli 
