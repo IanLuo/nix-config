@@ -79,6 +79,7 @@
       nvim-cmp
       lspkind-nvim
       cmp-nvim-lsp-document-symbol
+      luasnip
 
 
       # snippets
