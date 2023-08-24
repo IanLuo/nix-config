@@ -3,18 +3,12 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      font = {
-        normal = {
-          family = "Fira Code";
-          style = "Regular";
-        };
-      };
-      window = {
-        padding = {
-          x = 10;
-          y = 10;
-        };
-      };
+      import = [./config/alacritty.yaml];
     };
+  };
+
+  xdg.configFile.alacritty = {
+    source = ./config;
+    recursive = true;
   };
 }

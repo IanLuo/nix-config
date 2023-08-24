@@ -1,6 +1,5 @@
 {
   "packages" = [
-    ./emacs 
     ./vim
     ./tmux
     ./gitui

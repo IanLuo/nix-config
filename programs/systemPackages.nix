@@ -21,6 +21,7 @@ stdenv
     docker
     podman
     nerdfonts 
+    kitty
   ] ++ optionals stdenv.isDarwin [ 
     m-cli 
     iterm2
