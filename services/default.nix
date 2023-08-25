@@ -3,5 +3,6 @@
   imports = [
     ./lorri 
     ./emacs
+    ./yabai
   ];
 }

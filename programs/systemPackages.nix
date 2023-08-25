@@ -22,6 +22,7 @@ stdenv
     podman
     nerdfonts 
     kitty
+    zsh
   ] ++ optionals stdenv.isDarwin [ 
     m-cli 
     iterm2
