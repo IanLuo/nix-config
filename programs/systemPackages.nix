@@ -6,8 +6,8 @@ stdenv
   packages = [
     git
     gcc
-    direnv
     curl
+    direnv
     wget
     tree
     any-nix-shell

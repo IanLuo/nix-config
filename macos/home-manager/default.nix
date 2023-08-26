@@ -10,8 +10,8 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${user} = { pkgs, ... }:
-
   {
+
     home.stateVersion = stateVersion; 
     home.packages = systemPackages.packages;
 

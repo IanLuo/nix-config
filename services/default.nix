@@ -1,8 +1,7 @@
 { pkgs, ...}:
 {
   imports = [
-    ./lorri 
-    ./emacs
-    ./yabai
+    # ./lorri 
+    # ./emacs
   ];
 }

@@ -17,7 +17,5 @@
     };
   };
 
-  programs.zsh.enable = true;
-
   programs.tmate.enable = true;
 }
