@@ -63,5 +63,21 @@
           systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
         };
       });
+       
+      nixosConfiguration = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user:
+        inputs.nixpkgs.lib.nixosSystem {
+
+        pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
+	modules = [
+	  ./nixos/configuration.nix
+	];
+
+        extraSpecialArgs = { inherit inputs stateVersion;
+          systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
+        };
+      });
+
+      formatter.${aarchLinux} = inputs.nixpkgs.nixpkgs-fmt;
+      defaultPackage.${aarchLinux} = inputs.home-manager.defaultPackage.${aarchLinux};
     };
 }
