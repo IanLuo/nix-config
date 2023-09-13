@@ -8,6 +8,7 @@ stdenv
     gcc
     curl
     direnv
+    nix-direnv
     wget
     tree
     any-nix-shell
@@ -23,6 +24,7 @@ stdenv
     nerdfonts 
     kitty
     zsh
+    nnn
   ] ++ optionals stdenv.isDarwin [ 
     m-cli 
     iterm2

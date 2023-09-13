@@ -1,0 +1,258 @@
+#!/usr/bin/env sh
+
+#
+# colors
+#
+transparent_color="0x00000000"
+
+# tokyonight-night
+# bar_color=0xff1a1b26
+# default_icon_color="0xffc0caf5"
+# icon_highlight_color="0xffbb9af7"
+# default_label_color="0xffc0caf5"
+
+# onedark-deep
+bar_color="0xff1a212e"
+bar_border_color="0xff41a7fc"
+default_label_color="0xff93a4c3"
+default_icon_color="0xff93a4c3"
+icon_highlight_color="0xffc75ae8"
+bracket_hightlight_color="0xff862aa1"
+danger_color="0xff992525"
+
+#
+# fonts
+#
+default_icon_font="Font Awesome 6 Pro:Regular:14.0"
+default_label_font="Cascadia Mono PL:SemiBold:14.0"
+brand_font="Font Awesome 6 Brands:Regular:14.0"
+# duotone_font="Font Awesome 6 Duotone:Solid:14.0"
+
+#
+# variables
+#
+plugins="$HOME/.config/sketchybar/plugins"
+display_count="$(yabai -m query --displays | jq -r 'length')"
+
+############## BAR ##############
+sketchybar --bar                   \
+  border_color=${bar_border_color} \
+  border_width=0                   \
+  corner_radius=8                  \
+  color=${transparent_color}       \
+  height=25                        \
+  margin=8                         \
+  padding_left=10                  \
+  padding_right=10                 \
+  position=top                     \
+  shadow=off                       \
+  y_offset=4
+
+# ############## DEFAULTS ###############
+sketchybar --default                             \
+  cache_scripts=on                               \
+  icon.color="${default_icon_color}"             \
+  icon.font="${default_icon_font}"               \
+  icon.highlight_color="${icon_highlight_color}" \
+  icon.padding_left=8                            \
+  label.color="${default_label_color}"           \
+  label.font="${default_label_font}"             \
+  label.padding_left=4                           \
+  updates=when_shown
+
+
+############## SPACES ###############
+############## DISPLAY 1 ###############
+sketchybar                                         \
+  --add space web left                             \
+  --set web associated_display=1                   \
+    associated_space=1                             \
+    icon=                                         \
+    click_script="yabai -m space --focus browser"  \
+  --add space slack left                           \
+  --set slack associated_display=1                 \
+    associated_space=2                             \
+    icon=                                         \
+    icon.font="${brand_font}"                      \
+    icon.padding_left 0                            \
+    click_script="yabai -m space --focus chat"     \
+  --add space mail left                            \
+  --set mail associated_display=1                  \
+    associated_space=3                             \
+    icon=                                         \
+    icon.padding_left 0                            \
+    click_script="yabai -m space --focus mail"     \
+  --add space messages left                        \
+  --set messages associated_display=1              \
+    associated_space=4                             \
+    icon=                                         \
+    icon.padding_left 0                            \
+    click_script="yabai -m space --focus messages"
+
+sketchybar                                                \
+  --add bracket primary_spaces_bracket                    \
+    web                                                   \
+    slack                                                 \
+    mail                                                  \
+    messages                                              \
+  --set primary_spaces_bracket                            \
+    background.color="${bar_color}"                       \
+    background.border_color="${bracket_hightlight_color}" \
+    background.border_width=2                             \
+    background.corner_radius=6
+
+# ############## DISPLAY 2 ###############
+scratch_space=5
+terminal_space=6
+flex=" "
+
+if [ "${display_count}" = "2" ]; then
+  scratch_space=6
+  terminal_space=7
+  flex="flex"
+
+  sketchybar                                     \
+    --add space flex left                        \
+    --set flex associated_display=2              \
+      associated_space=5                         \
+      icon=􏢺                                     \
+      icon.padding_left 0                        \
+      click_script="yabai -m space --focus flex"
+fi
+
+sketchybar                                         \
+  --add space scratch left                         \
+  --set scratch associated_display=2               \
+    associated_space="${scratch_space}"            \
+    icon=                                         \
+    icon.padding_left 0                            \
+    click_script="yabai -m space --focus scratch"  \
+  --add space terminal left                        \
+  --set terminal associated_display=2              \
+    associated_space="${terminal_space}"           \
+    icon=                                         \
+    icon.padding_left 0                            \
+    click_script="yabai -m space --focus terminal" \
+
+sketchybar                                                \
+  --add bracket secondary_spaces_bracket                  \
+    "${flex}"                                             \
+    scratch                                               \
+    terminal                                              \
+  --set secondary_spaces_bracket                          \
+    background.color="${bar_color}"                       \
+    background.border_color="${bracket_hightlight_color}" \
+    background.border_width=2                             \
+    background.corner_radius=6
+
+# ################# RIGHT ITEMS ####################
+sketchybar                                                                  \
+  --add item clock right                                                    \
+  --set clock                                                               \
+    icon=                                                                  \
+    icon.padding_left=10                                                    \
+    label.padding_right=10                                                  \
+    update_freq=10                                                          \
+    script="${plugins}/clock.sh"                                            \
+  --add item clock_spacer right                                             \
+  --set clock_spacer                                                        \
+    label=" "                                                               \
+    label.padding_left=2                                                    \
+    label.padding_right=2                                                   \
+  --add item mpd right                                                      \
+  --set mpd                                                                 \
+    associated_display="${display_count}"                                   \
+    update_freq=2                                                           \
+    label.padding_left=10                                                   \
+    label.padding_right=10                                                  \
+    script="${plugins}/mpd.sh"                                              \
+    click_script="mpc toggle"                                               \
+  --add item mpd_spacer right                                               \
+  --set mpd_spacer                                                          \
+    associated_display="2"                                                  \
+    label=" "                                                               \
+    label.padding_left=2                                                    \
+    label.padding_right=2                                                   \
+  --add item weather right                                                  \
+  --set weather                                                             \
+    label.padding_right=10                                                  \
+    update_freq=1800                                                        \
+    script="${plugins}/weather.sh"                                          \
+    click_script="open https://darksky.net/forecast/34.967,-80.927/us12/en" \
+  --add item cpu right                                                      \
+  --set cpu                                                                 \
+    icon=                                                                  \
+    update_freq=5                                                           \
+    script="${plugins}/cpu.sh"                                              \
+    click_script="open -a activity\ monitor"                                \
+  --add item zoom right                                                     \
+  --set zoom                                                                \
+    update_freq=1                                                           \
+    label.padding_right=5                                                   \
+    script="${plugins}/zoom.sh"                                             \
+    click_script="${plugins}/zoom-mute-toggle.sh"                           \
+  --add item dnd right                                                      \
+  --set dnd                                                                 \
+    icon.color="${danger_color}"                                            \
+    update_freq=10                                                          \
+    script="${plugins}/dnd.sh"                                              \
+    click_script="$HOME/bin/dnd-reset"
+
+sketchybar                                                \
+  --add bracket clock_bracket                             \
+    clock                                                 \
+  --set clock_bracket                                     \
+    background.color="${bracket_hightlight_color}"        \
+    background.border_color="${default_icon_color}"       \
+    background.border_width=2                             \
+    background.corner_radius=6                            \
+  --add bracket mpd_bracket                               \
+    mpd                                                   \
+  --set mpd_bracket                                       \
+    background.color="${bar_color}"                       \
+    background.border_color="${bracket_hightlight_color}" \
+    background.border_width=2                             \
+    background.corner_radius=6                            \
+  --add bracket utility_bracket                           \
+    weather                                               \
+    cpu                                                   \
+  --set utility_bracket                                   \
+    background.color="${bar_color}"                       \
+    background.border_color="${bracket_hightlight_color}" \
+    background.border_width=2                             \
+    background.corner_radius=6
+
+###################### CENTER ITEMS ###################
+if [ "${display_count}" != "1" ]; then
+  sketchybar                                                \
+    --add event window_focus                                \
+    --add event title_change                                \
+    --add item window_title center                          \
+    --set window_title                                      \
+      icon=                                                \
+      icon.padding_left=10                                  \
+      label.padding_right=10                                \
+      script="$plugins/window_title.sh" \
+    --subscribe window_title                                \
+      window_focus                                          \
+      front_app_switched                                    \
+      space_change                                          \
+      title_change
+fi
+
+sketchybar                                                \
+  --add bracket center                                    \
+    window_title                                          \
+  --set center                                            \
+    background.color="${bar_color}"                       \
+    background.border_color="${bracket_hightlight_color}" \
+    background.border_width=2                             \
+    background.corner_radius=6
+
+###################### FINALIZE ###################
+sketchybar -m --update
+
+echo "sketchybar configuration loaded.."
+
+exit 0
+

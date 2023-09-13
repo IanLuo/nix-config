@@ -68,9 +68,9 @@
         inputs.nixpkgs.lib.nixosSystem {
 
         pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
-	modules = [
-	  ./nixos/configuration.nix
-	];
+          modules = [
+            ./nixos/configuration.nix
+          ];
 
         extraSpecialArgs = { inherit inputs stateVersion;
           systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 

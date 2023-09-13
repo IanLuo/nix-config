@@ -18,4 +18,5 @@
   };
 
   programs.tmate.enable = true;
+
 }
