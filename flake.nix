@@ -16,7 +16,7 @@
   outputs = inputs@{ self, ... }:
     let
       darwinUsers = [ "CDU-L737HCJ9FJ" "ianluo" ];
-      linuxUsers = [ "ian" ];
+      linuxUsers = [ "ian" "nixos"];
       myDarwin = "aarch64-darwin";
       aarchLinux = "aarch64-linux";
       stateVersion = "23.05";
@@ -52,32 +52,38 @@
       homeConfigurations = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user: 
         inputs.home-manager.lib.homeManagerConfiguration {
 
-        pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
+          pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
 
-        modules = [
-          ./linux
-          # ./misc/fonts.nix
-        ];
+          modules = [
+            ./linux
+          ];
 
-        extraSpecialArgs = { inherit inputs stateVersion user;
-          systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
-        };
+          extraSpecialArgs = { inherit inputs stateVersion user;
+            systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
+          };
       });
        
-      nixosConfiguration = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user:
+      nixosConfigurations."nixos" =
+      let 
+        user = "ian";
+      in
         inputs.nixpkgs.lib.nixosSystem {
 
         pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
           modules = [
-            ./nixos/configuration.nix
+            ./nixos/configuration.nix 
+            inputs.home-manager.nixosModules.home-manager {
+              home-manager.users.${user} = import ./linux;
+
+              home-manager.extraSpecialArgs = { 
+                inherit inputs stateVersion user;
+                systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
+              };
+            }
           ];
-
-        extraSpecialArgs = { inherit inputs stateVersion;
-          systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
         };
-      });
 
-      formatter.${aarchLinux} = inputs.nixpkgs.nixpkgs-fmt;
-      defaultPackage.${aarchLinux} = inputs.home-manager.defaultPackage.${aarchLinux};
+        formatter.${aarchLinux} = inputs.nixpkgs.nixpkgs-fmt;
+        defaultPackage.${aarchLinux} = inputs.home-manager.defaultPackage.${aarchLinux};
     };
 }
