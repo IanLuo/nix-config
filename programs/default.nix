@@ -4,6 +4,7 @@
     ./tmux
     ./gitui
     ./zsh
+    ./alacritty
     ./kitty
   ];
 }

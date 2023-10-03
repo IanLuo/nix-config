@@ -11,6 +11,7 @@
       vim-sensible
       packer-nvim
       copilot-vim
+      vim-tmux-navigator
 
       # All the lua functions I don't want to write twice.
       plenary-nvim
@@ -100,10 +101,6 @@
 
     extraConfig = ''
       :luafile ~/.config/nvim/init.lua
-
-      set tabstop=2
-      set shiftwidth=2
-      set expandtab
     '';
   };
 
