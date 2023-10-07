@@ -25,6 +25,7 @@ stdenv
     kitty
     zsh
     nnn
+    nixd
   ] ++ optionals stdenv.isDarwin [ 
     m-cli 
     iterm2
