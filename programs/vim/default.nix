@@ -80,6 +80,7 @@
       nvim-cmp
       lspkind-nvim
       cmp-nvim-lsp-document-symbol
+      lspsaga-nvim      
       luasnip
 
 
@@ -89,6 +90,9 @@
       # theming
       tokyonight-nvim
       catppuccin-nvim
+      
+      neogit
+      gitsigns-nvim
     ];
 
     extraPackages = with pkgs; [

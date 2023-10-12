@@ -2,8 +2,17 @@
 stdenv
 , pkgs
 , lib
-} : with pkgs // lib; {
-  packages = [
+} : 
+let
+darwinPackages = with pkgs; [ 
+    m-cli 
+    iterm2
+    discord
+    raycast
+    cocoapods
+  ];
+
+normalPackages = with pkgs; [
     git
     gcc
     curl
@@ -25,11 +34,9 @@ stdenv
     kitty
     zsh
     nnn
-    nixd
-  ] ++ optionals stdenv.isDarwin [ 
-    m-cli 
-    iterm2
-    discord
-    raycast
-  ];
+];
+  
+packages = normalPackages ++ lib.optionals stdenv.isDarwin darwinPackages; 
+in {
+  packages = builtins.trace ">>${lib.concatStrings packages}" packages;
 }

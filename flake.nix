@@ -15,7 +15,8 @@
 
   outputs = inputs@{ self, ... }:
     let
-      darwinUsers = [ "CDU-L737HCJ9FJ" "ianluo" ];
+      darwinUsers = [ "ianluo" ];
+      darwinHosts = [ "CDU-L737HCJ9FJ" "ianluo"];
       linuxUsers = [ "ian" "nixos"];
       myDarwin = "aarch64-darwin";
       aarchLinux = "aarch64-linux";
@@ -29,9 +30,9 @@
         config.allowUnfree = true;
       };
 
-      systemPackagesFunc = aarchLinuxPkgs.callPackage ./programs/systemPackages.nix; 
+      systemPackages = aarchLinuxPkgs.callPackage ./programs/systemPackages.nix { pkgs = darwinPkgs; }; 
     in {
-      darwinConfigurations = darwinPkgs.lib.attrsets.genAttrs darwinUsers (user:
+      darwinConfigurations = darwinPkgs.lib.attrsets.genAttrs darwinHosts (host:
         inputs.darwin.lib.darwinSystem {
 
           pkgs = darwinPkgs;
@@ -44,8 +45,8 @@
             ./misc/fonts.nix
           ];
 
-          specialArgs = { inherit inputs stateVersion user; 
-            systemPackages = (systemPackagesFunc { pkgs = darwinPkgs; }); 
+          specialArgs = { inherit inputs stateVersion systemPackages; 
+            user = "ianluo";
           };
         });
 
@@ -58,9 +59,7 @@
             ./linux
           ];
 
-          extraSpecialArgs = { inherit inputs stateVersion user;
-            systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
-          };
+          extraSpecialArgs = { inherit inputs stateVersion user systemPackages; };
       });
        
       nixosConfigurations."nixos" =
@@ -76,8 +75,7 @@
               home-manager.users.${user} = import ./linux;
 
               home-manager.extraSpecialArgs = { 
-                inherit inputs stateVersion user;
-                systemPackages = (systemPackagesFunc { pkgs = aarchLinuxPkgs; }); 
+                inherit inputs stateVersion user systemPackages;
               };
             }
           ];
