@@ -93,6 +93,7 @@
       
       neogit
       gitsigns-nvim
+      trouble-nvim
     ];
 
     extraPackages = with pkgs; [

@@ -30,8 +30,6 @@ keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if ne
 	keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
 	keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
 	keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts) -- show definition, references
-	keymap.set("n", "gt", "<cmd>Lspsaga peek_type_definition<CR>", opts) -- show definition, references
-	keymap.set("n", "gt", "<cmd>Lspsaga goto_type_definition<CR>", opts) -- show definition, references
 
 	keymap.set("n", "sl", "<cmd>Lspsaga Lspsaga show_line_diagnostics<CR>", opts) -- show definition, references
 	keymap.set("n", "sb", "<cmd>Lspsaga Lspsaga show_buf_diagnostics<CR>", opts) -- show definition, references
