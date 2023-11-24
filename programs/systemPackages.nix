@@ -34,6 +34,7 @@ normalPackages = with pkgs; [
     kitty
     zsh
     nnn
+    nixd
 ];
   
 packages = normalPackages ++ lib.optionals stdenv.isDarwin darwinPackages; 
