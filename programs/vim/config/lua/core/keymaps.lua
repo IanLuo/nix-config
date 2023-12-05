@@ -6,6 +6,13 @@ keymap.set('n', '<leader>u', ':lua unhighlight_search()<CR>', {noremap = true, s
 -- nvim tree
 keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>") -- toggle file explorer
 
+-- tab
+keymap.set("n", "<leader>1", ":tabnext 1<CR>") -- toggle file explorer
+keymap.set("n", "<leader>2", ":tabnext 2<CR>") -- toggle file explorer
+keymap.set("n", "<leader>3", ":tabnext 3<CR>") -- toggle file explorer
+keymap.set("n", "<leader>4", ":tabnext 4<CR>") -- toggle file explorer
+keymap.set("n", "<leader>5", ":tabnext 5<CR>") -- toggle file explorer
+
 -- telescope
 keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
