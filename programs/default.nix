@@ -5,6 +5,5 @@
     ./gitui
     ./zsh
     ./alacritty
-    ./kitty
   ];
 }

@@ -5,8 +5,15 @@
   imports = [
     ./home-manager 
     ../services
+    ../programs/sketchybar
+    ../programs/yabai
   ];
 
   # make sure the nix daemon is always runs
   services.nix-daemon.enable = true;
+
+  system.activationScripts.postUserActivation.text = ''
+    # Following line should allow us to avoid a logout/login cycle
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+  '';
 } 

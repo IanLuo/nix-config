@@ -4,6 +4,4 @@
     # ./lorri 
     # ./emacs
   ];
-
-  services.sketchybar.enable = true;
 }

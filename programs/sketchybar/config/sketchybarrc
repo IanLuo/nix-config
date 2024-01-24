@@ -23,10 +23,10 @@ danger_color="0xff992525"
 #
 # fonts
 #
-default_icon_font="Font Awesome 6 Pro:Regular:14.0"
-default_label_font="Cascadia Mono PL:SemiBold:14.0"
-brand_font="Font Awesome 6 Brands:Regular:14.0"
-# duotone_font="Font Awesome 6 Duotone:Solid:14.0"
+ default_icon_font="Fira Code:Regular:14.0"
+ default_label_font="Fira Code:SemiBold:14.0"
+ brand_font="Fira Code:Regular:14.0"
+ duotone_font="Fira Code:Bold:14.0"
 
 #
 # variables

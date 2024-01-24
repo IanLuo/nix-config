@@ -35,9 +35,10 @@ normalPackages = with pkgs; [
     zsh
     nnn
     nixd
+    sketchybar-app-font
 ];
   
 packages = normalPackages ++ lib.optionals stdenv.isDarwin darwinPackages; 
 in {
-  packages = builtins.trace ">>${lib.concatStrings packages}" packages;
+  inherit packages;
 }

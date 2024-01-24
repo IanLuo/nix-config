@@ -1,8 +1,10 @@
 {...}:
 
 {
-  xdg.configFile.sketchybar = {
-    source = ./config;
-    recursive = true;
+  config.services.sketchybar = {
+    enable = true;
+    config = ''
+      ${builtins.readFile ./config/sketchybarrc}
+    '';
   };
 }
