@@ -5,7 +5,7 @@
   imports = [
     ./home-manager 
     ../services
-    ../programs/sketchybar
+    # ../programs/sketchybar
     ../programs/yabai
   ];
 
