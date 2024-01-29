@@ -5,11 +5,11 @@
     enable = true;
     enableScriptingAddition = true;
     config = {
-      focus_follows_mouse = "autoraise";
+      focus_follows_mouse = "off";
       mouse_follows_focus = "off";
       window_placement    = "second_child";
       window_opacity      = "off";
-      top_padding         = 36;
+      top_padding         = 10;
       bottom_padding      = 10;
       left_padding        = 10;
       right_padding       = 10;
@@ -18,7 +18,7 @@
     };
 
     extraConfig = ''
-      yabai -m rule --add app='System Preferences' manage=off
+      yabai -m rule --add app='System Settings' manage=off
     '';
   };
 }

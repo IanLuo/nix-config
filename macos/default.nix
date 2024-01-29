@@ -4,9 +4,8 @@
 
   imports = [
     ./home-manager 
-    ../services
+    ../services/mac.nix
     # ../programs/sketchybar
-    ../programs/yabai
   ];
 
   # make sure the nix daemon is always runs
@@ -16,4 +15,12 @@
     # Following line should allow us to avoid a logout/login cycle
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
+
+  services.skhd = {
+    enable = true;
+    skhdConfig = ''
+      # Change the hotkey prefix from ctrl+alt to ctrl+shift
+      prefix ctrl + shift
+    '';
+  };
 } 
