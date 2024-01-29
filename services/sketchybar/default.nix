@@ -1,10 +1,10 @@
 {...}:
 
 {
-  config.services.sketchybar = {
+  services.sketchybar = {
     enable = true;
     config = ''
-      ${builtins.readFile ./config/sketchybarrc}
+      ${builtins.readFile ./sketchybarrc}
     '';
   };
 }

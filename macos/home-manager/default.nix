@@ -17,7 +17,7 @@
 
     imports = (import ../../programs).packages 
       ++ [ 
-        inputs.nix-doom-emacs.hmModule 
+        # inputs.nix-doom-emacs.hmModule 
         ../../programs/others.nix
       ];
   };
