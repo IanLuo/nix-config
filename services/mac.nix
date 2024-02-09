@@ -2,7 +2,7 @@
 {
   imports = [
     ./yabai
-    # ./skhd
+    ./skhd
   ];
 }
 
