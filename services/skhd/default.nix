@@ -19,7 +19,7 @@
       alt - 7 : yabai -m space --focus 7
       alt - 8 : yabai -m space --focus 8
       alt - 9 : yabai -m space --focus 9
-      alt - 0  : yabai -m space --focus 10
+      alt - 0 : yabai -m space --focus 10
 
       # rotate tree
       alt - r : yabai -m space --rotate 90
