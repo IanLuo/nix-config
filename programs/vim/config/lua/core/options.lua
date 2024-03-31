@@ -9,7 +9,8 @@ opt.tabstop = 2
 opt.softtabstop = 2
 opt.shiftwidth = 2
 opt.expandtab = true
-opt.autoindent = true
+opt.smartindent = true
+-- opt.autoindent = true
 
 -- line wrapping
 opt.wrap = false

@@ -36,6 +36,7 @@ normalPackages = with pkgs; [
     nnn
     nixd
     sketchybar-app-font
+    manix
 ];
   
 packages = normalPackages ++ lib.optionals stdenv.isDarwin darwinPackages; 
