@@ -26,7 +26,7 @@ pkgs
     enableScriptingAddition = true;
     config = {
       focus_follows_mouse          = "off";
-      mouse_follows_focus          = "on";
+      mouse_follows_focus          = "off";
       window_placement             = "second_child";
       window_opacity               = "off";
       window_opacity_duration      = "0.0";
