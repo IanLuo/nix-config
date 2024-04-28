@@ -10,9 +10,9 @@ require("plugins.autopairs")
 require("plugins.treesitter")
 require("plugins.legendary-config")
 require("plugins.indent-blankline-config")
+require("plugins.lsp")
 
 require("neogit").setup{}
 
 require("gitsigns").setup{}
 
-equire("plugins.lsp")

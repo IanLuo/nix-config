@@ -59,6 +59,7 @@ pkgs
       yabai -m rule --add app='System Settings' manage=off
       yabai -m rule --add app='WeChat' manage=off
       yabai -m rule --add app='Finder' manage=off
+      yabai -m rule --add app='Activity Monitor' manage=off
     '';
   };
 }
