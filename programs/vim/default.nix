@@ -1,5 +1,15 @@
 { pkgs, lib, ... }:
-{
+let 
+  # copilot-vim = pkgs.stdenv.mkDerivation {
+  #   name = "copilot-vim";
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "github";
+  #     repo = "copilot.vim";
+  #     rev = "v1.26.0";
+  #     sha256 = "sha256-tcLrto1Y66MtPnfIcU2PBOxqE0xilVl4JyKU6ddS7bA="; 
+  #   };
+  # };
+in {
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -9,7 +19,7 @@
     plugins = with pkgs.vimPlugins; [
       # basics
       vim-sensible
-      packer-nvim
+      # packer-nvim
       copilot-vim
       vim-tmux-navigator
 
@@ -58,7 +68,7 @@
       leap-nvim
 
       #rainbow brackets
-      nvim-ts-rainbow
+      rainbow-delimiters-nvim
 
       # notify window
       nvim-notify
@@ -114,7 +124,7 @@
       lspkind-nvim
       cmp-nvim-lsp-document-symbol
       lspsaga-nvim      
-      luasnip
+      # luasnip
 
 
       # snippets

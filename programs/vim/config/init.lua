@@ -15,4 +15,3 @@ require("plugins.lsp")
 require("neogit").setup{}
 
 require("gitsigns").setup{}
-

@@ -9,7 +9,7 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # Emacs
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    # emacs-overlay.url = "github:nix-community/emacs-overlay";
     nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
   };
 
@@ -38,7 +38,7 @@
           pkgs = darwinPkgs;
           
           system = myDarwin;
-
+          
           modules = [
             inputs.home-manager.darwinModules.home-manager
             ./macos 
