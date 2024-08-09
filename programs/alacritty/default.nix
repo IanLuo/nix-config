@@ -3,7 +3,7 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      import = [./config/alacritty.yaml];
+      import = [./config/alacritty.toml];
     };
   };
 

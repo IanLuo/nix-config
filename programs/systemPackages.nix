@@ -28,7 +28,6 @@ normalPackages = with pkgs; [
     element-desktop
     fd
     ripgrep
-    docker
     podman
     nerdfonts 
     kitty
@@ -37,6 +36,8 @@ normalPackages = with pkgs; [
     nixd
     sketchybar-app-font
     manix
+    podman
+    nix-index
 ];
   
 packages = normalPackages ++ lib.optionals stdenv.isDarwin darwinPackages; 

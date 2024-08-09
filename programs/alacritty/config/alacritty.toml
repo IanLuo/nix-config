@@ -1,0 +1,46 @@
+[colors.footer_bar]
+background = "#c5c8c6"
+foreground = "#1d1f21"
+
+[colors.line_indicator]
+background = "None"
+foreground = "None"
+
+[colors.primary]
+background = "#1d1f21"
+foreground = "#c5c8c6"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+builtin_box_drawing = true
+size = 14.0
+
+[font.bold]
+family = "FiraCode Nerd Font Mono"
+style = "Regular"
+
+[font.normal]
+family = "FiraCode Nerd Font Mono"
+style = "Light"
+
+[font.offset]
+x = 1
+y = 1
+
+[selection]
+save_to_clipboard = true
+
+[window]
+decorations = "buttonless"
+dynamic_padding = false
+opacity = 0.95
+
+[window.dimensions]
+columns = 80
+lines = 24
+
+[window.padding]
+x = 2
+y = 2
