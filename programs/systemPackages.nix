@@ -24,13 +24,13 @@ normalPackages = with pkgs; [
     tmate
     tmux
     nodejs
-    dbeaver
+    dbeaver-bin
     element-desktop
     fd
     ripgrep
     podman
     nerdfonts 
-    kitty
+    # kitty
     zsh
     nnn
     nixd

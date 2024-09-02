@@ -42,7 +42,7 @@
           modules = [
             inputs.home-manager.darwinModules.home-manager
             ./macos 
-            ./misc/fonts.nix
+            # ./misc/fonts.nix
           ];
 
           specialArgs = { inherit inputs stateVersion systemPackages; 
