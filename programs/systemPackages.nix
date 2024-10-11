@@ -38,6 +38,7 @@ normalPackages = with pkgs; [
     manix
     podman
     nix-index
+    nix-tree
 ];
   
 packages = normalPackages ++ lib.optionals stdenv.isDarwin darwinPackages; 
