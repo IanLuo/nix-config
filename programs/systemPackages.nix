@@ -39,6 +39,7 @@ normalPackages = with pkgs; [
     podman
     nix-index
     nix-tree
+    nix-du
 ];
   
 packages = normalPackages ++ lib.optionals stdenv.isDarwin darwinPackages; 
