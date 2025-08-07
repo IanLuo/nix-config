@@ -11,6 +11,8 @@
     ];
 
     extraConfig = ''
+        set -g default-shell $SHELL
+        set -g default-command $SHELL
         set -g default-terminal "screen-256color"
         set -ga terminal-overrides ",*256col*:Tc"
         set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'

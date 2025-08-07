@@ -20,7 +20,6 @@ in {
       # basics
       vim-sensible
       # packer-nvim
-      copilot-vim
       vim-tmux-navigator
 
       # All the lua functions I don't want to write twice.
@@ -45,8 +44,6 @@ in {
       # auto close
       nvim-autopairs
 
-      # fuzzy finder
-      telescope-nvim
       telescope-fzf-native-nvim
 
       # keybindings window

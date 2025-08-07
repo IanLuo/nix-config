@@ -13,7 +13,7 @@
     };
 
     initExtraBeforeCompInit = ''
-      if [ "$TMUX" = "" ]; then tmux attach; fi
+      # if [ "$TMUX" = "" ]; then tmux attach; fi
 
       export TERM=screen-256color
     '';
