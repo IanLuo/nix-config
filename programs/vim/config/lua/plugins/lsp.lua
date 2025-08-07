@@ -2,11 +2,19 @@ require("lspsaga").setup{}
 
 local lspconfig = require('lspconfig')
 
-lspconfig.nixd.setup{}
+-- Setup completion capabilities
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lspconfig.pyright.setup{}
+lspconfig.nixd.setup{
+  capabilities = capabilities
+}
+
+lspconfig.pyright.setup{
+  capabilities = capabilities
+}
 
 lspconfig.ruby_ls.setup{
   cmd = { "bundle", "exec", "ruby-lsp" },
+  capabilities = capabilities
 }
 

@@ -1,6 +1,7 @@
 require("core.options")
 require("core.keymaps")
 require("core.colorscheme")
+-- require("plugins.copilot")  -- TODO: Enable when unfree packages work
 require("plugins.comment")
 require("plugins.cmp-config")
 require("plugins.nvim-tree")

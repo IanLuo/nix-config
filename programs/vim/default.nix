@@ -19,7 +19,8 @@ in {
     plugins = with pkgs.vimPlugins; [
       # basics
       vim-sensible
-      # packer-nvim
+      # packer-nvim  
+      # copilot-vim  # TODO: Enable unfree packages for Copilot
       vim-tmux-navigator
 
       # All the lua functions I don't want to write twice.
@@ -44,6 +45,8 @@ in {
       # auto close
       nvim-autopairs
 
+      # fuzzy finder
+      telescope-nvim
       telescope-fzf-native-nvim
 
       # keybindings window
@@ -73,46 +76,19 @@ in {
       # commenting 
       comment-nvim
 
-      # syngax highlighting
+      # syntax highlighting
       nvim-treesitter.withAllGrammars
-      nvim-treesitter
-      nvim-treesitter-parsers.python
-      nvim-treesitter-parsers.lua
-      nvim-treesitter-parsers.html
-      nvim-treesitter-parsers.toml
-      nvim-treesitter-parsers.tsx
-      nvim-treesitter-parsers.swift
-      nvim-treesitter-parsers.ruby
-      nvim-treesitter-parsers.rust
-      nvim-treesitter-parsers.dart
-      nvim-treesitter-parsers.nix
-      nvim-treesitter-parsers.markdown
-      nvim-treesitter-parsers.make
-      nvim-treesitter-parsers.latex
-      nvim-treesitter-parsers.julia
-      nvim-treesitter-parsers.json
-      nvim-treesitter-parsers.javascript
-      nvim-treesitter-parsers.ini
-      nvim-treesitter-parsers.haskell
-      nvim-treesitter-parsers.graphql
-      nvim-treesitter-parsers.go
-      nvim-treesitter-parsers.gitattributes
-      nvim-treesitter-parsers.fish
-      nvim-treesitter-parsers.git_config
-      nvim-treesitter-parsers.git_rebase
-      nvim-treesitter-parsers.elm
-      nvim-treesitter-parsers.diff
-      nvim-treesitter-parsers.cuda
-      nvim-treesitter-parsers.cpp
-      nvim-treesitter-parsers.c
-      nvim-treesitter-parsers.cmake
-      nvim-treesitter-parsers.bash
 
 
       # highlight selected symbol
       vim-illuminate
 
-      # completions
+      # LSP and completions
+      nvim-lspconfig
+      cmp-nvim-lsp
+      cmp-nvim-lsp-signature-help
+      luasnip
+      cmp_luasnip
       cmp-treesitter
       cmp-buffer
       cmp-path
@@ -120,8 +96,7 @@ in {
       nvim-cmp
       lspkind-nvim
       cmp-nvim-lsp-document-symbol
-      lspsaga-nvim      
-      # luasnip
+      lspsaga-nvim
 
 
       # snippets

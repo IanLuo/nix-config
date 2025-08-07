@@ -74,7 +74,7 @@
       homeConfigurations = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user:
         inputs.home-manager.lib.homeManagerConfiguration {
 
-          pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
+          pkgs = aarchLinuxPkgs;  # Use the allowUnfree enabled package set
 
           modules = [
             ./linux
@@ -89,7 +89,7 @@
       in
         inputs.nixpkgs.lib.nixosSystem {
 
-        pkgs = inputs.nixpkgs.legacyPackages.${aarchLinux};
+        pkgs = aarchLinuxPkgs;  # Use the allowUnfree enabled package set
           modules = [
             ./nixos/configuration.nix
             inputs.home-manager.nixosModules.home-manager {

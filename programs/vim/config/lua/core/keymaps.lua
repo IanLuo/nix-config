@@ -1,7 +1,13 @@
 vim.g.mapleader = " "
 
 local keymap = vim.keymap -- for conciseness
-keymap.set('n', '<leader>u', ':lua unhighlight_search()<CR>', {noremap = true, silent = true})
+
+-- Define unhighlight_search function
+local function unhighlight_search()
+  vim.cmd('nohlsearch')
+end
+
+keymap.set('n', '<leader>u', unhighlight_search, {noremap = true, silent = true})
 --
 -- nvim tree
 keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>") -- toggle file explorer
@@ -49,7 +55,6 @@ keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to 
 keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts) -- see available code actions
 keymap.set("n", "<leader>o", "<cmd>Lspsaga outline<CR>", opts) -- see outline on right hand side
 
-keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
 keymap.set("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>", opts) -- show documentation for what is under cursor
 
 keymap.set("n", "ci", "<cmd>Lspsaga incoming_calls<CR>", opts) -- show documentation for what is under cursor
