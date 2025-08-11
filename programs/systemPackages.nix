@@ -9,17 +9,18 @@ let
   # Stable packages - core system tools that should be stable
   stablePackages = with pkgs; [
     git              # Version control - stability important
-    gcc              # Compiler - compatibility critical  
+    gcc              # Compiler - compatibility critical
     curl wget        # Network tools - stability over features
     tree             # File listing - rarely changes
     zsh              # Shell - stability important
     tmux             # Terminal multiplexer - stability over features
     direnv           # Environment management - stability important
-    nix-direnv       # Nix integration - stability important  
+    nix-direnv       # Nix integration - stability important
     any-nix-shell    # Shell integration - stability important
     tmate            # Terminal sharing - stability over features
     nerdfonts        # Fonts - stability over features
     manix            # Nix manual - stable documentation
+    nix-prefetch-git # Tool for getting SHA256 hashes - utility tool
   ];
 
   # Unstable packages - development tools that benefit from latest versions
@@ -27,7 +28,7 @@ let
     nodejs           # Rapid development, new features
     nixd             # Nix language server - latest fixes
     ripgrep fd       # Search tools - performance improvements
-    podman           # Container runtime - latest features  
+    podman           # Container runtime - latest features
     nix-index        # Package search - latest package data
     nix-tree         # Nix visualization - improvements
     nix-du           # Nix disk usage - latest features
@@ -37,19 +38,19 @@ let
   ];
 
   # macOS-specific packages (stable unless noted)
-  darwinPackages = with pkgs; [ 
+  darwinPackages = with pkgs; [
     m-cli            # Stable - CLI for macOS
     iterm2           # Stable - terminal emulator
     cocoapods        # Stable - iOS development
   ] ++ (with unstable-pkgs; [
     discord          # Unstable - latest features
-    raycast          # Unstable - latest features  
+    raycast          # Unstable - latest features
     sketchybar-app-font  # Unstable - latest features
   ]);
-  
+
   # Bleeding-edge packages - for rapidly evolving software
   bleedingEdge = import ./bleeding-edge { inherit pkgs lib system; };
-  
+
   packages = stablePackages ++ unstablePackages ++ (lib.optionals stdenv.isDarwin darwinPackages) ++ bleedingEdge.packages;
 in {
   inherit packages;
