@@ -45,10 +45,10 @@ keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, r
 keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
 keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts) -- show definition, references
 
-keymap.set("n", "sl", "<cmd>Lspsaga Lspsaga show_line_diagnostics<CR>", opts) -- show definition, references
-keymap.set("n", "sb", "<cmd>Lspsaga Lspsaga show_buf_diagnostics<CR>", opts) -- show definition, references
-keymap.set("n", "sw", "<cmd>Lspsaga Lspsaga show_workspace_diagnostics<CR>", opts) -- show definition, references
-keymap.set("n", "sc", "<cmd>Lspsaga Lspsaga show_cursor_diagnostics<CR>", opts) -- show definition, references
+keymap.set("n", "sl", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show definition, references
+keymap.set("n", "sb", "<cmd>Lspsaga show_buf_diagnostics<CR>", opts) -- show definition, references
+keymap.set("n", "sw", "<cmd>Lspsaga show_workspace_diagnostics<CR>", opts) -- show definition, references
+keymap.set("n", "sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show definition, references
 keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
 keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
 

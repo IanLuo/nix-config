@@ -87,8 +87,8 @@ in {
       nvim-lspconfig
       cmp-nvim-lsp
       cmp-nvim-lsp-signature-help
-      luasnip
-      cmp_luasnip
+      # luasnip  # Temporarily disabled due to loading issues
+      # cmp_luasnip
       cmp-treesitter
       cmp-buffer
       cmp-path
@@ -100,7 +100,7 @@ in {
 
 
       # snippets
-      friendly-snippets
+      # friendly-snippets  # Temporarily disabled due to loading issues
 
       # theming
       tokyonight-nvim

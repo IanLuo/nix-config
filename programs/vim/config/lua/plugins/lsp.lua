@@ -13,7 +13,7 @@ lspconfig.pyright.setup{
   capabilities = capabilities
 }
 
-lspconfig.ruby_ls.setup{
+lspconfig.ruby_lsp.setup{
   cmd = { "bundle", "exec", "ruby-lsp" },
   capabilities = capabilities
 }

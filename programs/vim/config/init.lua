@@ -4,16 +4,7 @@ require("core.colorscheme")
 -- require("plugins.copilot")  -- TODO: Enable when unfree packages work
 require("plugins.comment")
 
--- Initialize LuaSnip before CMP
-local luasnip = require("luasnip")
--- Load snippets from friendly-snippets
-require("luasnip.loaders.from_vscode").lazy_load()
--- Basic LuaSnip configuration
-luasnip.config.setup({
-    history = true,
-    updateevents = "TextChanged,TextChangedI",
-    enable_autosnippets = true,
-})
+-- LuaSnip initialization moved to cmp-config to avoid loading order issues
 
 require("plugins.cmp-config")
 require("plugins.nvim-tree")

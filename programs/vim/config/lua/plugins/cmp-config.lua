@@ -4,31 +4,39 @@ local has_words_before = function()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local cmp = require('cmp')
-local luasnip = require("luasnip")
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-local lspkind = require('lspkind')
-
--- Ensure LuaSnip is properly loaded
-if not luasnip then
-    print("LuaSnip not found!")
+-- Safe loading of required plugins
+local cmp_status, cmp = pcall(require, 'cmp')
+if not cmp_status then
+    print("nvim-cmp not found!")
     return
 end
 
-cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
+local luasnip_status, luasnip = pcall(require, "luasnip")
+local cmp_autopairs_status, cmp_autopairs = pcall(require, 'nvim-autopairs.completion.cmp')
+local lspkind_status, lspkind = pcall(require, 'lspkind')
+
+-- Initialize LuaSnip with safe configuration if available
+if luasnip_status then
+    luasnip.config.setup({
+        history = true,
+        updateevents = "TextChanged,TextChangedI",
+        enable_autosnippets = true,
+    })
+end
+
+if cmp_autopairs_status then
+    cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
+end
 
 cmp.setup({
     completion = {
         completeopt = 'menu,menuone,noselect'
     },
-    snippet = {
+    snippet = luasnip_status and {
         expand = function(args)
-            local luasnip = require('luasnip')
-            if luasnip then
-                luasnip.lsp_expand(args.body)
-            end
+            luasnip.lsp_expand(args.body)
         end,
-    },
+    } or {},
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
@@ -57,7 +65,7 @@ cmp.setup({
         ["<S-Tab>"] = cmp.mapping(function()
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
+            elseif luasnip_status and luasnip.jumpable(-1) then
                 luasnip.jump(-1)
             end
         end, { "i", "s" })
@@ -65,12 +73,11 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
-        { name = 'luasnip' },
     }, {
         { name = 'buffer' },
     }),
     formatting = {
-        format = lspkind.cmp_format(),
+        format = lspkind_status and lspkind.cmp_format() or nil,
     },
     experimental = {
         ghost_text = true;
