@@ -2,21 +2,12 @@
   description = "My computer setup";
 
   inputs = {
-    # determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
     nixpkgs.url = "github:nixos/nixpkgs/release-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-darwin.url = "github:lnl7/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    #lix-module = {
-    #  url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-2.tar.gz";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
-
-    # Emacs
-    # emacs-overlay.url = "github:nix-community/emacs-overlay";
-    # nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
   };
 
   outputs = inputs@{ self, nix-darwin, ... }:
@@ -44,8 +35,8 @@
         config.allowUnfree = true;
       };
 
-      systemPackages = aarchLinuxPkgs.callPackage ./programs/systemPackages.nix { 
-        pkgs = darwinPkgs; 
+      systemPackages = aarchLinuxPkgs.callPackage ./programs/systemPackages.nix {
+        pkgs = darwinPkgs;
         unstable-pkgs = darwinPkgsUnstable;
         system = myDarwin;
       };
@@ -53,28 +44,21 @@
       darwinConfigurations = darwinPkgs.lib.attrsets.genAttrs darwinHosts (host:
         inputs.nix-darwin.lib.darwinSystem {
 
-          pkgs = darwinPkgs;
-
           system = myDarwin;
 
           modules = [
 	    { system.stateVersion = 1; }
-            # lix-module.nixosModules.default
-            # determinate.darwinModules.default
             ./macos
             inputs.home-manager.darwinModules.home-manager
-            # ./misc/fonts.nix
           ];
 
           specialArgs = { inherit inputs stateVersion systemPackages;
-            user = "ianluo";
+            user = host;
           };
         });
 
       homeConfigurations = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user:
         inputs.home-manager.lib.homeManagerConfiguration {
-
-          pkgs = aarchLinuxPkgs;  # Use the allowUnfree enabled package set
 
           modules = [
             ./linux
@@ -88,8 +72,7 @@
         user = "ian";
       in
         inputs.nixpkgs.lib.nixosSystem {
-
-        pkgs = aarchLinuxPkgs;  # Use the allowUnfree enabled package set
+          system = aarchLinux;
           modules = [
             ./nixos/configuration.nix
             inputs.home-manager.nixosModules.home-manager {
