@@ -1,4 +1,9 @@
 {
+  # Environment variables
+  home.sessionVariables = {
+    GEMINI_API_KEY = "AIzaSyCo-x7ptTUM_HvcZzCCO5ToJgXU9cu780M";
+  };
+
   programs.command-not-found.enable = true;
 
   programs.htop = {
