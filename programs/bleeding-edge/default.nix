@@ -12,31 +12,7 @@ let
   # BLEEDING-EDGE PACKAGES CONFIGURATION
   # Add your bleeding-edge packages here
   bleedingPackages = {
-    # Gemini CLI - Latest version from Google
-    gemini-cli = buildFromGit {
-      owner = "google-gemini";
-      repo = "gemini-cli";
-      rev = "v0.1.18";
-      sha256 = "sha256-vO70olSAG6NaZjyERU22lc8MbVivyJFieGcy0xOErrc=";
-      
-      pname = "gemini-cli";
-      version = "0.1.18-bleeding";
-      
-      nativeBuildInputs = with pkgs; [ nodejs_20 ];
-      
-      buildPhase = ''
-        export HOME=$TMPDIR
-        npm ci
-        npm run build
-      '';
-      
-      installPhase = ''
-        mkdir -p $out/bin
-        cp -r dist/* $out/bin/
-        # Make the main executable
-        chmod +x $out/bin/gemini
-      '';
-    };    # EXAMPLE 1: Get latest Deno from nixpkgs master
+    # NOTE: gemini-cli is now available in nixpkgs-unstable, moved to unstablePackages
     # Uncomment and modify as needed:
     # deno-latest = fetchNixpkgsPackage {
     #   commit = "master";  # Use "master" or specific commit hash

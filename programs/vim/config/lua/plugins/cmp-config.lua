@@ -9,6 +9,12 @@ local luasnip = require("luasnip")
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local lspkind = require('lspkind')
 
+-- Ensure LuaSnip is properly loaded
+if not luasnip then
+    print("LuaSnip not found!")
+    return
+end
+
 cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
 
 cmp.setup({
@@ -17,7 +23,10 @@ cmp.setup({
     },
     snippet = {
         expand = function(args)
-            require('luasnip').lsp_expand(args.body)
+            local luasnip = require('luasnip')
+            if luasnip then
+                luasnip.lsp_expand(args.body)
+            end
         end,
     },
     window = {

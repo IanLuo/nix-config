@@ -22,6 +22,9 @@ opt.smartcase = true
 -- cursor line
 opt.cursorline = true
 
+-- cursor shape - make it more visible
+opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50"
+
 -- apperance
 opt.termguicolors = true
 opt.background = "dark"
