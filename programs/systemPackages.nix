@@ -18,10 +18,9 @@ let
     nix-direnv       # Nix integration - stability important
     any-nix-shell    # Shell integration - stability important
     tmate            # Terminal sharing - stability over features
-    nerdfonts        # Fonts - stability over features
     manix            # Nix manual - stable documentation
     nix-prefetch-git # Tool for getting SHA256 hashes - utility tool
-  ];
+  ] ++ (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)); # Fonts - stability over features
 
   # Unstable packages - development tools that benefit from latest versions
   unstablePackages = with unstable-pkgs; [

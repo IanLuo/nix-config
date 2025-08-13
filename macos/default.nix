@@ -8,8 +8,7 @@
     # ../programs/sketchybar
   ];
 
-  # make sure the nix daemon is always runs
-  services.nix-daemon.enable = true;
+  system.primaryUser=user;
 
   # Nix performance optimizations
   nix = {

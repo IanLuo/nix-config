@@ -15,6 +15,12 @@
     home.stateVersion = stateVersion; 
     home.packages = systemPackages.packages;
 
+    # Set environment variables
+    home.sessionVariables = {
+      GEMINI_API_KEY = "AIzaSyDnD7unldBkKElyO9nxyhXzkUwjqVh4KfM";
+      EDITOR = "vi";
+    };
+
     imports = (import ../../programs).packages 
       ++ [ 
         # inputs.nix-doom-emacs.hmModule 

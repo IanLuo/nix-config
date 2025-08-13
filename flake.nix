@@ -2,11 +2,11 @@
   description = "My computer setup";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/release-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-darwin.url = "github:lnl7/nix-darwin/nix-darwin-24.11";
+    nix-darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -17,7 +17,7 @@
       linuxUsers = [ "ian" "nixos"];
       myDarwin = "aarch64-darwin";
       aarchLinux = "aarch64-linux";
-      stateVersion = "24.11";
+      stateVersion = "25.05";
       darwinPkgs = import inputs.nixpkgs {
         system = myDarwin;
         config.allowUnfree = true;
@@ -35,10 +35,15 @@
         config.allowUnfree = true;
       };
 
-      systemPackages = aarchLinuxPkgs.callPackage ./programs/systemPackages.nix {
+      darwinSystemPackages = darwinPkgs.callPackage ./programs/systemPackages.nix {
         pkgs = darwinPkgs;
         unstable-pkgs = darwinPkgsUnstable;
         system = myDarwin;
+      };
+      linuxSystemPackages = aarchLinuxPkgs.callPackage ./programs/systemPackages.nix {
+        pkgs = aarchLinuxPkgs;
+        unstable-pkgs = aarchLinuxPkgsUnstable;
+        system = aarchLinux;
       };
     in {
       darwinConfigurations.${darwinHost} =
@@ -47,12 +52,13 @@
           system = myDarwin;
 
           modules = [
-	    { system.stateVersion = 1; }
+            { system.stateVersion = 6; }
             ./macos
             inputs.home-manager.darwinModules.home-manager
           ];
 
-          specialArgs = { inherit inputs stateVersion systemPackages;
+          specialArgs = { inherit inputs stateVersion;
+            systemPackages = darwinSystemPackages;
             user = darwinUser;
           };
         };
@@ -64,7 +70,9 @@
             ./linux
           ];
 
-          extraSpecialArgs = { inherit inputs stateVersion user systemPackages; };
+          extraSpecialArgs = { inherit inputs stateVersion user;
+            systemPackages = linuxSystemPackages;
+          };
       });
 
       nixosConfigurations."nixos" =
@@ -79,7 +87,8 @@
               home-manager.users.${user} = import ./linux;
 
               home-manager.extraSpecialArgs = {
-                inherit inputs stateVersion user systemPackages;
+                inherit inputs stateVersion user;
+                systemPackages = linuxSystemPackages;
               };
             }
           ];

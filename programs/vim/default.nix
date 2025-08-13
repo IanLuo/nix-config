@@ -37,7 +37,7 @@ in {
       nvim-tree-lua
 
       # status line
-      feline-nvim
+      lualine-nvim
 
       #indent lines
       indent-blankline-nvim
