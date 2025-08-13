@@ -12,8 +12,8 @@
 
   outputs = inputs@{ self, nix-darwin, ... }:
     let
-      darwinUsers = [ "ianluo" ];
-      darwinHosts = [ "CDU-L737HCJ9FJ" "ianluo"];
+      darwinUser = "ianluo";
+      darwinHost = "CDU-L737HCJ9FJ";
       linuxUsers = [ "ian" "nixos"];
       myDarwin = "aarch64-darwin";
       aarchLinux = "aarch64-linux";
@@ -41,7 +41,7 @@
         system = myDarwin;
       };
     in {
-      darwinConfigurations = darwinPkgs.lib.attrsets.genAttrs darwinHosts (host:
+      darwinConfigurations.${darwinHost} =
         inputs.nix-darwin.lib.darwinSystem {
 
           system = myDarwin;
@@ -53,9 +53,9 @@
           ];
 
           specialArgs = { inherit inputs stateVersion systemPackages;
-            user = host;
+            user = darwinUser;
           };
-        });
+        };
 
       homeConfigurations = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user:
         inputs.home-manager.lib.homeManagerConfiguration {
