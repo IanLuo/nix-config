@@ -17,7 +17,7 @@
 
     # Set environment variables
     home.sessionVariables = {
-      GEMINI_API_KEY = "AIzaSyDnD7unldBkKElyO9nxyhXzkUwjqVh4KfM";
+      GEMINI_API_KEY = "";
       EDITOR = "vi";
     };
 
