@@ -1,9 +1,9 @@
 {
   "packages" = [
     ./vim
-    ./tmux
-    ./gitui
+    # ./tmux
+    # ./gitui
     ./zsh
-    ./alacritty
+    # ./alacritty
   ];
 }

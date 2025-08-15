@@ -18,7 +18,7 @@
       export TERM=screen-256color
     '';
 
-    initExtra = ''
+    initContent = ''
       any-nix-shell zsh --info-right | source /dev/stdin
 
       # For direnv

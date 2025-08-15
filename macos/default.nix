@@ -12,6 +12,7 @@
 
   # Nix performance optimizations
   nix = {
+    enable = false;
     settings = {
       # Use all available cores for building
       cores = 10;  # Your M1 Pro has 10 cores
@@ -40,13 +41,13 @@
     
     # Enable garbage collection
     gc = {
-      automatic = true;
+      # automatic = true;
       interval = { Weekday = 0; Hour = 2; Minute = 0; }; # Sunday 2 AM
       options = "--delete-older-than 30d";
     };
     
     # Optimize store automatically
-    optimise.automatic = true;
+    # optimise.automatic = true;
   };
 
 } 

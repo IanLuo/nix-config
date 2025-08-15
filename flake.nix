@@ -13,7 +13,7 @@
   outputs = inputs@{ self, nix-darwin, ... }:
     let
       darwinUser = "ianluo";
-      darwinHost = "CDU-L737HCJ9FJ";
+      darwinHost = "ianluo.local";
       linuxUsers = [ "ian" "nixos"];
       myDarwin = "aarch64-darwin";
       aarchLinux = "aarch64-linux";
@@ -46,7 +46,7 @@
         system = aarchLinux;
       };
     in {
-      darwinConfigurations.${darwinHost} =
+      darwinConfigurations."ianluo" =
         inputs.nix-darwin.lib.darwinSystem {
 
           system = myDarwin;
