@@ -9,6 +9,7 @@
 {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "backup"; # Add this line
   home-manager.users.${user} = { pkgs, ... }:
   {
 

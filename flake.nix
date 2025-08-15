@@ -10,91 +10,105 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, ... }:
+  outputs = inputs@{ self, nix-darwin, home-manager, nixpkgs, ... }:
     let
-      darwinUser = "ianluo";
-      darwinHost = "ianluo.local";
-      linuxUsers = [ "ian" "nixos"];
-      myDarwin = "aarch64-darwin";
-      aarchLinux = "aarch64-linux";
       stateVersion = "25.05";
-      darwinPkgs = import inputs.nixpkgs {
-        system = myDarwin;
-        config.allowUnfree = true;
-      };
-      darwinPkgsUnstable = import inputs.nixpkgs-unstable {
-        system = myDarwin;
-        config.allowUnfree = true;
-      };
-      aarchLinuxPkgs = import inputs.nixpkgs {
-        system = aarchLinux;
-        config.allowUnfree = true;
-      };
-      aarchLinuxPkgsUnstable = import inputs.nixpkgs-unstable {
-        system = aarchLinux;
-        config.allowUnfree = true;
-      };
 
-      darwinSystemPackages = darwinPkgs.callPackage ./programs/systemPackages.nix {
-        pkgs = darwinPkgs;
-        unstable-pkgs = darwinPkgsUnstable;
-        system = myDarwin;
-      };
-      linuxSystemPackages = aarchLinuxPkgs.callPackage ./programs/systemPackages.nix {
-        pkgs = aarchLinuxPkgs;
-        unstable-pkgs = aarchLinuxPkgsUnstable;
-        system = aarchLinux;
-      };
-    in {
-      darwinConfigurations."ianluo" =
-        inputs.nix-darwin.lib.darwinSystem {
-
-          system = myDarwin;
-
-          modules = [
-            { system.stateVersion = 6; }
-            ./macos
-            inputs.home-manager.darwinModules.home-manager
-          ];
-
-          specialArgs = { inherit inputs stateVersion;
-            systemPackages = darwinSystemPackages;
-            user = darwinUser;
-          };
+      # Centralized host and user configuration
+      systems = {
+        "aarch64-darwin" = {
+          pkgs = import nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; };
+          unstable-pkgs = import inputs.nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; };
         };
-
-      homeConfigurations = aarchLinuxPkgs.lib.attrsets.genAttrs linuxUsers (user:
-        inputs.home-manager.lib.homeManagerConfiguration {
-
-          modules = [
-            ./linux
-          ];
-
-          extraSpecialArgs = { inherit inputs stateVersion user;
-            systemPackages = linuxSystemPackages;
-          };
-      });
-
-      nixosConfigurations."nixos" =
-      let
-        user = "ian";
-      in
-        inputs.nixpkgs.lib.nixosSystem {
-          system = aarchLinux;
-          modules = [
-            ./nixos/configuration.nix
-            inputs.home-manager.nixosModules.home-manager {
-              home-manager.users.${user} = import ./linux;
-
-              home-manager.extraSpecialArgs = {
-                inherit inputs stateVersion user;
-                systemPackages = linuxSystemPackages;
-              };
-            }
-          ];
+        "aarch64-linux" = {
+          pkgs = import nixpkgs { system = "aarch64-linux"; config.allowUnfree = true; };
+          unstable-pkgs = import inputs.nixpkgs-unstable { system = "aarch64-linux"; config.allowUnfree = true; };
         };
+      };
 
-        formatter.${aarchLinux} = inputs.nixpkgs.nixpkgs-fmt;
-        defaultPackage.${aarchLinux} = inputs.home-manager.defaultPackage.${aarchLinux};
+      # System-specific packages
+      systemPackagesFor = system: systems.${system}.pkgs.callPackage ./programs/systemPackages.nix {
+        pkgs = systems.${system}.pkgs;
+        unstable-pkgs = systems.${system}.unstable-pkgs;
+        inherit system;
+      };
+
+      # Host configurations
+      users = {
+        "ianluo" = {
+          system = "aarch64-darwin";
+          host = "ianluo.local";
+          isNixOS = false;
+        };
+        "ian" = { # For NixOS machine
+          system = "aarch64-linux";
+          host = "nixos-vm";
+          isNixOS = true;
+        };
+        "ian-linux-dev" = { # For non-NixOS Linux machine
+          system = "aarch64-linux";
+          host = "linux-dev";
+          isNixOS = false;
+        };
+      };
+
+      # Generate configurations for all users
+      generatedConfigurations = nixpkgs.lib.mapAttrs (username: userConfig:
+        let
+          system = userConfig.system;
+          host = userConfig.host;
+          isNixOS = userConfig.isNixOS;
+          pkgs = systems.${system}.pkgs;
+          systemPackages = systemPackagesFor system;
+          specialArgs = { inherit inputs stateVersion username systemPackages; };
+        in
+        if isNixOS then {
+          # NixOS Configuration
+          nixosConfigurations = {
+            "${host}" = nixpkgs.lib.nixosSystem {
+              inherit system;
+              modules = [
+                ./nixos/configuration.nix
+                home-manager.nixosModules.home-manager {
+                  home-manager.users.${username} = import ./linux;
+                  home-manager.extraSpecialArgs = specialArgs;
+                }
+              ];
+            };
+          };
+        } else if system == "aarch64-darwin" then {
+          # Darwin Configuration
+          darwinConfigurations = {
+            "${username}" = nix-darwin.lib.darwinSystem {
+              inherit system;
+              modules = [
+                { system.stateVersion = 6; }
+                { nix.enable = false; }
+                ./macos
+                home-manager.darwinModules.home-manager
+              ];
+              specialArgs = specialArgs // { user = username; };
+            };
+          };
+        } else {
+          # Home Manager Configuration for non-NixOS Linux
+          homeConfigurations = {
+            "${username}" = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              modules = [
+                ./linux
+              ];
+              extraSpecialArgs = specialArgs;
+            };
+          };
+        }
+      ) users;
+
+      # Helper to merge all generated configurations
+      mergeConfigurations = nixpkgs.lib.foldl' (nixpkgs.lib.recursiveUpdate) {};
+
+    in
+    (mergeConfigurations (nixpkgs.lib.attrValues generatedConfigurations)) // {
+      formatter = nixpkgs.lib.mapAttrs (system: _: systems.${system}.pkgs.nixpkgs-fmt) systems;
     };
 }
