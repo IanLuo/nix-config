@@ -8,17 +8,14 @@
       plugins = [
         "command-not-found"
         "git"
-        "tmux"
       ];
     };
 
-    initExtraBeforeCompInit = ''
+    initContent = ''
       # if [ "$TMUX" = "" ]; then tmux attach; fi
 
       export TERM=screen-256color
-    '';
 
-    initContent = ''
       any-nix-shell zsh --info-right | source /dev/stdin
 
       # For direnv
