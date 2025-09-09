@@ -30,7 +30,6 @@
 
   # UV global configuration
   home.file.".config/uv/uv.toml".text = ''
-    [global]
     python-preference = "system"
   '';
 
