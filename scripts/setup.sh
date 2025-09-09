@@ -22,6 +22,8 @@ if [ -e /etc/NIXOS ]; then
 elif [ "$(uname)" == "Darwin" ]; then
   echo "Detected macOS. Building and switching..."
   darwin-rebuild switch --flake .#$ACTUAL_USER # Use actual user for Darwin
+  echo "Installing global dependencies..."
+  install-global-deps
 
 else
   echo "Detected non-NixOS Linux. Building and switching Home Manager..."

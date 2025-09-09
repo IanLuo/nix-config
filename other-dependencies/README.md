@@ -6,13 +6,11 @@ Simple, declarative management for Python, Node.js, and Rust global tools throug
 
 - **Python**: Manage global tools in `other-dependencies/python.nix`
 - **Node.js**: Manage global tools in `other-dependencies/nodejs.nix`
-- **Rust**: Manage global tools in `other-dependencies/rust.nix`
 
 ## Structure
 
 - `python.nix` - Python global tools
 - `nodejs.nix` - Node.js global tools
-- `rust.nix` - Rust global tools
 - `default.nix` - Main module that imports the others
 
 ## Usage
@@ -54,19 +52,6 @@ Edit `other-dependencies/nodejs.nix` and add the package name to the `devDepende
     "typescript": "^5.0.0",
     "prettier": "^3.0.0" # Add your new tool here
 }
-...
-```
-
-#### Rust Global Tools
-
-Edit `other-dependencies/rust.nix` and add the package to the `dependencies` section of the `Cargo.toml`:
-
-```nix
-# other-dependencies/rust.nix
-...
-[dependencies]
-cargo-edit = "0.12"
-# Add your new tool here
 ...
 ```
 
