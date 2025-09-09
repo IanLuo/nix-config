@@ -26,6 +26,7 @@
       ++ [ 
         # inputs.nix-doom-emacs.hmModule 
         ../../programs/others.nix
+        ../../other-dependencies/default.nix
       ];
   };
 }
