@@ -16,11 +16,17 @@
     name = "global-tools"
     version = "0.1.0"
     edition = "2021"
+
+    [lib]
+    name = "global_tools"
+    path = "src/lib.rs"
     
     # Add your global tools here:
     [dependencies]
     # Example: cargo-edit = "0.12"
   '';
+
+  home.file.".config/cargo-global-tools/src/lib.rs".text = "";
 
   # Basic Cargo configuration
   home.file.".cargo/config.toml".text = ''
