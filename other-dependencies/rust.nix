@@ -24,9 +24,6 @@
 
   # Basic Cargo configuration
   home.file.".cargo/config.toml".text = ''
-    [build]
-    jobs = 0
-    
     [term]
     color = "auto"
   '';
