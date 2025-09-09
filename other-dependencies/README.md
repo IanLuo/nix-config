@@ -1,60 +1,92 @@
 # Other Dependencies Management System
 
-Simple, declarative management for Python, Node.js, and Rust global tools through Nix Home Manager.
+Modern, declarative management for Python and Node.js global tools through Nix flakes and Home Manager.
 
 ## Features
 
-- **Python**: Manage global tools in `other-dependencies/python.nix`
-- **Node.js**: Manage global tools in `other-dependencies/nodejs.nix`
+- **Flake-based Architecture**: Dynamic tool building with support for nixpkgs, GitHub, and npm sources
+- **Version Pinning**: Exact version control with hash verification for reproducibility
+- **Mixed Sources**: Support for nixpkgs packages, GitHub repositories, and npm packages
+- **Automatic SSL Certificates**: Built-in SSL certificate handling for npm registry access
+- **Dynamic Building**: Tools are built on-demand based on configuration
 
 ## Structure
 
-- `python.nix` - Python global tools
-- `nodejs.nix` - Node.js global tools
-- `default.nix` - Main module that imports the others
+- `tools-config.nix` - Central tool configuration with sources and versions
+- `flake-dynamic.nix` - Dynamic tool building engine with multi-source support
+- `default.nix` - Main module that imports flake-dynamic and provides utilities
+
+## Tool Sources
+
+- **nixpkgs**: Pre-built packages from the Nix package repository
+- **GitHub**: Direct builds from GitHub repositories with commit pinning
+- **npm**: npm packages with SSL certificate support
 
 ## Usage
 
-### Installation
+### Automatic Installation
 
-The system is already imported into your Home Manager configuration. To apply any changes, simply run:
+Dependencies are **automatically built and installed** when you run:
 
 ```bash
+./scripts/setup.sh
+# or
 darwin-rebuild switch
 ```
 
-### Adding Packages
+The system uses Home Manager to build tools dynamically based on the configuration in `tools-config.nix`.
 
-To add a global tool, edit the corresponding `.nix` file:
+### Adding Tools
 
-#### Python Global Tools
+#### Any Tool Type
 
-Edit `other-dependencies/python.nix` and add the package name to the `dependencies` list in the `pyproject.toml` section:
+1. Edit `other-dependencies/tools-config.nix` and add your tool configuration
+2. Run `darwin-rebuild switch` and tools will be built and installed automatically
 
+#### Examples
+
+**From nixpkgs:**
 ```nix
-# other-dependencies/python.nix
-...
-dependencies = [
-    "black>=23.0.0",
-    "speckit" # Add your new tool here
-]
-...
+python = {
+  black = {
+    source = "nixpkgs";
+    constraint = ">=24.0.0,<26.0.0";
+  };
+};
 ```
 
-#### Node.js Global Tools
-
-Edit `other-dependencies/nodejs.nix` and add the package name to the `devDependencies` section of the `package.json`:
-
+**From npm:**
 ```nix
-# other-dependencies/nodejs.nix
-...
-"devDependencies": {
-    "typescript": "^5.0.0",
-    "prettier": "^3.0.0" # Add your new tool here
-}
-...
+nodejs = {
+  gemini-cli = {
+    source = "nixpkgs";  # Use nixpkgs version for stability
+  };
+};
 ```
 
-After editing any of the `.nix` files, run `darwin-rebuild switch` to apply the changes. Then, run the `install-global-deps` command to install the tools.
+**From GitHub:**
+```nix
+rust = {
+  custom-tool = {
+    source = "github";
+    owner = "user";
+    repo = "tool";
+    rev = "abc123";
+    sha256 = "sha256-...";
+  };
+};
+```
 
-That's it! Simple, declarative dependency management with native tooling configuration managed by Nix.
+### Tool Information
+
+List all configured tools and their status:
+
+```bash
+list-flake-tools
+```
+
+This shows:
+- Tool name and category
+- Source type (nixpkgs/github/npm)
+- Version information
+- Availability status

@@ -34,7 +34,7 @@ let
     # dbeaver-bin      # Database tool - latest features
     # element-desktop  # Matrix client - latest features
     nnn              # File manager - latest features
-    gemini-cli       # Official Gemini CLI from nixpkgs-unstable
+    # gemini-cli       # Official Gemini CLI from nixpkgs-unstable
   ];
 
   # macOS-specific packages (stable unless noted)

@@ -1,26 +1,24 @@
-{ pkgs, ... }:
+{ pkgs, lib, inputs, ... }:
 
 {
-  # Import all dependency manager configurations
+  # Use dynamic flake-based dependency management
   imports = [
-    ./python.nix
-    ./nodejs.nix
+    ./flake-dynamic.nix
   ];
 
+  # Utility scripts for managing tools
   home.packages = [
-    (pkgs.writeShellScriptBin "install-global-deps" ''
-      #!/usr/bin/env bash
-      set -euo pipefail
-      echo "Installing Python global tools..."
-      uv sync --project ~/.config/uv-global-tools/pyproject.toml
-      echo "Installing Node.js global tools..."
-      npm install --prefix ~/.config/npm-global-tools
+    (pkgs.writeShellScriptBin "update-tool-hashes" ''
+      echo "To update GitHub source hashes:"
+      echo "1. Find the tool in tools-config.nix"
+      echo "2. Run: nix-prefetch-url --unpack https://github.com/OWNER/REPO/archive/REV.tar.gz"
+      echo "3. Update the sha256 in tools-config.nix"
+      echo "4. Run: darwin-rebuild switch"
     '')
   ];
 
-  # Consolidated environment variables
+  # Environment variables
   home.sessionVariables = {
-    # Add all dependency manager paths to PATH
-    PATH = "$HOME/.local/share/uv/tools/bin:$HOME/.npm-global/bin:$PATH";
+    UV_CACHE_DIR = "$HOME/.cache/uv";
   };
 }
