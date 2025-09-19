@@ -1,0 +1,1 @@
+Not applicable for this feature, as it is focused on documentation generation and does not involve changes to data structures.

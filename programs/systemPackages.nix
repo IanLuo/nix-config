@@ -20,6 +20,7 @@ let
     tmate            # Terminal sharing - stability over features
     manix            # Nix manual - stable documentation
     nix-prefetch-git # Tool for getting SHA256 hashes - utility tool
+    uv
   ] ++ (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)); # Fonts - stability over features
 
   # Unstable packages - development tools that benefit from latest versions

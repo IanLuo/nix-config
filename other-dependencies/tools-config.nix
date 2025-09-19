@@ -1,24 +1,19 @@
 # Global Tools Configuration
-# Add tools here with their source types and versions
+#
+# Python packages are managed by uv, and nodejs packages are managed by npm.
+# The source is automatically determined by the category.
 
 {
-  # Python tools
   python = {
     black = {
-      source = "nixpkgs";
-      constraint = ">=24.0.0,<26.0.0";
-    };
-    uv = {
-      source = "nixpkgs";
+      version = "24.4.2";
     };
   };
 
-  # Node.js tools  
   nodejs = {
-    gemini-cli = {
-      source = "npm";
+    "gemini-cli" = {
       package = "@google/gemini-cli";
-      version = "0.3.4";
+      version = "0.5.3";
     };
   };
 }
