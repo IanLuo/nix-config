@@ -47,7 +47,6 @@ elif [ "$(uname)" == "Darwin" ]; then
       export PATH=\"$HOME/.local/bin:$PATH\"
       export UV_CACHE_DIR=\"$HOME/.cache/uv\"
       echo 'Installing Python global tools...'
-      uv tool install speckit || echo 'UV install failed'
       echo 'Installing Node.js global tools...'
       if [ -f \"$HOME/.npm-global/package.json\" ]; then
         cd \"$HOME/.npm-global\" && npm install || echo 'npm install failed'
@@ -56,9 +55,8 @@ elif [ "$(uname)" == "Darwin" ]; then
   else
     # Running without sudo, install normally
     export UV_CACHE_DIR="$HOME/.cache/uv"
-    echo 'Installing Python global tools...'
-    uv tool install speckit || echo 'UV install failed'
-    echo 'Installing Node.js global tools...'
+          echo 'Installing Python global tools...'
+          # uv tool install speckit || echo 'UV install failed'    echo 'Installing Node.js global tools...'
     if [ -f "$HOME/.npm-global/package.json" ]; then
       cd "$HOME/.npm-global" && npm install || echo 'npm install failed'
     fi

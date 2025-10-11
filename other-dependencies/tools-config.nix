@@ -5,15 +5,17 @@
 
 {
   python = {
-    black = {
-      version = "24.4.2";
+    "specify-cli" = { 
+      source = "git";
+      url = "https://github.com/github/spec-kit.git";
+      rev = "v0.0.58";
     };
   };
 
   nodejs = {
     "gemini-cli" = {
       package = "@google/gemini-cli";
-      version = "0.5.3";
+      version = "0.8.1";
     };
   };
 }
