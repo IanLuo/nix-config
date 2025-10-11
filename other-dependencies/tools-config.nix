@@ -8,7 +8,7 @@
     "specify-cli" = { 
       source = "git";
       url = "https://github.com/github/spec-kit.git";
-      rev = "v0.0.58";
+      rev = "v0.0.59";
     };
   };
 
