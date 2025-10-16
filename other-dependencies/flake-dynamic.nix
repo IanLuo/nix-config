@@ -72,10 +72,10 @@ let
           local exeName=$(basename "$file")
           cat > "$out/bin/$exeName" <<EOF
 #!${pkgs.stdenv.shell}
-export PATH="${pkgs.python312.interpreter}/bin:$out/libexec/${pythonEnv.name}/bin:$PATH"
-export PYTHONPATH="$out/libexec/${pythonEnv.name}/${pkgs.python312.sitePackages}:$PYTHONPATH"
-export DYLD_LIBRARY_PATH="${pkgs.python312.interpreter}/lib:$out/libexec/${pythonEnv.name}/lib:$DYLD_LIBRARY_PATH"
-exec -a "$exeName" "$out/libexec/${pythonEnv.name}/bin/$exeName" "$@"
+export PATH="${pkgs.python312}/bin:$out/libexec/${pythonEnv.name}/bin:\$PATH"
+export PYTHONPATH="$out/libexec/${pythonEnv.name}/lib/python3.12/site-packages:\$PYTHONPATH"
+export DYLD_LIBRARY_PATH="${pkgs.python312}/lib:$out/libexec/${pythonEnv.name}/lib:\$DYLD_LIBRARY_PATH"
+exec -a "\$0" "$out/libexec/${pythonEnv.name}/bin/$exeName" "\$@"
 EOF
           chmod +x "$out/bin/$exeName"
         fi

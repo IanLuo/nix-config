@@ -8,14 +8,14 @@
     "specify-cli" = { 
       source = "git";
       url = "https://github.com/github/spec-kit.git";
-      rev = "v0.0.59";
+      rev = "v0.0.62";
     };
   };
 
   nodejs = {
     "gemini-cli" = {
       package = "@google/gemini-cli";
-      version = "0.8.1";
+      version = "0.9.0";
     };
   };
 }
