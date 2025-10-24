@@ -1,71 +1,68 @@
-# Ian's Declarative Darwin & NixOS Configuration
+# My Nix-based Dotfiles
 
-This repository contains the complete declarative configuration for my personal development environment across macOS (Darwin) and NixOS, managed using [Nix Flakes](https://nixos.wiki/wiki/Flakes).
+A declarative and reproducible personal development environment for macOS and Linux, managed by Nix and Home Manager.
 
-## Overview
+## Key Features
 
-The primary goal of this project is to create a consistent, reproducible, and automated development environment. By defining all system and application settings as code, I can easily set up a new machine or replicate my environment anywhere.
+- **Cross-Platform**: Supports both macOS (Darwin) and Linux (NixOS).
+- **Declarative**: All system and application configurations are defined as code.
+- **Reproducible**: Nix Flakes ensure the same environment can be recreated anywhere.
+- **Modular**: Configurations are broken down into logical units (programs, services, etc.).
 
-## Core Features
+## Structure
 
-- **Declarative**: The entire system state, from packages to dotfiles, is defined in `.nix` files. No manual configuration is needed.
-- **Reproducible**: Nix Flakes lock all dependencies, including `nixpkgs`, ensuring that the build is bit-for-bit identical every time.
-- **Cross-Platform**: A single codebase manages configurations for:
-    - macOS (via `nix-darwin`)
-    - NixOS
-    - Other Linux distributions (via `home-manager`)
-- **Extensible**: Adding a new application or service is as simple as adding a new Nix module to the `programs` or `services` directory.
+The repository is organized as follows:
 
-## Directory Structure
+```
+.
+├── flake.nix        # Main Nix Flake entry point
+├── macos/           # macOS-specific configurations
+├── linux/           # Linux-specific configurations
+├── nixos/           # NixOS-specific configurations
+├── programs/        # Application configurations
+├── services/        # Background service configurations
+└── scripts/         # Management and utility scripts
+```
 
-A high-level overview of the repository's structure:
+## Installation
 
-- `flake.nix`: The central entry point. It defines all dependencies (`inputs`) and builds the final system configurations (`outputs`) for each host.
-- `macos/`: Contains all macOS-specific configurations, imported by `nix-darwin`.
-- `nixos/`: The `configuration.nix` for NixOS hosts.
-- `linux/`: A shared `home.nix` for all Linux-based systems (both NixOS and others).
-- `programs/`: Manages shared, user-level application configurations for tools like:
-    - **Editors:** Neovim, Emacs
-    - **Terminals:** Alacritty, Kitty
-    - **Shell:** Zsh, Tmux
-    - ...and many others.
-- `services/`: Manages background services. This includes macOS-specific window management (`yabai`, `skhd`, `sketchybar`) and general services like `lorri`.
-- `scripts/`: Helper scripts for common maintenance tasks.
+1.  **Prerequisites**: Install Nix with Flakes support.
+2.  **Clone**: Clone the repository.
+3.  **Apply Configuration**:
+    - For macOS: `nix run . -- switch --flake .#ian-mbp` (replace `ian-mbp` with your hostname)
+    - For NixOS: `sudo nixos-rebuild switch --flake .#nixos-vm` (replace `nixos-vm` with your hostname)
 
-## Getting Started
+## Usage
 
-### Prerequisites
+This repository includes several scripts in the `scripts/` directory to simplify common tasks:
 
-- [Nix](https://nixos.org/download.html) must be installed.
-- [Flakes](https://nixos.wiki/wiki/Flakes#Enable_flakes) must be enabled.
+- `update-all.sh`: Updates all flake inputs (unstable, stable, and home-manager) and applies the new configuration.
+- `update-stable.sh`: Updates only the stable nixpkgs input and applies the new configuration.
+- `update-unstable.sh`: Updates only the unstable nixpkgs input and applies the new configuration.
+- `package-status.sh`: Shows the currently installed versions of packages defined in `bleeding-edge/`.
+- `bleeding-edge.sh`: A script to manage bleeding-edge packages.
+- `setup.sh`: A script for initial setup.
+- `store.sh`: A script to perform operations on the nix store.
 
-### Installation
+## Managed Software
 
-1. Clone this repository.
-2. Run the appropriate build command for your platform from the repository root:
+This configuration manages the following software and services:
 
-    - **For macOS:**
-        ```bash
-        nix run nix-darwin -- switch --flake .#ianluo
-        ```
-        *(Replace `ianluo` with the desired username/configuration defined in `flake.nix`)*
+### Programs
 
-    - **For NixOS:**
-        ```bash
-        sudo nixos-rebuild switch --flake .#nixos-vm
-        ```
-        *(Replace `nixos-vm` with the desired hostname defined in `flake.nix`)*
+- alacritty
+- bleeding-edge
+- emacs
+- gitui
+- kitty
+- tmux
+- vim
+- zsh
 
-    - **For other Linux distributions:**
-        ```bash
-        nix run home-manager -- switch --flake .#ian-linux-dev
-        ```
-        *(Replace `ian-linux-dev` with the desired username defined in `flake.nix`)*
+### Services
 
-## Common Commands
-
-The `scripts/` directory contains several useful scripts for managing the environment:
-
-- `./scripts/update-all.sh`: Updates all flake inputs (`nix flake update`) and rebuilds the system.
-- `./scripts/package-status.sh`: Shows the status of bleeding-edge packages.
-- `./scripts/store.sh`: Provides commands for garbage collection and store optimization.
+- emacs
+- lorri
+- sketchybar
+- skhd
+- yabai

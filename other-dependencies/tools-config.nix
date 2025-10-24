@@ -15,7 +15,7 @@
   nodejs = {
     "gemini-cli" = {
       package = "@google/gemini-cli";
-      version = "0.9.0";
+      version = "0.10.0";
     };
   };
 }
