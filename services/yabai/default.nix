@@ -43,6 +43,9 @@ pkgs
       yabai -m rule --add app='WeChat' manage=off
       yabai -m rule --add app='Finder' manage=off
       yabai -m rule --add app='Activity Monitor' manage=off
+
+      # iPhone Simulator: float
+      yabai -m rule --add app='Simulator' manage=on float=on
     '';
   };
 }
