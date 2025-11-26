@@ -23,9 +23,9 @@ if [ -n "$SUDO_USER" ]; then
   echo "Fixing UV and npm directory permissions..."
   # Create directories if they don't exist and fix ownership
   mkdir -p "$ACTUAL_HOME/.cache/uv"
-  mkdir -p "$ACTUAL_HOME/.local/share/uv" 
+  mkdir -p "$ACTUAL_HOME/.local/share/uv"
   mkdir -p "$ACTUAL_HOME/.npm-global"
-  
+
   # Fix ownership
   chown -R "$SUDO_USER:staff" "$ACTUAL_HOME/.cache/uv" 2>/dev/null || true
   chown -R "$SUDO_USER:staff" "$ACTUAL_HOME/.local" 2>/dev/null || true
@@ -37,8 +37,16 @@ if [ -e /etc/NIXOS ]; then
   sudo nixos-rebuild switch --flake .#$ACTUAL_USER # Use actual user for NixOS
 elif [ "$(uname)" == "Darwin" ]; then
   echo "Detected macOS. Building and switching..."
-  darwin-rebuild switch --flake .#$ACTUAL_USER # Use actual user for Darwin
-  
+
+  # Check if darwin-rebuild is available
+  if command -v darwin-rebuild &> /dev/null; then
+    echo "Using darwin-rebuild..."
+    darwin-rebuild switch --flake .#$ACTUAL_USER # Use actual user for Darwin
+  else
+    echo "darwin-rebuild not found. Using nix run nix-darwin for initial setup..."
+    nix run nix-darwin -- switch --flake .#$ACTUAL_USER
+  fi
+
   # Post-build: Install global dependencies as the actual user
   echo "Installing global dependencies as user $ACTUAL_USER..."
   if [ -n "$SUDO_USER" ]; then

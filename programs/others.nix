@@ -12,7 +12,7 @@
 
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       core.editor = "vi";
     };
   };

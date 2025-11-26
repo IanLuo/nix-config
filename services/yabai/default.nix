@@ -1,10 +1,12 @@
 {
 pkgs
+, unstable-pkgs
 , ...}:
 
 {
   services.yabai = {
     enable = true;
+    package = unstable-pkgs.yabai;
     # temporary workaround for https://github.com/ryan4yin/nix-config/issues/51
     enableScriptingAddition = true;
     config = {

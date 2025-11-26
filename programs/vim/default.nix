@@ -114,6 +114,11 @@ in {
     extraPackages = with pkgs; [
       tree-sitter
 
+      # language servers
+      pyright
+      nixd
+      rubyPackages.ruby-lsp
+
       # telescope tools
       ripgrep
       fd

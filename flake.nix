@@ -2,11 +2,11 @@
   description = "My computer setup";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nix-darwin.url = "github:lnl7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -18,11 +18,11 @@
       systems = {
         "aarch64-darwin" = {
           pkgs = import nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; };
-          unstable-pkgs = import inputs.nixpkgs-unstable { system = "aarch64-darwin"; config.allowUnfree = true; };
+          unstable-pkgs = import nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; };
         };
         "aarch64-linux" = {
           pkgs = import nixpkgs { system = "aarch64-linux"; config.allowUnfree = true; };
-          unstable-pkgs = import inputs.nixpkgs-unstable { system = "aarch64-linux"; config.allowUnfree = true; };
+          unstable-pkgs = import nixpkgs { system = "aarch64-linux"; config.allowUnfree = true; };
         };
       };
 
@@ -59,8 +59,9 @@
           host = userConfig.host;
           isNixOS = userConfig.isNixOS;
           pkgs = systems.${system}.pkgs;
+          unstable-pkgs = systems.${system}.unstable-pkgs;
           systemPackages = systemPackagesFor system;
-          specialArgs = { inherit inputs stateVersion username systemPackages; };
+          specialArgs = { inherit inputs stateVersion username systemPackages unstable-pkgs; };
         in
         if isNixOS then {
           # NixOS Configuration

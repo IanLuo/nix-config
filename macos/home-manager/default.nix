@@ -1,10 +1,10 @@
 { pkgs
 , lib
 , inputs
-, stateVersion 
+, stateVersion
 , user
 , systemPackages
-, ... 
+, ...
 }:
 {
   home-manager.useGlobalPkgs = true;
@@ -13,7 +13,7 @@
   home-manager.users.${user} = { pkgs, ... }:
   {
 
-    home.stateVersion = stateVersion; 
+    home.stateVersion = stateVersion;
     home.packages = systemPackages.packages;
 
     # Set environment variables
@@ -22,9 +22,9 @@
       EDITOR = "vi";
     };
 
-    imports = (import ../../programs).packages 
-      ++ [ 
-        # inputs.nix-doom-emacs.hmModule 
+    imports = (import ../../programs).packages
+      ++ [
+        # inputs.nix-doom-emacs.hmModule
         ../../programs/others.nix
         ../../other-dependencies/default.nix
       ];
