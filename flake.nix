@@ -8,6 +8,8 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    opencode.url = "github:anomalyco/opencode";
   };
 
   outputs = inputs@{ self, nix-darwin, home-manager, nixpkgs, ... }:

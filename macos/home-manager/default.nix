@@ -14,7 +14,9 @@
   {
 
     home.stateVersion = stateVersion;
-    home.packages = systemPackages.packages;
+    home.packages = systemPackages.packages ++ [
+      inputs.opencode.packages.${pkgs.system}.default
+    ];
 
     # Set environment variables
     home.sessionVariables = {
