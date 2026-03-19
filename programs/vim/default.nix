@@ -10,6 +10,12 @@ let
   #   };
   # };
 in {
+  home.activation.removeLegacyNeovimPacker = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if [ -d "$HOME/.local/share/nvim/site/pack/packer" ]; then
+      rm -rf "$HOME/.local/share/nvim/site/pack/packer"
+    fi
+  '';
+
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -19,7 +25,6 @@ in {
     plugins = with pkgs.vimPlugins; [
       # basics
       vim-sensible
-      # packer-nvim
       # copilot-vim  # TODO: Enable unfree packages for Copilot
       vim-tmux-navigator
 
