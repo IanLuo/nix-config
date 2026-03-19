@@ -48,11 +48,3 @@ vim.lsp.start({
   root_dir = require('lspconfig.util').root_pattern("flake.nix", "default.nix", ".git"),
 })
 
--- Ruby LSP
-vim.lsp.start({
-  name = 'ruby_lsp',
-  cmd = { "ruby-lsp" },
-  capabilities = capabilities,
-  on_attach = on_attach,
-  root_dir = require('lspconfig.util').root_pattern("Gemfile", ".ruby-version", ".git"),
-})
