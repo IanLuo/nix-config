@@ -103,9 +103,15 @@ EOF
       dependencies = dependencies;
     };
 
+  nixpkgsNodePackages = lib.mapAttrsToList (_name: config: pkgs.${config.package}) (
+    lib.filterAttrs (_name: config: config.source or "npm" == "nixpkgs") toolsConfig.nodejs
+  );
+
+  npmNodeDeps = lib.filterAttrs (_name: config: config.source or "npm" != "nixpkgs") toolsConfig.nodejs;
+
   # Derivation for the Node.js environment
   nodejsEnv = let
-    packageJsonContent = generatePackageJsonContent toolsConfig.nodejs;
+    packageJsonContent = generatePackageJsonContent npmNodeDeps;
   in pkgs.stdenv.mkDerivation {
     name = "nodejs-env";
     nativeBuildInputs = [ pkgs.nodejs_20 pkgs.cacert ];
@@ -155,10 +161,7 @@ EOF
 
 in
 {
-  home.packages = [
-    pythonEnv
-    nodejsEnv
-  ];
+  home.packages = [ pythonEnv ] ++ nixpkgsNodePackages ++ lib.optionals (npmNodeDeps != { }) [ nodejsEnv ];
 
   home.sessionVariables = {
     UV_CACHE_DIR = "$HOME/.cache/uv";

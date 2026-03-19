@@ -2,7 +2,7 @@
 
 ## How It Works
 
-Your bleeding-edge packages are defined in `programs/bleeding-edge/default.nix` and automatically included in your system packages. This approach keeps the package definitions co-located with their configurations, making maintenance easier.
+Your bleeding-edge packages are defined in `programs/bleeding-edge/default.nix` and are included through `modules/shared/packages/default.nix`.
 
 ## Adding a New Bleeding-Edge Package
 
@@ -169,7 +169,7 @@ bleedingPackages = {
 
 ```bash
 # Test the package builds
-nix build .#darwinConfigurations.ianluo.system
+nix build .#darwinConfigurations.ianluo.config.system.build.toplevel
 
 # If it builds successfully, apply:
 ./scripts/rebuild.sh
@@ -207,8 +207,8 @@ nix-prefetch-git https://github.com/owner/repo --rev NEW_COMMIT
 ### Method 2: Update Nixpkgs Reference
 
 ```bash
-# For packages using fetchNixpkgsPackage, they automatically update
-# when you update nixpkgs:
+# For packages using fetchNixpkgsPackage, they update
+# when the active nixpkgs input changes:
 ./scripts/update-stable.sh  # or update-unstable.sh
 ./scripts/rebuild.sh
 ```
@@ -219,7 +219,7 @@ nix-prefetch-git https://github.com/owner/repo --rev NEW_COMMIT
 
 ```bash
 # Get detailed build logs
-nix build .#darwinConfigurations.ianluo.system --show-trace --print-build-logs
+nix build .#darwinConfigurations.ianluo.config.system.build.toplevel --show-trace --print-build-logs
 
 # Test individual package
 nix-build -E '
@@ -256,7 +256,7 @@ nix-build -E '
 # 1. Check for new releases on GitHub
 # 2. Update rev and sha256 in bleeding-edge/default.nix
 # 3. Test and apply:
-nix build .#darwinConfigurations.ianluo.system
+nix build .#darwinConfigurations.ianluo.config.system.build.toplevel
 ./scripts/rebuild.sh
 ```
 

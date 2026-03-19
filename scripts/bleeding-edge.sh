@@ -2,9 +2,10 @@
 
 # Helper script for managing bleeding-edge packages
 
-set -e
+set -euo pipefail
 
 BLEEDING_EDGE_FILE="programs/bleeding-edge/default.nix"
+DARWIN_CONFIG_NAME="${DARWIN_CONFIG_NAME:-ianluo}"
 
 show_help() {
     echo "🩸 Bleeding-Edge Package Manager"
@@ -134,7 +135,7 @@ EOF
 test_build() {
     echo "🧪 Testing bleeding-edge packages build..."
     
-    if nix build .#darwinConfigurations.ianluo.system --show-trace; then
+    if nix build ".#darwinConfigurations.${DARWIN_CONFIG_NAME}.config.system.build.toplevel" --show-trace; then
         echo "✅ Build successful!"
     else
         echo "❌ Build failed. Check the error messages above."

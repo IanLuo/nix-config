@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 url="https://github.com/nixos/nixpkgs-channels"
 channel="${@:-nixpkgs-unstable}"

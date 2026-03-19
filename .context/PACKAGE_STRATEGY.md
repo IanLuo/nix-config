@@ -1,164 +1,45 @@
-# Package Management Strategy
+# Package Strategy
 
-## Current Package Analysis
+## Current Package Organization
 
-Based on your `systemPackages.nix`, here's how we can categorize packages for selective upgrades:
+The package layout is now organized by module, not by one large `systemPackages.nix` file.
 
-### Core System Packages (Keep Stable)
-These should use stable nixpkgs for reliability:
+- `modules/shared/packages/stable.nix`
+- `modules/shared/packages/unstable.nix`
+- `modules/shared/packages/default.nix`
+- `modules/darwin/packages.nix`
+- `programs/bleeding-edge/default.nix`
 
-```nix
-stable-packages = [
-  git              # Version control - stability important
-  gcc              # Compiler - compatibility critical
-  curl wget        # Network tools - stability over features
-  tree             # File listing - rarely changes
-  zsh              # Shell - stability important
-  tmux             # Terminal multiplexer - stability over features
-];
-```
+## Intent
 
-### Development Tools (Can Use Unstable)
-These benefit from latest versions and features:
+- keep core tools in the shared stable group
+- keep faster-moving development tools in the shared unstable group
+- keep Darwin-only packages in a dedicated Darwin module
+- use bleeding-edge packages only when nixpkgs is not enough
 
-```nix
-unstable-packages = [
-  nodejs           # Rapid development, new features
-  nixd             # Nix language server - latest fixes
-  ripgrep fd       # Search tools - performance improvements
-  podman           # Container runtime - latest features
-  nix-index        # Package search - latest package data
-  nix-tree         # Nix visualization - improvements
-  nix-du           # Nix disk usage - latest features
-];
-```
+## Important Constraint
 
-### macOS-Specific (Stable Unless Needed)
-```nix
-darwin-packages = [
-  m-cli            # Stable - CLI for macOS
-  iterm2           # Stable - terminal emulator
-  discord          # Could be unstable - latest features
-  raycast          # Could be unstable - latest features
-  cocoapods        # Stable - iOS development
-];
-```
+Although the package groups are split logically, both shared groups are currently sourced from the active `nixpkgs` import in `flake.nix`.
 
-### Editor/IDE Tools (Mixed Strategy)
-```nix
-# Base editor - stable
-programs.neovim.package = stable-pkgs.neovim;
+So today this is mainly:
 
-# Plugins can be from unstable for latest features
-plugins = with unstable-pkgs.vimPlugins; [
-  copilot-vim
-  nvim-tree-lua
-  telescope-nvim
-  # ...
-];
-```
+- organizational separation
+- documentation of update intent
+- easier future migration to truly distinct inputs
 
-## Implementation Strategy
+It is not yet a full dual-channel package strategy in practice.
 
-### 1. Immediate Quick Fix
-Add unstable nixpkgs to your flake without major restructuring:
+## What To Change For A True Dual-Input Strategy
 
-```nix
-# In flake.nix inputs section
-nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-nixpkgs-unstable.inputs.nixpkgs.follows = "nixpkgs";
-```
+If you want real split update cadence later:
 
-### 2. Selective Package Upgrading
-Create a new file `programs/mixed-packages.nix`:
+1. wire `mkPkgs` to one input
+2. wire `mkUnstablePkgs` to another input
+3. keep `modules/shared/packages/stable.nix` and `modules/shared/packages/unstable.nix` as they are
+4. keep the scripts as the user-facing workflow
 
-```nix
-{
-  stable-pkgs,
-  unstable-pkgs,
-  system,
-  ...
-}: {
-  stable = with stable-pkgs; [
-    git gcc curl wget tree zsh tmux
-    # Core system tools that should be stable
-  ];
-  
-  unstable = with unstable-pkgs; [
-    nodejs nixd ripgrep fd nix-index
-    # Development tools that benefit from latest versions
-  ];
-  
-  # Allow per-package overrides
-  overrides = {
-    # Use specific version of nodejs
-    nodejs = unstable-pkgs.nodejs_22;
-    
-    # Use bleeding edge neovim
-    neovim = unstable-pkgs.neovim;
-  };
-}
-```
+## Build Targets To Use
 
-### 3. Update Scripts
-Create selective update scripts:
-
-```bash
-# scripts/update-stable.sh
-nix flake lock --update-input nixpkgs
-
-# scripts/update-unstable.sh  
-nix flake lock --update-input nixpkgs-unstable
-
-# scripts/update-package.sh
-# Usage: ./update-package.sh nodejs
-PACKAGE=$1
-nix flake lock --update-input nixpkgs-${PACKAGE} 2>/dev/null || 
-nix flake lock --update-input nixpkgs-unstable
-```
-
-## Migration Path
-
-### Week 1: Add Unstable Input
-- Add `nixpkgs-unstable` to flake inputs
-- Test with 2-3 development packages
-- Verify system still builds
-
-### Week 2: Categorize Packages
-- Move development tools to unstable
-- Keep core system on stable
-- Test individual updates
-
-### Week 3: Add Overlays (Optional)
-- Create overlays for specific version pins
-- Handle edge cases and conflicts
-
-### Week 4: Automation
-- Create update scripts
-- Add package category documentation
-- Test full workflow
-
-## Benefits After Migration
-
-1. **Selective Updates**: Upgrade development tools without touching system
-2. **Stability**: Keep core system on tested stable packages  
-3. **Latest Features**: Get newest development tool features
-4. **Flexibility**: Pin specific packages to known-good versions
-5. **Rollback**: Easy to revert individual package updates
-
-## Example Usage After Implementation
-
-```bash
-# Update only development tools
-./scripts/update-unstable.sh
-darwin-rebuild switch --flake .
-
-# Update only stable system packages  
-./scripts/update-stable.sh
-darwin-rebuild switch --flake .
-
-# Pin nodejs to specific version
-echo 'nodejs = nixpkgs-stable.nodejs_20;' >> overlays/pins.nix
-```
-
-Would you like me to start implementing this solution by modifying your flake.nix?
+- Darwin build: `nix build .#darwinConfigurations.ianluo.config.system.build.toplevel`
+- Linux HM eval/build target: `nix build .#homeConfigurations.ian-linux-dev.activationPackage`
+- NixOS eval/build target: `nix build .#nixosConfigurations.nixos-vm.config.system.build.toplevel`

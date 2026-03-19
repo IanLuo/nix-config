@@ -1,2 +1,5 @@
-nix --extra-experimental-features "nix-command flakes" build '.#nixosConfigurations.ian.system' 
-home-manager switch --flake . 
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+HOME_CONFIG_NAME="${HOME_CONFIG_NAME:-ian-linux-dev}" exec "$(dirname "$0")/scripts/setup.sh" "$@"

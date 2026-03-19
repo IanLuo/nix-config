@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-# Update only unstable nixpkgs
-echo "🔄 Updating unstable nixpkgs (development tools)..."
-# nix flake lock --update-input nixpkgs-unstable
-nix flake update nixpkgs-unstable
+set -euo pipefail
 
-echo "✅ Updated development packages. Run 'sudo ./scripts/setup.sh' to apply changes."
+echo "Updating the nixpkgs input used by development tools..."
+nix flake lock --update-input nixpkgs
+
+echo "Note: the current flake does not wire a separate nixpkgs-unstable input into packages."
+echo "Update complete. Run './scripts/rebuild.sh' to apply changes."

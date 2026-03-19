@@ -2,76 +2,80 @@
 
 set -euo pipefail
 
-NIX_CONFIG_FILE="/Users/ianluo/.config/darwin/other-dependencies/tools-config.nix"
-TEMP_NIX_JSON_FILE="/Users/ianluo/.config/darwin/tmp/tools-config-json.nix"
-NIX_OUTPUT_JSON_FILE="/Users/ianluo/.config/darwin/tmp/nix_output.json"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+REPO_DIR="$(dirname "$SCRIPT_DIR")"
+TOOLS_CONFIG_FILE="$REPO_DIR/other-dependencies/tools-config.nix"
+
+if [ ! -f "$TOOLS_CONFIG_FILE" ]; then
+  echo "Missing tools config: $TOOLS_CONFIG_FILE" >&2
+  exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo "jq is required" >&2
+  exit 1
+fi
 
 echo "Checking for new versions of other dependencies..."
 
-# Evaluate the temporary Nix file and save output to a temporary JSON file
-nix eval --json --file "$TEMP_NIX_JSON_FILE" > "$NIX_OUTPUT_JSON_FILE"
-sed -i '' -e 's/^"//' -e 's/"$//' -e 's/\\//g' "$NIX_OUTPUT_JSON_FILE"
+CONFIG_JSON="$(nix eval --json --file "$TOOLS_CONFIG_FILE")"
 
-# Function to check Git dependencies
 check_git_dependency() {
-    local name="$1"
-    local url="$2"
-    local current_rev="$3"
+  local name="$1"
+  local url="$2"
+  local current_rev="$3"
+  local latest_rev
 
-    echo "  Checking Git dependency: $name from $url"
-    latest_rev=$(git ls-remote "$url" HEAD | awk '{print $1}')
+  echo "  Checking Git dependency: $name from $url"
+  latest_rev="$(git ls-remote "$url" HEAD | cut -f1)"
 
-    if [ "$latest_rev" != "$current_rev" ]; then
-        echo "    New version available for $name!"
-        echo "      Current rev: $current_rev"
-        echo "      Latest rev:  $latest_rev"
-    else
-        echo "    $name is up to date."
-    fi
+  if [ "$latest_rev" != "$current_rev" ]; then
+    echo "    New version available for $name"
+    echo "      Current rev: $current_rev"
+    echo "      Latest rev:  $latest_rev"
+  else
+    echo "    $name is up to date"
+  fi
 }
 
-# Function to check Node.js (npm) dependencies
 check_npm_dependency() {
-    local name="$1"
-    local package="$2"
-    local current_version="$3"
+  local name="$1"
+  local package="$2"
+  local current_version="$3"
+  local latest_version
 
-    echo "  Checking npm dependency: $name ($package)"
-    latest_version=$(nix shell nixpkgs#nodejs --command npm view "$package" version)
+  echo "  Checking npm dependency: $name ($package)"
+  latest_version="$(nix shell nixpkgs#nodejs --command npm view "$package" version)"
 
-    if [ "$latest_version" != "$current_version" ]; then
-        echo "    New version available for $name!"
-        echo "      Current version: $current_version"
-        echo "      Latest version:  $latest_version"
-    else
-        echo "    $name is up to date."
-    fi
+  if [ "$latest_version" != "$current_version" ]; then
+    echo "    New version available for $name"
+    echo "      Current version: $current_version"
+    echo "      Latest version:  $latest_version"
+  else
+    echo "    $name is up to date"
+  fi
 }
 
-# Process Python dependencies
 echo "Processing Python dependencies..."
-python_deps=$(jq -r -c '.python | to_entries[]' "$NIX_OUTPUT_JSON_FILE")
-for dep in $python_deps; do
-    name=$(echo "$dep" | jq -r '.key')
-    source_type=$(echo "$dep" | jq -r '.value.source')
+while IFS= read -r dep; do
+  name="$(jq -r '.key' <<<"$dep")"
+  source_type="$(jq -r '.value.source' <<<"$dep")"
 
-    if [ "$source_type" == "git" ]; then
-        url=$(echo "$dep" | jq -r '.value.url')
-        rev=$(echo "$dep" | jq -r '.value.rev')
-        check_git_dependency "$name" "$url" "$rev"
-    else
-        echo "  Unsupported source type for Python dependency $name: $source_type"
-    fi
-done
+  if [ "$source_type" = "git" ]; then
+    url="$(jq -r '.value.url' <<<"$dep")"
+    rev="$(jq -r '.value.rev' <<<"$dep")"
+    check_git_dependency "$name" "$url" "$rev"
+  else
+    echo "  Unsupported source type for Python dependency $name: $source_type"
+  fi
+done < <(jq -c '.python | to_entries[]?' <<<"$CONFIG_JSON")
 
-# Process Node.js dependencies
 echo "Processing Node.js dependencies..."
-nodejs_deps=$(jq -r -c '.nodejs | to_entries[]' "$NIX_OUTPUT_JSON_FILE")
-for dep in $nodejs_deps; do
-    name=$(echo "$dep" | jq -r '.key')
-    package=$(echo "$dep" | jq -r '.value.package')
-    version=$(echo "$dep" | jq -r '.value.version')
-    check_npm_dependency "$name" "$package" "$version"
-done
+while IFS= read -r dep; do
+  name="$(jq -r '.key' <<<"$dep")"
+  package="$(jq -r '.value.package' <<<"$dep")"
+  version="$(jq -r '.value.version' <<<"$dep")"
+  check_npm_dependency "$name" "$package" "$version"
+done < <(jq -c '.nodejs | to_entries[]?' <<<"$CONFIG_JSON")
 
 echo "Dependency check complete."

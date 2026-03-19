@@ -26,12 +26,12 @@ Modern, declarative management for Python and Node.js global tools through Nix f
 
 ### Automatic Installation
 
-Dependencies are **automatically built and installed** when you run:
+Dependencies are automatically built and installed when you run:
 
 ```bash
 ./scripts/setup.sh
 # or
-darwin-rebuild switch
+./scripts/rebuild.sh
 ```
 
 The system uses Home Manager to build tools dynamically based on the configuration in `tools-config.nix`.
@@ -41,7 +41,7 @@ The system uses Home Manager to build tools dynamically based on the configurati
 #### Any Tool Type
 
 1. Edit `other-dependencies/tools-config.nix` and add your tool configuration
-2. Run `darwin-rebuild switch` and tools will be built and installed automatically
+2. Run `./scripts/rebuild.sh` and the tools will be built and installed automatically
 
 #### Examples
 

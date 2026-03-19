@@ -1,5 +1,7 @@
 # Solutions for Selective Package Upgrades
 
+This file is historical design exploration. It describes possible future approaches, not the exact active flake wiring in the current repo.
+
 ## Problem Statement
 Current configuration ties all packages to a single nixpkgs version, making it impossible to upgrade individual packages without upgrading the entire system.
 

@@ -1,1 +1,5 @@
-nix run nix-darwin -- switch --flake ~/.config/nix-darwin
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+exec "$(dirname "$0")/scripts/setup.sh" "$@"

@@ -1,12 +1,12 @@
 { pkgs, lib, ... }:
-let 
+let
   # copilot-vim = pkgs.stdenv.mkDerivation {
   #   name = "copilot-vim";
   #   src = pkgs.fetchFromGitHub {
   #     owner = "github";
   #     repo = "copilot.vim";
   #     rev = "v1.26.0";
-  #     sha256 = "sha256-tcLrto1Y66MtPnfIcU2PBOxqE0xilVl4JyKU6ddS7bA="; 
+  #     sha256 = "sha256-tcLrto1Y66MtPnfIcU2PBOxqE0xilVl4JyKU6ddS7bA=";
   #   };
   # };
 in {
@@ -19,7 +19,7 @@ in {
     plugins = with pkgs.vimPlugins; [
       # basics
       vim-sensible
-      # packer-nvim  
+      # packer-nvim
       # copilot-vim  # TODO: Enable unfree packages for Copilot
       vim-tmux-navigator
 
@@ -61,7 +61,7 @@ in {
       # smooth scrolling
       vim-smoothie
 
-      # peek line search 
+      # peek line search
       numb-nvim
 
       # fast navigation
@@ -73,12 +73,11 @@ in {
       # notify window
       nvim-notify
 
-      # commenting 
+      # commenting
       comment-nvim
 
       # syntax highlighting
       nvim-treesitter.withAllGrammars
-
 
       # highlight selected symbol
       vim-illuminate
@@ -98,14 +97,13 @@ in {
       cmp-nvim-lsp-document-symbol
       lspsaga-nvim
 
-
       # snippets
       # friendly-snippets  # Temporarily disabled due to loading issues
 
       # theming
       tokyonight-nvim
       catppuccin-nvim
-      
+
       neogit
       gitsigns-nvim
       trouble-nvim

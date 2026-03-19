@@ -1,7 +1,7 @@
 # Bleeding-Edge Package Management
 
 ## Problem
-Some software evolves very quickly and the latest versions may not be available even in nixpkgs-unstable. You need to reference specific git commits or build directly from source.
+Some software evolves very quickly and the version you want may not be available from the currently wired package inputs. In those cases, reference specific git commits or build directly from source.
 
 ## Solutions
 
@@ -179,7 +179,7 @@ nix shell .#my-bleeding-edge-tool
 nix flake lock --update-input zig-bleeding
 nix flake lock --update-input neovim-nightly
 # Test build before applying
-nix build .#darwinConfigurations.ianluo.system
+nix build .#darwinConfigurations.ianluo.config.system.build.toplevel
 ```
 
 ### Manual Pin Updates
@@ -202,6 +202,6 @@ Pin to specific commits rather than branches for reproducibility
 ### 4. Testing
 Always test bleeding-edge packages in isolation before system-wide deployment
 
-## Integration with Your Current Setup
+## Integration With The Current Setup
 
-I'll show you how to add this to your existing mixed-package system...
+In this repo, bleeding-edge packages are layered on top of the shared package modules and are useful when the normal nixpkgs-based package groups are not enough.

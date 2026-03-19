@@ -1,5 +1,7 @@
 # Development Guide
 
+This file is now a general workflow guide. The active repository layout has already moved to `hosts/`, `modules/`, and `checks/`.
+
 ## Project Structure Best Practices
 
 ### Module Organization
@@ -58,7 +60,7 @@ in {
 ### 1. Dry Run Changes
 ```bash
 # Test configuration without applying
-nix build .#darwinConfigurations.ianluo.system
+nix build .#darwinConfigurations.ianluo.config.system.build.toplevel
 ```
 
 ### 2. Incremental Testing
@@ -82,15 +84,15 @@ darwin-rebuild rollback
 ```bash
 git checkout -b feature/mixed-nixpkgs
 # Make changes
-nix build .#darwinConfigurations.ianluo.system
+nix build .#darwinConfigurations.ianluo.config.system.build.toplevel
 # Test changes
 darwin-rebuild switch --flake .
 ```
 
 ### 2. Configuration Validation
 ```bash
-# Check flake syntax
-nix flake check
+# Check flake syntax and configured checks
+nix flake check --all-systems
 
 # Show flake outputs
 nix flake show
@@ -98,11 +100,11 @@ nix flake show
 
 ### 3. Dependency Management
 ```bash
-# Update specific input
-nix flake lock --update-input nixpkgs-unstable
+# Update current nixpkgs input
+nix flake lock --update-input nixpkgs
 
 # Show dependency tree
-nix-tree --derivation $(nix build .#darwinConfigurations.ianluo.system)
+nix-tree --derivation $(nix build .#darwinConfigurations.ianluo.config.system.build.toplevel --no-link --print-out-paths)
 ```
 
 ## Debugging Common Issues

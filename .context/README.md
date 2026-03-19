@@ -14,7 +14,7 @@ This is a declarative system configuration project using Nix Flakes that manages
 - **Nix Flakes**: Modern Nix configuration with `flake.nix` as entry point
 - **Home Manager**: User environment management
 - **nix-darwin**: macOS-specific Nix integration
-- **Nixpkgs**: Version 24.11 (stable release)
+- **Checks**: Flake checks plus a NixOS VM smoke test
 
 ## Directory Structure
 
@@ -22,37 +22,37 @@ This is a declarative system configuration project using Nix Flakes that manages
 .
 ├── flake.nix                    # Main flake configuration
 ├── flake.lock                   # Locked input versions
-├── macos/                       # macOS-specific configurations
-│   ├── default.nix
-│   └── home-manager/
-├── linux/                      # Linux home-manager configs
+├── hosts/                       # Host entrypoints
+│   ├── darwin/
+│   ├── home/
+│   └── nixos/
+├── modules/                     # Shared and platform modules
+│   ├── darwin/
+│   ├── linux/
+│   ├── nixos/
+│   └── shared/
 ├── nixos/                       # NixOS system configurations
 ├── programs/                    # Application configurations
 │   ├── vim/                     # Neovim setup with 40+ plugins
 │   ├── zsh/                     # Zsh with Powerlevel10k
-│   ├── tmux/
-│   ├── alacritty/
-│   ├── kitty/
-│   └── systemPackages.nix      # System-wide packages
+│   └── bleeding-edge/
 ├── services/                    # System services
 │   ├── yabai/                   # Window manager (macOS)
 │   ├── skhd/                    # Keyboard shortcuts
 │   └── sketchybar/              # Status bar
-├── misc/                        # Miscellaneous configs
+├── checks/                      # Flake checks and test definitions
 └── scripts/                     # Utility scripts
-    ├── install.sh
-    ├── ianluo.switch.sh
-    └── ian.linux.switch.sh
+    ├── setup.sh
+    ├── rebuild.sh
+    └── update-*.sh
 ```
 
 ## Users & Hosts
 
-### macOS
-- **User**: `ianluo`
-- **Hosts**: `CDU-L737HCJ9FJ`, `ianluo`
-
-### Linux
-- **Users**: `ian`, `nixos`
+### Active Outputs
+- Darwin: `darwinConfigurations.ianluo`
+- Linux HM: `homeConfigurations.ian-linux-dev`
+- NixOS: `nixosConfigurations.nixos-vm`
 
 ## Key Features
 
@@ -79,25 +79,20 @@ This is a declarative system configuration project using Nix Flakes that manages
 ./install.sh
 ```
 
-### Rebuild System (macOS)
+### Rebuild System
 ```bash
-./ianluo.switch.sh
+./scripts/rebuild.sh
 ```
 
-### Rebuild System (Linux)
+### Validate
 ```bash
-./ian.linux.switch.sh
-```
-
-### Update Nixpkgs
-```bash
-./latest_nixpkgs.sh
+nix flake check --all-systems
 ```
 
 ## Known Issues
 
-1. **Package Upgrade Problem**: Cannot upgrade individual packages without upgrading entire nixpkgs
-2. **Dependency Management**: All packages are tied to nixpkgs version
-3. **Update Frequency**: System-wide updates can be disruptive
+1. Linux and NixOS builds still need a Linux builder for full end-to-end runtime verification on a Darwin machine
+2. The current package grouping separates intent, but both grouped package sets are still sourced from `nixpkgs`
+3. Some older `.context/` notes describe superseded experiments rather than the active final layout
 
 See `SOLUTIONS.md` for approaches to address these issues.

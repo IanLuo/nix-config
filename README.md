@@ -1,68 +1,69 @@
 # My Nix-based Dotfiles
 
-A declarative and reproducible personal development environment for macOS and Linux, managed by Nix and Home Manager.
+A declarative personal environment for macOS, standalone Linux Home Manager, and NixOS, managed with Nix flakes.
 
 ## Key Features
 
-- **Cross-Platform**: Supports both macOS (Darwin) and Linux (NixOS).
-- **Declarative**: All system and application configurations are defined as code.
-- **Reproducible**: Nix Flakes ensure the same environment can be recreated anywhere.
-- **Modular**: Configurations are broken down into logical units (programs, services, etc.).
+- Cross-platform: supports `nix-darwin`, standalone Home Manager on Linux, and NixOS
+- Declarative: system and user configuration live in versioned Nix modules
+- Modular: host entrypoints, shared modules, and platform-specific modules are separated cleanly
+- Verified: `nix flake check --all-systems` covers config invariants and a NixOS VM smoke test
 
 ## Structure
 
-The repository is organized as follows:
-
 ```
 .
-├── flake.nix        # Main Nix Flake entry point
-├── macos/           # macOS-specific configurations
-├── linux/           # Linux-specific configurations
-├── nixos/           # NixOS-specific configurations
-├── programs/        # Application configurations
-├── services/        # Background service configurations
-└── scripts/         # Management and utility scripts
+├── flake.nix
+├── hosts/
+│   ├── darwin/
+│   ├── home/
+│   └── nixos/
+├── modules/
+│   ├── darwin/
+│   ├── linux/
+│   ├── nixos/
+│   └── shared/
+├── nixos/
+├── programs/
+├── services/
+├── checks/
+└── scripts/
 ```
 
-## Installation
+## Flake Outputs
 
-1.  **Prerequisites**: Install Nix with Flakes support.
-2.  **Clone**: Clone the repository.
-3.  **Apply Configuration**:
-    - For macOS: `nix run . -- switch --flake .#ian-mbp` (replace `ian-mbp` with your hostname)
-    - For NixOS: `sudo nixos-rebuild switch --flake .#nixos-vm` (replace `nixos-vm` with your hostname)
+- `darwinConfigurations.ianluo`
+- `homeConfigurations.ian-linux-dev`
+- `nixosConfigurations.nixos-vm`
 
-## Usage
+## Installation And Apply
 
-This repository includes several scripts in the `scripts/` directory to simplify common tasks:
+- macOS: `./scripts/setup.sh` or `DARWIN_CONFIG_NAME=ianluo ./scripts/setup.sh`
+- standalone Linux Home Manager: `HOME_CONFIG_NAME=ian-linux-dev ./scripts/setup.sh`
+- NixOS: `sudo NIXOS_CONFIG_NAME=nixos-vm ./scripts/setup.sh`
 
-- `update-all.sh`: Updates all flake inputs (unstable, stable, and home-manager) and applies the new configuration.
-- `update-stable.sh`: Updates only the stable nixpkgs input and applies the new configuration.
-- `update-unstable.sh`: Updates only the unstable nixpkgs input and applies the new configuration.
-- `package-status.sh`: Shows the currently installed versions of packages defined in `bleeding-edge/`.
-- `bleeding-edge.sh`: A script to manage bleeding-edge packages.
-- `setup.sh`: A script for initial setup.
-- `store.sh`: A script to perform operations on the nix store.
+There are also compatibility wrappers:
 
-## Managed Software
+- `./scripts/rebuild.sh`
+- `./ianluo.switch.sh`
+- `./ian.linux.switch.sh`
+- `./install.sh`
 
-This configuration manages the following software and services:
+## Update Workflow
 
-### Programs
+- `./scripts/update-all.sh` updates all flake inputs
+- `./scripts/update-stable.sh` updates the currently wired `nixpkgs` input
+- `./scripts/update-unstable.sh` currently does the same, because package groups are both sourced from `nixpkgs` in the current flake wiring
+- `./scripts/package-status.sh` shows the current locked inputs and reminds you about the current package wiring
+- `./scripts/bleeding-edge.sh` helps manage custom bleeding-edge packages
+- `./scripts/check-other-dependencies.sh` checks configured external Python/npm tools for newer upstream versions
 
-- alacritty
-- bleeding-edge
-- emacs
-- gitui
-- kitty
-- tmux
-- vim
-- zsh
+## Validation
 
-### Services
+Run:
 
-- emacs
-- lorri
-- sketchybar
-- skhd
-- yabai
+```bash
+nix flake check --all-systems
+```
+
+That evaluates all outputs, runs invariant checks, and evaluates the NixOS VM smoke test derivation.

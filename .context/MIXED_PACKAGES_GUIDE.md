@@ -1,173 +1,70 @@
-# Mixed Package System Usage Guide
+# Package Update Guide
 
-## What Changed
+## Current State
 
-Your Nix configuration now supports **selective package upgrades** using both stable and unstable nixpkgs channels. This solves your original problem of not being able to upgrade individual packages without upgrading everything.
+The repo now has separate package groups in code, but the current flake wiring still sources both the "stable" and "unstable" groups from the same `nixpkgs` input.
 
-## How It Works
+That means:
 
-### Two Nixpkgs Channels
-- **Stable** (`nixpkgs`): Core system tools that need stability
-- **Unstable** (`nixpkgs-unstable`): Development tools that benefit from latest features
+- package organization is separated in `modules/shared/packages/stable.nix` and `modules/shared/packages/unstable.nix`
+- update intent is separated in scripts
+- actual input updates are not yet separated by source branch
 
-### Package Categories
+## Package Layout
 
-#### Stable Packages (24.11 release)
-```nix
-stablePackages = [
-  git gcc curl wget tree       # Core utilities
-  zsh tmux                     # Shell/terminal tools
-  direnv nix-direnv           # Environment management
-  nerdfonts manix             # Fonts and documentation
-];
-```
+- `modules/shared/packages/stable.nix` for core tools
+- `modules/shared/packages/unstable.nix` for faster-moving dev tools
+- `modules/darwin/packages.nix` for Darwin-only packages
+- `programs/bleeding-edge/` for custom packages built outside the normal package flow
 
-#### Unstable Packages (rolling release)
-```nix
-unstablePackages = [
-  nodejs nixd                 # Development tools
-  ripgrep fd                  # Search utilities  
-  podman                      # Containers
-  nix-index nix-tree nix-du   # Nix utilities
-  dbeaver-bin element-desktop # Applications
-];
-```
+## Current Update Commands
 
-## Usage Examples
+### Apply Configuration
 
-### Update Only Development Tools
 ```bash
-./scripts/update-unstable.sh  # Updates nodejs, nixd, ripgrep, etc.
-./scripts/rebuild.sh          # Apply changes
-```
-
-### Update Only System Packages  
-```bash
-./scripts/update-stable.sh    # Updates git, gcc, shell, etc.
-./scripts/rebuild.sh          # Apply changes
-```
-
-### Update Everything
-```bash
-./scripts/update-all.sh       # Updates all inputs
-./scripts/rebuild.sh          # Apply changes
-```
-
-### Check Package Status
-```bash
-./scripts/package-status.sh   # Shows current versions and options
-```
-
-## Real-World Scenarios
-
-### Scenario 1: Latest Node.js
-```bash
-# Get latest Node.js without touching system packages
-./scripts/update-unstable.sh
 ./scripts/rebuild.sh
 ```
 
-### Scenario 2: System Maintenance
+### Update Current Nixpkgs Input
+
 ```bash
-# Update stable system tools monthly
 ./scripts/update-stable.sh
 ./scripts/rebuild.sh
 ```
 
-### Scenario 3: New Development Tools
+### Update Everything
+
 ```bash
-# Get latest development tools weekly
-./scripts/update-unstable.sh
+./scripts/update-all.sh
 ./scripts/rebuild.sh
 ```
 
-## Migration Benefits
+### Check Status
 
-### Before (Single Channel)
-❌ **Problem**: All packages tied to one nixpkgs version
-❌ **Issue**: Can't upgrade Node.js without upgrading everything  
-❌ **Risk**: System-wide updates can break workflow
-
-### After (Mixed Channels)
-✅ **Solution**: Packages from appropriate channels
-✅ **Flexibility**: Upgrade development tools independently
-✅ **Stability**: Core system stays on stable packages
-✅ **Control**: Choose update frequency per category
-
-## Advanced Usage
-
-### Pin Specific Package Version
-If you need to pin a specific package to a particular version, you can:
-
-1. **Create overlay** (recommended):
-```nix
-# overlays/pins.nix
-final: prev: {
-  nodejs = prev.nodejs_20; # Pin to Node.js 20
-}
-```
-
-2. **Use different nixpkgs input**:
-```nix
-inputs.nixpkgs-nodejs20.url = "github:nixos/nixpkgs/commit-with-nodejs20";
-```
-
-### Check Package Versions
 ```bash
-# See what version you'll get
-nix eval nixpkgs#nodejs.version        # Stable
-nix eval nixpkgs-unstable#nodejs.version  # Unstable
+./scripts/package-status.sh
 ```
 
-### Rollback Changes
+## Important Note About `update-unstable.sh`
+
+`./scripts/update-unstable.sh` currently updates the same `nixpkgs` input as `./scripts/update-stable.sh`.
+
+It exists as a workflow placeholder and convenience alias, but it does not currently target a distinct `nixpkgs-unstable` input in the active flake wiring.
+
+## Validation
+
+Before rebuilding, run:
+
 ```bash
-# If update breaks something
-darwin-rebuild rollback
-
-# Or revert specific input
-git checkout HEAD~1 flake.lock
-./scripts/rebuild.sh
+nix flake check --all-systems
 ```
 
-## File Changes Made
+For a local Darwin build smoke test:
 
-### Modified Files
-- `flake.nix`: Added nixpkgs-unstable input
-- `programs/systemPackages.nix`: Split packages by stability needs
-
-### New Files  
-- `scripts/update-stable.sh`: Update stable packages only
-- `scripts/update-unstable.sh`: Update development tools only
-- `scripts/update-all.sh`: Update everything
-- `scripts/rebuild.sh`: Smart rebuild script
-- `scripts/package-status.sh`: Show current status
-- `.context/`: Documentation and guides
-
-## Testing the Changes
-
-### 1. Verify Configuration
 ```bash
-nix flake check                    # Verify syntax
-nix build .#darwinConfigurations.ianluo.system  # Test build
+nix build .#darwinConfigurations.ianluo.config.system.build.toplevel
 ```
 
-### 2. Apply Changes
-```bash
-./scripts/rebuild.sh              # Apply new mixed system
-```
+## If You Want True Split Update Cadence Later
 
-### 3. Test Selective Updates
-```bash
-./scripts/package-status.sh       # Check current state
-./scripts/update-unstable.sh      # Update dev tools only
-./scripts/rebuild.sh              # Apply updates
-```
-
-## Next Steps
-
-1. **Test the new system**: Run the rebuild and verify it works
-2. **Try selective updates**: Test updating only unstable packages
-3. **Customize categories**: Move packages between stable/unstable as needed
-4. **Add more channels**: Consider adding specific inputs for tools you pin often
-
-The mixed package system gives you the flexibility you needed while maintaining the declarative benefits of Nix!
+To make `update-stable.sh` and `update-unstable.sh` truly independent, the next step would be to wire distinct flake inputs into `mkPkgs` and `mkUnstablePkgs` in `flake.nix`.
