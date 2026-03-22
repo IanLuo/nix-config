@@ -112,7 +112,25 @@
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
-        "opencode": "opencode"
+        "opencode": "opencode",
+        "specify-cli-src": "specify-cli-src"
+      }
+    },
+    "specify-cli-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773926649,
+        "narHash": "sha256-d/y/vu7cCAdE/yv2igeNuLYgj0+lJJesxdvuUqdXYzA=",
+        "owner": "github",
+        "repo": "spec-kit",
+        "rev": "77c88ae211011617ddad1c70659eb40ce24d6253",
+        "type": "github"
+      },
+      "original": {
+        "owner": "github",
+        "ref": "v0.3.2",
+        "repo": "spec-kit",
+        "type": "github"
       }
     }
   },

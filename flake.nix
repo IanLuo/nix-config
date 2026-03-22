@@ -10,12 +10,22 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     opencode.url = "github:anomalyco/opencode";
+    specify-cli-src = {
+      url = "github:github/spec-kit/v0.3.2";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ nix-darwin, home-manager, nixpkgs, ... }:
     let
       lib = nixpkgs.lib;
       stateVersion = "25.05";
+      customPackageDefinitions = {
+        specify-cli = {
+          src = inputs.specify-cli-src;
+          version = "0.3.2";
+        };
+      };
 
       mkPkgs = system:
         import nixpkgs {
@@ -36,6 +46,7 @@
         in
         pkgs.callPackage ./modules/shared/packages/default.nix {
           inherit pkgs unstable-pkgs system;
+          inherit customPackageDefinitions;
         };
 
       mkSpecialArgs = { system, user }: {

@@ -30,7 +30,7 @@ Follow the guidance in this file and the existing code patterns in the repo.
 - `checks/`: flake checks and NixOS VM smoke test
 - `programs/`: Neovim, zsh, and other user program config
 - `services/`: Darwin service modules like `yabai` and `skhd`
-- `other-dependencies/`: external Python/npm-style tools managed declaratively
+- `other-dependencies/`: legacy area for externally sourced tools; prefer package-first wiring in `modules/shared/packages/`
 - `scripts/`: rebuild, update, and inspection helpers
 
 ## Primary Flake Outputs
@@ -89,7 +89,6 @@ Use focused flake checks or targeted builds instead.
 - Update current nixpkgs input: `./scripts/update-stable.sh`
 - Placeholder unstable update flow: `./scripts/update-unstable.sh`
 - Show input status: `./scripts/package-status.sh`
-- Check external tool updates: `./scripts/check-other-dependencies.sh`
 - Manage bleeding-edge packages: `./scripts/bleeding-edge.sh`
 
 ## Platform Notes
@@ -119,6 +118,14 @@ Use focused flake checks or targeted builds instead.
 - Shared Home Manager wiring lives in `modules/shared/home.nix`.
 - Host files should stay thin and mostly compose modules.
 - Avoid reintroducing the old generated-user matrix approach from the previous flake.
+- `nixpkgs` is the default source of truth for packages.
+- Use plain `pkgs.<name>` when the packaged version in `nixpkgs` is acceptable.
+- If a package exists in `nixpkgs` but must be upgraded independently, create a separately managed package entry with its own flake input and expose one canonical package symbol for it.
+- If a package is missing from `nixpkgs` or the nixpkgs recipe is unsuitable, define it as a local custom package, preferably one package per file.
+- Flake inputs are source declarations, not install targets; do not reference `inputs.*` directly from install lists or unrelated modules.
+- Each tool must have one canonical package symbol across the repo: either `pkgs.<name>` or a custom symbol, but not both.
+- Do not mix raw `pkgs.<name>`, overridden variants, and custom package references for the same tool in different modules.
+- Keep package selection separate from package definition: package files define how to build; shared package lists decide what gets installed.
 
 ## Shell Script Guidelines
 
@@ -143,7 +150,7 @@ Use focused flake checks or targeted builds instead.
 - Nix modules: descriptive lowercase file names, often `default.nix`, `system.nix`, `home.nix`, `packages.nix`
 - Flake outputs: explicit host-oriented names like `ianluo`, `ian-linux-dev`, `nixos-vm`
 - Helpers: `mkPkgs`, `mkSpecialArgs`, `mkSystemPackages`
-- Shell scripts: verb-based names like `setup.sh`, `update-all.sh`, `check-other-dependencies.sh`
+- Shell scripts: verb-based names like `setup.sh`, `update-all.sh`, `bleeding-edge.sh`
 
 ## Error Handling Expectations
 

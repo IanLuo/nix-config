@@ -11,6 +11,9 @@ echo
 echo "Current Inputs:"
 echo "  nixpkgs:        $(jq -r '.locks.nodes.nixpkgs.locked.rev[0:7]' <<<"$metadata_json")"
 echo "  nixpkgs-stable: $(jq -r '.locks.nodes."nixpkgs-stable".locked.rev[0:7]' <<<"$metadata_json")"
+if jq -e '.locks.nodes."specify-cli-src"' >/dev/null <<<"$metadata_json"; then
+  echo "  specify-cli:    $(jq -r '.locks.nodes."specify-cli-src".locked.rev[0:7]' <<<"$metadata_json")"
+fi
 echo
 echo "Note: current flake wiring uses 'nixpkgs' for both stable and unstable package groups."
 
@@ -19,13 +22,15 @@ echo "Update Options:"
 echo "  ./scripts/update-stable.sh    - Update the current nixpkgs input"
 echo "  ./scripts/update-unstable.sh  - Same as above until a distinct unstable input is wired"
 echo "  ./scripts/update-all.sh       - Update everything"
+echo "  nix flake lock --update-input specify-cli-src - Update the pinned specify-cli source"
 echo "  ./scripts/rebuild.sh          - Apply current configuration"
 echo "  ./scripts/bleeding-edge.sh    - Manage bleeding-edge packages"
 
 echo
 echo "Package Categories:"
 echo "  Stable:   Core system tools (git, gcc, shell, etc.)"
-echo "  Unstable: Development tools (nixd, ripgrep, fd, etc.)"
+echo "  Unstable: Development tools (nixd, ripgrep, fd, gemini-cli, etc.)"
+echo "  Custom:   Separately pinned package sources exposed through modules/shared/packages/custom/"
 
 echo
 echo "Tips:"

@@ -10,7 +10,6 @@
   home-manager.users.${user} = { pkgs, ... }: {
     imports = [
       ../shared/home.nix
-      ../../other-dependencies/default.nix
     ];
 
     home.packages = [

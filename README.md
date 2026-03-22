@@ -56,7 +56,7 @@ There are also compatibility wrappers:
 - `./scripts/update-unstable.sh` currently does the same, because package groups are both sourced from `nixpkgs` in the current flake wiring
 - `./scripts/package-status.sh` shows the current locked inputs and reminds you about the current package wiring
 - `./scripts/bleeding-edge.sh` helps manage custom bleeding-edge packages
-- `./scripts/check-other-dependencies.sh` checks configured external Python/npm tools for newer upstream versions
+- Custom package sources are pinned as dedicated flake inputs, so they can be updated independently with `nix flake lock --update-input <input-name>`
 
 ## Validation
 

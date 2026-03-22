@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, customPackages, ... }:
 with pkgs;
 [
   git
@@ -14,5 +14,6 @@ with pkgs;
   manix
   nix-prefetch-git
   uv
+  customPackages.specify-cli
 ]
 # ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)
