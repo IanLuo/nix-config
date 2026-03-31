@@ -21,17 +21,70 @@ Most changes are module wiring, package selection, shell automation, or editor c
 
 Follow the guidance in this file and the existing code patterns in the repo.
 
+## Architecture: The Dendritic Pattern
+
+This repository follows the **dendritic pattern** (see `github.com/mightyiam/dendritic`).
+Every `.nix` file under `modules/` (except entry points) is a `flake-parts` module that
+registers itself directly into the top-level flake evaluation. `import-tree` auto-discovers
+and loads all such files — there is no manual import list to maintain.
+
+Key properties:
+- Every non-entry-point `.nix` file under `modules/` is a `flake-parts` module.
+- Modules are **feature-centric**: a single file covers all configuration classes for one
+  feature (e.g. `window-management.nix` defines both darwin and nixos variants together).
+- Cross-cutting values are shared via the top-level `config.*` namespace
+  (e.g. `config.repo.*`), not via `specialArgs` threading.
+- `flake.nix` is a pure inputs manifest + one-liner entrypoint. Keep it that way.
+
+### The `_` prefix convention
+
+Files and directories under `modules/` whose path contains a `/_` segment are **excluded**
+from auto-import by `import-tree`. Use the `_` prefix for:
+- Non-module support files co-located with a host (e.g. `modules/hosts/_nixos-vm/`)
+- Any `.nix` file that is imported explicitly by another module rather than the tree root
+
+Do not put files under `modules/` that are plain Nix expressions rather than flake-parts
+modules, unless they live under a `_`-prefixed path.
+
 ## Repository Layout
 
-- `flake.nix`: main flake entrypoint
-- `hosts/`: host entrypoints for Darwin, Linux HM, and NixOS
-- `modules/shared/`: shared package and home-manager modules
-- `modules/darwin/`, `modules/linux/`, `modules/nixos/`: platform-specific modules
-- `checks/`: flake checks and NixOS VM smoke test
-- `programs/`: Neovim, zsh, and other user program config
-- `services/`: Darwin service modules like `yabai` and `skhd`
-- `other-dependencies/`: legacy area for externally sourced tools; prefer package-first wiring in `modules/shared/packages/`
-- `scripts/`: rebuild, update, and inspection helpers
+```
+flake.nix                          # inputs manifest + mkFlake one-liner
+flake.lock
+modules/
+  repo.nix                         # flake-level repo helpers (mkPkgs, stateVersion, etc.)
+  checks.nix                       # flake checks and NixOS VM smoke test
+  hosts/
+    ianluo.nix                     # Darwin host: darwinConfigurations.ianluo
+    ian-linux-dev.nix              # Linux HM host: homeConfigurations.ian-linux-dev
+    nixos-vm.nix                   # NixOS host: nixosConfigurations.nixos-vm
+    _nixos-vm/
+      hardware-configuration.nix   # NixOS VM hardware config (not a flake-parts module)
+  # Feature modules (each covers all platforms it applies to):
+  home-base.nix                    # HM base: stateVersion, EDITOR
+  system-packages.nix              # HM: installs the shared package set
+  cli.nix                          # HM: CLI tools (fzf, htop, git, tmate, ...)
+  shell.nix                        # HM: zsh + oh-my-zsh + powerlevel10k
+  tmux.nix                         # HM: tmux configuration
+  editor.nix                       # HM: neovim + LSPs + plugins
+  ai-home.nix                      # HM: AI agent tools (codex, opencode, claude, gstack)
+  system-foundation.nix            # Darwin + NixOS: nix daemon, caches, GC
+  window-management.nix            # Darwin (yabai/skhd) + NixOS (xfce+i3)
+  remote-access.nix                # NixOS: openssh
+packages/
+  custom/                          # Custom package derivations (one file per package)
+  default.nix                      # Assembles the full package set
+  stable.nix / unstable.nix / darwin.nix
+programs/
+  vim/                             # Neovim Lua config files (not Nix modules)
+  zsh/                             # zsh config files (p10k, etc.)
+resources/
+  ai/
+    skills/                        # First-party shared AI agent skills
+    instructions/                  # Per-agent global instruction files
+scripts/                           # rebuild, update, inspection helpers
+nixos/                             # Legacy NixOS compatibility shim (unused by flake)
+```
 
 ## Primary Flake Outputs
 
@@ -102,30 +155,41 @@ Use focused flake checks or targeted builds instead.
 
 - Use 2-space indentation.
 - End attribute sets and lists with trailing semicolons or brackets in the existing style.
-- Keep module arguments minimal and explicit, e.g. `{ pkgs, user, ... }:`.
+- Keep module arguments minimal and explicit, e.g. `{ pkgs, lib, ... }:`.
 - Prefer small helper bindings in `let` blocks when expressions are reused.
-- Prefer explicit imports over clever dynamic module generation.
-- Keep `flake.nix` boring: wire outputs and helpers there, move real logic into modules.
-- Prefer shared logic in `modules/shared/` and host entrypoints in `hosts/`.
-- Pass cross-cutting values via `specialArgs` / `extraSpecialArgs`, not ad hoc globals.
+- Keep `flake.nix` boring: it is a pure inputs manifest + one-liner. No logic lives there.
+- Feature modules are the unit of organization: one file per feature, all platforms together.
+- Host files (`modules/hosts/*.nix`) are thin entrypoints: they declare flake outputs and
+  compose feature modules. They should not contain feature logic.
+- Use `config.repo.*` for shared values accessible across all modules (stateVersion, mkPkgs,
+  etc.). Do not re-thread these via `specialArgs`.
 - Use `pkgs.stdenv.hostPlatform.system` instead of deprecated `pkgs.system`.
 - Use assertions for invariants that should fail evaluation early.
+- New files added under `modules/` are automatically imported by `import-tree`. If a file
+  should NOT be a flake-parts module, place it under a `_`-prefixed path segment.
 
 ## Package / Module Conventions
 
-- Shared packages live in `modules/shared/packages/`.
-- Darwin-only packages live in `modules/darwin/packages.nix`.
-- Shared Home Manager wiring lives in `modules/shared/home.nix`.
-- Host files should stay thin and mostly compose modules.
-- Avoid reintroducing the old generated-user matrix approach from the previous flake.
+- Custom package derivations live in `packages/custom/` (one file per package).
+- `packages/default.nix` assembles the full package set from stable, unstable, darwin, and
+  custom subsets.
 - `nixpkgs` is the default source of truth for packages.
 - Use plain `pkgs.<name>` when the packaged version in `nixpkgs` is acceptable.
-- If a package exists in `nixpkgs` but must be upgraded independently, create a separately managed package entry with its own flake input and expose one canonical package symbol for it.
-- If a package is missing from `nixpkgs` or the nixpkgs recipe is unsuitable, define it as a local custom package, preferably one package per file.
-- Flake inputs are source declarations, not install targets; do not reference `inputs.*` directly from install lists or unrelated modules.
-- Each tool must have one canonical package symbol across the repo: either `pkgs.<name>` or a custom symbol, but not both.
-- Do not mix raw `pkgs.<name>`, overridden variants, and custom package references for the same tool in different modules.
-- Keep package selection separate from package definition: package files define how to build; shared package lists decide what gets installed.
+- If a package must be sourced from a separate flake input, declare the input in `flake.nix`
+  and build the package via `pkgs.callPackage` inside the relevant module. Keep inputs as
+  source declarations only — do not reference `inputs.*` from install lists.
+- Each tool must have one canonical package symbol across the repo.
+- Keep package selection separate from package definition.
+
+## AI Home Conventions (`ai-home.nix`)
+
+- `programs.aiHome.shared.*` — skill tree, instruction files, supported agents
+- `programs.aiHome.adapters.*` — per-agent configuration (codex, claude, opencode)
+- `programs.aiHome.sources.*` — external skill bundles (e.g. `sources.gstack`)
+- Skills are assembled into `~/.agents/skills`; per-agent symlinks fan out from there.
+- `sources.gstack.enable` controls whether the gstack skill bundle is included.
+- First-party skills live in `resources/ai/skills/`.
+- Per-agent global instruction files live in `resources/ai/instructions/<agent>/`.
 
 ## Shell Script Guidelines
 
@@ -147,9 +211,10 @@ Use focused flake checks or targeted builds instead.
 
 ## Naming Conventions
 
-- Nix modules: descriptive lowercase file names, often `default.nix`, `system.nix`, `home.nix`, `packages.nix`
+- Feature modules: descriptive lowercase file names matching the feature (e.g. `shell.nix`,
+  `editor.nix`, `window-management.nix`)
 - Flake outputs: explicit host-oriented names like `ianluo`, `ian-linux-dev`, `nixos-vm`
-- Helpers: `mkPkgs`, `mkSpecialArgs`, `mkSystemPackages`
+- Repo helpers: `mkPkgs`, `mkStablePkgs`, `mkUnstablePkgs`, `mkSystemPackages`
 - Shell scripts: verb-based names like `setup.sh`, `update-all.sh`, `bleeding-edge.sh`
 
 ## Error Handling Expectations
@@ -171,7 +236,7 @@ Use focused flake checks or targeted builds instead.
 ## Good Agent Workflow
 
 1. Read the relevant host and module files before editing.
-2. Prefer minimal structural changes that follow the current host/module split.
-3. Validate the smallest affected target first.
+2. Prefer minimal structural changes that follow the dendritic feature-module pattern.
+3. Validate the smallest affected target first (single `nix eval` or focused check).
 4. Then run broader checks if the change touches shared wiring.
 5. Summarize platform limitations honestly, especially for Linux builds on Darwin.

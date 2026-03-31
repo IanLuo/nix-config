@@ -15,12 +15,12 @@ if jq -e '.locks.nodes."specify-cli-src"' >/dev/null <<<"$metadata_json"; then
   echo "  specify-cli:    $(jq -r '.locks.nodes."specify-cli-src".locked.rev[0:7]' <<<"$metadata_json")"
 fi
 echo
-echo "Note: current flake wiring uses 'nixpkgs' for both stable and unstable package groups."
+echo "Note: stable package groups come from 'nixpkgs-stable' and unstable package groups come from 'nixpkgs'."
 
 echo
 echo "Update Options:"
-echo "  ./scripts/update-stable.sh    - Update the current nixpkgs input"
-echo "  ./scripts/update-unstable.sh  - Same as above until a distinct unstable input is wired"
+echo "  ./scripts/update-stable.sh    - Update the stable nixpkgs input"
+echo "  ./scripts/update-unstable.sh  - Update the unstable nixpkgs input"
 echo "  ./scripts/update-all.sh       - Update everything"
 echo "  nix flake lock --update-input specify-cli-src - Update the pinned specify-cli source"
 echo "  ./scripts/rebuild.sh          - Apply current configuration"
@@ -30,7 +30,7 @@ echo
 echo "Package Categories:"
 echo "  Stable:   Core system tools (git, gcc, shell, etc.)"
 echo "  Unstable: Development tools (nixd, ripgrep, fd, gemini-cli, etc.)"
-echo "  Custom:   Separately pinned package sources exposed through modules/shared/packages/custom/"
+echo "  Custom:   Separately pinned package sources exposed through packages/custom/"
 
 echo
 echo "Tips:"

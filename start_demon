@@ -1,1 +1,0 @@
-sudo launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist

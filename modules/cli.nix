@@ -1,0 +1,21 @@
+{
+  flake.modules.homeManager.cli = {
+    programs.command-not-found.enable = true;
+
+    programs.htop = {
+      enable = true;
+      settings.show_program_path = true;
+    };
+
+    programs.fzf.enable = true;
+
+    programs.git = {
+      enable = true;
+      settings = {
+        core.editor = "vi";
+      };
+    };
+
+    programs.tmate.enable = true;
+  };
+}
