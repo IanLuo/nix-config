@@ -132,10 +132,30 @@ in {
             description = "Enable the Codex adapter.";
           };
 
-          claude.enable = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Enable the Claude Code adapter.";
+          claude = {
+            enable = mkOption {
+              type = types.bool;
+              default = true;
+              description = "Enable the Claude Code adapter.";
+            };
+
+            package = mkOption {
+              type = types.enum [ "native" "node" "bun" ];
+              default = "native";
+              description = "Claude Code runtime variant to install.";
+            };
+
+            enablePackage = mkOption {
+              type = types.bool;
+              default = true;
+              description = "Install the Claude Code package when the adapter is enabled.";
+            };
+
+            settings = mkOption {
+              type = jsonType;
+              default = {};
+              description = "Claude Code settings merged into claude-settings.json.";
+            };
           };
 
           opencode = {
@@ -189,13 +209,17 @@ in {
               enableGlobalInstructions = lib.mkDefault true;
               supportedAgents = lib.mkDefault [
                 "codex"
+                "claude"
                 "opencode"
               ];
             };
 
             adapters = {
               codex.enable = lib.mkDefault true;
-              claude.enable = lib.mkDefault false;
+              claude = {
+                enable = lib.mkDefault true;
+                enablePackage = lib.mkDefault true;
+              };
               opencode = {
                 enable = lib.mkDefault true;
                 enablePackage = lib.mkDefault true;
@@ -226,6 +250,16 @@ in {
           home.file = optionalAttrs cfg.shared.enableGlobalInstructions {
             ".claude/CLAUDE.md".source = claudeGlobalInstructions;
           };
+        })
+
+        (mkIf (cfg.adapters.claude.enable && cfg.adapters.claude.enablePackage) {
+          home.packages = [
+            (if cfg.adapters.claude.package == "native"
+              then inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+              else if cfg.adapters.claude.package == "node"
+              then inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.claude-code-node
+              else inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.claude-code-bun)
+          ];
         })
 
         (mkIf cfg.adapters.opencode.enable (mkMerge [

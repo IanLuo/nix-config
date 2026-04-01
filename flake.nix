@@ -23,6 +23,8 @@
       url = "github:github/spec-kit/v0.3.2";
       flake = false;
     };
+
+    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
   outputs = inputs:

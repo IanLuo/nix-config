@@ -10,5 +10,4 @@ with unstable-pkgs;
   nix-tree
   nix-du
   nnn
-  claude-code
 ]
