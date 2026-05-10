@@ -11,10 +11,6 @@ echo
 echo "Current Inputs:"
 echo "  nixpkgs:        $(jq -r '.locks.nodes.nixpkgs.locked.rev[0:7]' <<<"$metadata_json")"
 echo "  nixpkgs-stable: $(jq -r '.locks.nodes."nixpkgs-stable".locked.rev[0:7]' <<<"$metadata_json")"
-if jq -e '.locks.nodes."specify-cli-src"' >/dev/null <<<"$metadata_json"; then
-  echo "  specify-cli:    $(jq -r '.locks.nodes."specify-cli-src".locked.rev[0:7]' <<<"$metadata_json")"
-fi
-echo
 echo "Note: stable package groups come from 'nixpkgs-stable' and unstable package groups come from 'nixpkgs'."
 
 echo
@@ -22,7 +18,6 @@ echo "Update Options:"
 echo "  ./scripts/update-stable.sh    - Update the stable nixpkgs input"
 echo "  ./scripts/update-unstable.sh  - Update the unstable nixpkgs input"
 echo "  ./scripts/update-all.sh       - Update everything"
-echo "  nix flake lock --update-input specify-cli-src - Update the pinned specify-cli source"
 echo "  ./scripts/rebuild.sh          - Apply current configuration"
 echo "  ./scripts/bleeding-edge.sh    - Manage bleeding-edge packages"
 

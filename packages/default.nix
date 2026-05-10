@@ -26,7 +26,8 @@ in {
     stablePackages
     ++ unstablePackages
     ++ lib.optionals stdenv.isDarwin darwinPackages
-    ++ bleedingEdge.packages;
+    ++ bleedingEdge.packages
+    ++ lib.attrValues customPackages;
 
   inherit stablePackages unstablePackages darwinPackages customPackages;
 }
