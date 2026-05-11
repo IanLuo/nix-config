@@ -7,16 +7,7 @@ let
     };
 
   customPackageDefinitions = {
-    gstack = {
-      src = inputs.gstack-src;
-      version = "0.14.5.0";
-      bun2nix = inputs.bun2nix;
-    };
 
-    specify-cli = {
-      src = inputs.specify-cli-src;
-      version = "0.3.2";
-    };
   };
 in {
   options.repo = lib.mkOption {
@@ -33,13 +24,6 @@ in {
 
     inherit customPackageDefinitions;
 
-    mkGstack = pkgs:
-      let def = customPackageDefinitions.gstack;
-      in pkgs.callPackage ../packages/custom/gstack.nix {
-        src = def.src;
-        version = def.version;
-        bun2nix = def.bun2nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      };
 
     mkSystemPackages = system:
       let

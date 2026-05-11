@@ -12,7 +12,6 @@ in {
       config.flake.modules.homeManager.shell
       config.flake.modules.homeManager.tmux
       config.flake.modules.homeManager.editor
-      config.flake.modules.homeManager."ai-home"
       {
         assertions = [
           {
@@ -28,10 +27,6 @@ in {
         home.username = user;
         home.homeDirectory = "/home/${user}";
 
-        programs.aiHome = {
-          enable = true;
-          sources.gstack.package = config.repo.mkGstack (config.repo.mkPkgs system);
-        };
       }
     ];
   };

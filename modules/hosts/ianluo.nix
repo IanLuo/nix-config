@@ -36,17 +36,11 @@ in {
         topConfig.flake.modules.homeManager.shell
         topConfig.flake.modules.homeManager.tmux
         topConfig.flake.modules.homeManager.editor
-        topConfig.flake.modules.homeManager."ai-home"
       ];
 
       home.username = user;
       home.homeDirectory = "/Users/${user}";
 
-      programs.aiHome.enable = true;
-      programs.aiHome.sources.gstack = {
-        enable = true;
-        package = topConfig.repo.mkGstack (topConfig.repo.mkUnstablePkgs system);
-      };
     };
   };
 

@@ -11,7 +11,6 @@ with pkgs;
   manix
   nix-prefetch-git
   uv
-  customPackages.specify-cli
   graphviz
 ]
 # ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)
