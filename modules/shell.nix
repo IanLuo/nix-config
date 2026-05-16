@@ -14,6 +14,7 @@
 
       initContent = ''
         export TERM=screen-256color
+        export PATH="$HOME/.local/bin:$PATH"
 
         any-nix-shell zsh --info-right | source /dev/stdin
 

@@ -12,6 +12,7 @@ in {
       config.flake.modules.homeManager.shell
       config.flake.modules.homeManager.tmux
       config.flake.modules.homeManager.editor
+      config.flake.modules.homeManager.ai-harness
       {
         assertions = [
           {
