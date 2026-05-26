@@ -32,7 +32,7 @@ danger_color="0xff992525"
 # variables
 #
 plugins="$HOME/.config/sketchybar/plugins"
-display_count="$(yabai -m query --displays | jq -r 'length')"
+display_count="$(aerospace list-monitors | wc -l | tr -d ' ')"
 
 ############## BAR ##############
 sketchybar --bar                   \
@@ -68,26 +68,26 @@ sketchybar                                         \
   --set web associated_display=1                   \
     associated_space=1                             \
     icon=                                         \
-    click_script="yabai -m space --focus browser"  \
+    click_script="aerospace workspace browser"      \
   --add space slack left                           \
   --set slack associated_display=1                 \
     associated_space=2                             \
     icon=                                         \
     icon.font="${brand_font}"                      \
     icon.padding_left 0                            \
-    click_script="yabai -m space --focus chat"     \
+    click_script="aerospace workspace chat"        \
   --add space mail left                            \
   --set mail associated_display=1                  \
     associated_space=3                             \
     icon=                                         \
     icon.padding_left 0                            \
-    click_script="yabai -m space --focus mail"     \
+    click_script="aerospace workspace mail"        \
   --add space messages left                        \
   --set messages associated_display=1              \
     associated_space=4                             \
     icon=                                         \
     icon.padding_left 0                            \
-    click_script="yabai -m space --focus messages"
+    click_script="aerospace workspace messages"
 
 sketchybar                                                \
   --add bracket primary_spaces_bracket                    \
@@ -117,7 +117,7 @@ if [ "${display_count}" = "2" ]; then
       associated_space=5                         \
       icon=􏢺                                     \
       icon.padding_left 0                        \
-      click_script="yabai -m space --focus flex"
+      click_script="aerospace workspace flex"
 fi
 
 sketchybar                                         \
@@ -126,13 +126,13 @@ sketchybar                                         \
     associated_space="${scratch_space}"            \
     icon=                                         \
     icon.padding_left 0                            \
-    click_script="yabai -m space --focus scratch"  \
+    click_script="aerospace workspace scratch"     \
   --add space terminal left                        \
   --set terminal associated_display=2              \
     associated_space="${terminal_space}"           \
     icon=                                         \
     icon.padding_left 0                            \
-    click_script="yabai -m space --focus terminal" \
+    click_script="aerospace workspace terminal"    \
 
 sketchybar                                                \
   --add bracket secondary_spaces_bracket                  \

@@ -55,7 +55,7 @@ do
                               background.drawing=off                     \
                               label.drawing=off                          \
                               script="$PLUGIN_DIR/space.sh"              \
-                              click_script="yabai -m space --focus $sid"
+                              click_script="aerospace workspace $sid"
 done
 
 ##### Adding Left Items #####

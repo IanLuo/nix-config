@@ -20,8 +20,7 @@ in {
         checks = {
           darwin-invariants = mkCheck "darwin-invariants" ''
             test "${darwinConfiguration.config.system.primaryUser}" = "ianluo"
-            test "${boolString darwinConfiguration.config.services.skhd.enable}" = "true"
-            test "${boolString darwinConfiguration.config.services.yabai.enable}" = "true"
+            test "${boolString darwinConfiguration.config.services.aerospace.enable}" = "true"
             test "${darwinConfiguration.config.home-manager.users.ianluo.home.stateVersion}" = "${config.repo.stateVersion}"
             test "${darwinConfiguration.config.home-manager.users.ianluo.home.sessionVariables.EDITOR}" = "vi"
             touch "$out"
