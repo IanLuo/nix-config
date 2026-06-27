@@ -18,7 +18,7 @@ Use this skill when creating, editing, or reviewing skills in this darwin config
    - `references/skill-writing.md` — format, frontmatter, description rules
    - `references/philosophy-patterns.md` — design patterns from mattpocock/skills, superpowers, gstack
    - `references/deployment-pipeline.md` — how skills reach agents
-3. **Check existing skills** — read skills already in `resources/ai/skills/` and `.opencode/skills/` before creating a new one. Compose, don't duplicate.
+3. **Check existing skills** — read skills already in `.opencode/skills/` before creating a new one. Compose, don't duplicate.
 
 ## Working rules
 
@@ -36,11 +36,9 @@ See `references/deployment-pipeline.md` for the full pipeline. Quick reference:
 
 | Type | Location | Deploys globally? |
 |------|----------|-------------------|
-| Deployable | `resources/ai/skills/<name>/` | Yes, via `./scripts/setup.sh` |
 | Project-local | `.opencode/skills/<name>/` | No, this repo only |
 
 ## After creating or editing a skill
 
 1. **Validate frontmatter** — `name` matches directory, `description` has trigger words, under 1024 chars
-2. **If deployable** — run `./scripts/setup.sh` and verify the skill appears in `~/.agents/skills/`
-3. **If project-local** — restart the opencode session and verify the skill appears in the available skills list
+2. **Restart the opencode session** and verify the skill appears in the available skills list

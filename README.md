@@ -20,15 +20,12 @@ A declarative personal environment for macOS, standalone Linux Home Manager, and
 │   ├── home-base.nix
 │   ├── system-packages.nix
 │   ├── cli.nix
-│   ├── ai-home.nix
 │   ├── shell.nix
 │   ├── editor.nix
 │   ├── system-foundation.nix
 │   ├── window-management.nix
 │   ├── remote-access.nix
 │   └── checks.nix
-├── resources/
-│   └── ai/
 ├── packages/
 ├── nixos/
 ├── programs/
@@ -37,26 +34,6 @@ A declarative personal environment for macOS, standalone Linux Home Manager, and
 ```
 
 `modules/` contains the flake-parts module tree. Each file defines one aspect and can contribute modules to `nixos`, `darwin`, or `homeManager` through `flake.modules.<class>.<aspect>`.
-
-## Shared AI Home
-
-Shared coding-agent skills and global instructions live under [resources/ai](/Users/ianluo/.config/darwin/resources/ai). The reusable Home Manager layer is [modules/ai-home.nix](/Users/ianluo/.config/darwin/modules/ai-home.nix).
-
-Enable it per home with:
-
-```nix
-programs.aiHome.enable = true;
-```
-
-Quick adapter toggles:
-
-```nix
-programs.aiHome.adapters.codex.enable = true;
-programs.aiHome.adapters.opencode.enable = true;
-programs.aiHome.adapters.claude.enable = false;
-```
-
-By default, shared skills and global instructions are enabled, Codex and OpenCode are enabled, and Claude is disabled.
 
 ## Flake Outputs
 

@@ -36,7 +36,6 @@ in {
         topConfig.flake.modules.homeManager.shell
         topConfig.flake.modules.homeManager.tmux
         topConfig.flake.modules.homeManager.editor
-        topConfig.flake.modules.homeManager.ai-harness
       ];
 
       home.username = user;

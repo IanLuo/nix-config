@@ -1,43 +1,24 @@
 # Deployment Pipeline
 
-How skills in this repo reach all AI agents on the machine.
+Skills in this repo are project-local only. Global deployment via Nix has been removed.
 
-## Source → Deploy Target
+## Where Skills Live
 
-```
-resources/ai/skills/<name>/SKILL.md    # source of truth (in this repo)
-        ↓  nix build
-/nix/store/xxx-ai-harness-skills/<name>/  # immutable store path
-        ↓  home.activation (darwin-rebuild)
-~/.agents/skills/<name>/                  # deployed (symlink from store)
-        ↓  per-agent symlinks
-~/.config/opencode/skills/<name>/         # opencode discovers these
-~/.codex/skills/<name>/                   # codex discovers these
-~/.claude/skills/<name>/                  # claude discovers these
-```
-
-## How It Works
-
-1. `modules/ai-harness.nix` copies `resources/ai/skills/` into a Nix derivation
-2. `home.activation.linkSharedSkills` runs on every `darwin-rebuild switch`
-3. The activation script:
-   - Removes stale symlinks (skills no longer in the derivation)
-   - Creates fresh symlinks from the Nix store into `~/.agents/skills/`
-   - Preserves non-symlink content (e.g., `.system/` managed by Codex)
+| Type | Location | Scope |
+|------|----------|-------|
+| Project-local | `.opencode/skills/<name>/` | This repo only |
 
 ## Adding a New Skill
 
-1. Create `resources/ai/skills/<name>/SKILL.md`
+1. Create `.opencode/skills/<name>/SKILL.md`
 2. Follow the skill-writing guide in `references/skill-writing.md`
-3. Run `./scripts/setup.sh` to deploy
-4. All agents discover it from `~/.agents/skills/`
+3. Restart the opencode session to pick it up
 
 ## Removing a Skill
 
-1. Delete `resources/ai/skills/<name>/`
-2. Run `./scripts/setup.sh`
-3. The activation script removes the stale symlink automatically
+1. Delete `.opencode/skills/<name>/`
+2. Restart the opencode session
 
-## Project-Local Skills
+## Previous Global Deployment (Removed)
 
-Skills in `.opencode/skills/` are project-local — only visible to opencode sessions in this repo. Not deployed globally. Use for project-specific tooling (like this skill-keeper).
+The previous `resources/ai/skills/` → Nix store → `~/.agents/skills/` pipeline was removed. All skills are now project-local under `.opencode/skills/`.
