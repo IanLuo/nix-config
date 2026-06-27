@@ -3,6 +3,7 @@ with pkgs;
 [
   gcc
   curl
+  gh
   wget
   tree
   direnv
