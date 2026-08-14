@@ -135,7 +135,7 @@ EOF
 test_build() {
     echo "🧪 Testing bleeding-edge packages build..."
     
-    if nix build ".#darwinConfigurations.${DARWIN_CONFIG_NAME}.config.system.build.toplevel" --show-trace; then
+    if nix build ".#homeConfigurations.${HOME_CONFIG_NAME:-ianluo}.activationPackage" --show-trace; then
         echo "✅ Build successful!"
     else
         echo "❌ Build failed. Check the error messages above."

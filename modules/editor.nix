@@ -15,6 +15,8 @@
         viAlias = true;
         vimAlias = true;
         vimdiffAlias = true;
+        withRuby = true;
+        withPython3 = true;
 
         plugins = with pkgs.vimPlugins; [
           vim-sensible

@@ -49,7 +49,7 @@ bleedingPackages = {
 ./scripts/bleeding-edge.sh test
 
 # Or manually:
-nix build .#darwinConfigurations.ianluo.system
+nix build .#homeConfigurations.ianluo.activationPackage
 ```
 
 ## Step 4: Apply Changes

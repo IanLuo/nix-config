@@ -60,8 +60,6 @@ keymap.set("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>", opts) -- show document
 keymap.set("n", "ci", "<cmd>Lspsaga incoming_calls<CR>", opts) -- show documentation for what is under cursor
 keymap.set("n", "co", "<cmd>Lspsaga outgoing_calls<CR>", opts) -- show documentation for what is under cursor
 
-keymap.set("n", "<leader>t", "<cmd>Lspsaga term_toggle<CR>", opts) -- show documentation for what is under cursor
-
 -- Lua
 keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
 keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end)
