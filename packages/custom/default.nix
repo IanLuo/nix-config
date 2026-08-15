@@ -1,7 +1,5 @@
 { pkgs, unstable-pkgs ? pkgs, definitions ? { } }:
-let
-  auth-helper = pkgs.callPackage ./auth-helper.nix { };
-  chat-tools = pkgs.callPackage ./chat-tools.nix { inherit auth-helper; };
-in {
-  inherit auth-helper chat-tools;
-}
+# No custom packages currently defined.
+# Re-add derivations here (e.g. pkgs.callPackage ./foo.nix { }) to include
+# them in home.packages via packages/default.nix.
+{ }
