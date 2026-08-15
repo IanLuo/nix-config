@@ -50,18 +50,14 @@ A declarative personal environment for macOS, standalone Linux Home Manager, and
 There are also compatibility wrappers:
 
 - `./scripts/rebuild.sh`
-- `./ianluo.switch.sh`
-- `./ian.linux.switch.sh`
-- `./install.sh`
 
 ## Update Workflow
 
 - `./scripts/update-all.sh` updates all flake inputs
-- `./scripts/update-stable.sh` updates `nixpkgs-stable`
-- `./scripts/update-unstable.sh` updates `nixpkgs`
-- `./scripts/package-status.sh` shows the current locked inputs and package grouping
-- `./scripts/bleeding-edge.sh` helps manage custom bleeding-edge packages
-- Custom package sources are pinned as dedicated flake inputs, so they can be updated independently with `nix flake lock --update-input <input-name>`
+- `./scripts/update-stable.sh` updates the `nixpkgs-stable` (25.05) input
+- `./scripts/update-unstable.sh` updates the `nixpkgs` (unstable) input
+- `./scripts/store.sh` manages the nix store (status/gc/optimise/disk-usage)
+- Apps update via Homebrew: `brew upgrade` (see `Brewfile`)
 
 ## Validation
 
