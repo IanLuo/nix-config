@@ -37,8 +37,19 @@ switch_home() {
   if command -v home-manager >/dev/null 2>&1; then
     home-manager switch --flake ".#$target"
   else
-    echo "home-manager not on PATH; running via nix run..."
-    nix run github:nix-community/home-manager -- switch --flake ".#$target"
+    # Install the home-manager CLI from the flake's PINNED input (no network
+    # fetch — avoids github TLS flakiness and version drift vs master).
+    local hm_src
+    hm_src="$(nix flake archive --json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["inputs"]["home-manager"]["path"])' 2>/dev/null || true)"
+    if [ -n "$hm_src" ]; then
+      echo "Installing pinned home-manager CLI ($hm_src)..."
+      nix profile install "$hm_src"
+      home-manager switch --flake ".#$target"
+    else
+      echo "home-manager unavailable. Install it manually:"
+      echo "  nix profile install github:nix-community/home-manager"
+      return 1
+    fi
   fi
 }
 
