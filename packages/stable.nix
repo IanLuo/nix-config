@@ -1,18 +1,12 @@
 { pkgs, lib, customPackages, ... }:
+# General CLI apps moved to the Brewfile (repo root). Only nix-integrated
+# tooling stays here.
 with pkgs;
 [
-  gcc
-  curl
-  gh
-  wget
-  tree
-  direnv
+  # nix-ecosystem tooling (must stay in nix)
   nix-direnv
   any-nix-shell
   manix
   nix-prefetch-git
-  uv
-  bun
-  graphviz
 ]
 # ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts)

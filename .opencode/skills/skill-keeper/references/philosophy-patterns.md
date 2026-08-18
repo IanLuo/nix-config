@@ -65,4 +65,4 @@ CLI-first skill system. Each skill is a subcommand (`/qa`, `/ship`, `/review`, e
 2. **Description is king** — agents discover skills by description alone
 3. **References for depth** — keep SKILL.md under 100 lines, push details to references/
 4. **Portable tool references** — no agent-specific tool names
-5. **Deployed globally** — skills in this repo ship to all agents via nix-darwin
+5. **Deployed globally** — skills in this repo ship to all agents via home-manager (see modules/hosts/ianluo.nix)

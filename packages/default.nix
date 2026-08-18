@@ -17,16 +17,11 @@ let
   darwinPackages = import ./darwin.nix {
     inherit pkgs unstable-pkgs;
   };
-
-  bleedingEdge = import ../programs/bleeding-edge {
-    inherit pkgs lib system;
-  };
 in {
   packages =
     stablePackages
     ++ unstablePackages
     ++ lib.optionals stdenv.isDarwin darwinPackages
-    ++ bleedingEdge.packages
     ++ lib.attrValues customPackages;
 
   inherit stablePackages unstablePackages darwinPackages customPackages;

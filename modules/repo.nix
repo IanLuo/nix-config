@@ -15,6 +15,13 @@ in {
     default = { };
   };
 
+  # Allow multiple host files to each define a homeConfiguration.
+  # raw (not anything): values stay lazy — anything's merge forces configs.
+  options.flake.homeConfigurations = lib.mkOption {
+    type = lib.types.lazyAttrsOf lib.types.raw;
+    default = { };
+  };
+
   config.repo = rec {
     stateVersion = "25.05";
 

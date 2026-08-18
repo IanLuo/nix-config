@@ -31,6 +31,7 @@ keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>") -- list all git 
 keymap.set("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>") -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
 keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>") -- list git branches (use <cr> to checkout) ["gb" for git branch]
 keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list available help tags
+keymap.set("n", "<leader>gg", "<cmd>Neogit<CR>") -- open Neogit (full git UI)
 
 -- restart lsp server (not on youtube nvim video)
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
@@ -59,8 +60,6 @@ keymap.set("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>", opts) -- show document
 
 keymap.set("n", "ci", "<cmd>Lspsaga incoming_calls<CR>", opts) -- show documentation for what is under cursor
 keymap.set("n", "co", "<cmd>Lspsaga outgoing_calls<CR>", opts) -- show documentation for what is under cursor
-
-keymap.set("n", "<leader>t", "<cmd>Lspsaga term_toggle<CR>", opts) -- show documentation for what is under cursor
 
 -- Lua
 keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)

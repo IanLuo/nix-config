@@ -5,6 +5,8 @@ let
   user = "ian";
 in {
   flake.modules.nixos.nixos-vm-base = { config, pkgs, ... }: {
+    nixpkgs.config.allowUnfree = true;
+
     assertions = [
       {
         assertion = user != "";

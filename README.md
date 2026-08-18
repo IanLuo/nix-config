@@ -4,7 +4,7 @@ A declarative personal environment for macOS, standalone Linux Home Manager, and
 
 ## Key Features
 
-- Cross-platform: supports `nix-darwin`, standalone Home Manager on Linux, and NixOS
+- Cross-platform: standalone Home Manager on macOS and Linux, plus NixOS
 - Feature-centric: Nix modules are organized by aspect, not by platform directory
 - Auto-loaded: `flake-parts` and `import-tree` load the aspect tree from `modules/`
 - Verified: `nix flake check --all-systems` covers config invariants and a NixOS VM smoke test
@@ -33,35 +33,31 @@ A declarative personal environment for macOS, standalone Linux Home Manager, and
 └── scripts/
 ```
 
-`modules/` contains the flake-parts module tree. Each file defines one aspect and can contribute modules to `nixos`, `darwin`, or `homeManager` through `flake.modules.<class>.<aspect>`.
+`modules/` contains the flake-parts module tree. Each file defines one aspect and can contribute modules to `nixos` or `homeManager` through `flake.modules.<class>.<aspect>`.
 
 ## Flake Outputs
 
-- `darwinConfigurations.ianluo`
+- `homeConfigurations.ianluo`
 - `homeConfigurations.ian-linux-dev`
 - `nixosConfigurations.nixos-vm`
 
 ## Installation And Apply
 
-- macOS: `./scripts/setup.sh` or `DARWIN_CONFIG_NAME=ianluo ./scripts/setup.sh`
+- macOS: `./scripts/setup.sh` (home-manager switch + `brew bundle`)
 - standalone Linux Home Manager: `HOME_CONFIG_NAME=ian-linux-dev ./scripts/setup.sh`
 - NixOS: `sudo NIXOS_CONFIG_NAME=nixos-vm ./scripts/setup.sh`
 
 There are also compatibility wrappers:
 
 - `./scripts/rebuild.sh`
-- `./ianluo.switch.sh`
-- `./ian.linux.switch.sh`
-- `./install.sh`
 
 ## Update Workflow
 
 - `./scripts/update-all.sh` updates all flake inputs
-- `./scripts/update-stable.sh` updates `nixpkgs-stable`
-- `./scripts/update-unstable.sh` updates `nixpkgs`
-- `./scripts/package-status.sh` shows the current locked inputs and package grouping
-- `./scripts/bleeding-edge.sh` helps manage custom bleeding-edge packages
-- Custom package sources are pinned as dedicated flake inputs, so they can be updated independently with `nix flake lock --update-input <input-name>`
+- `./scripts/update-stable.sh` updates the `nixpkgs-stable` (25.05) input
+- `./scripts/update-unstable.sh` updates the `nixpkgs` (unstable) input
+- `./scripts/store.sh` manages the nix store (status/gc/optimise/disk-usage)
+- Apps update via Homebrew: `brew upgrade` (see `Brewfile`)
 
 ## Validation
 

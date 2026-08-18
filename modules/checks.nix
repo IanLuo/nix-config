@@ -4,7 +4,7 @@ let
 in {
   perSystem = { pkgs, system, ... }:
     let
-      darwinConfiguration = config.flake.darwinConfigurations.ianluo;
+      darwinHomeConfiguration = config.flake.homeConfigurations.ianluo;
       linuxHomeConfiguration = config.flake.homeConfigurations.ian-linux-dev;
       nixosConfiguration = config.flake.nixosConfigurations.nixos-vm;
 
@@ -19,10 +19,12 @@ in {
       (lib.optionalAttrs (system == "aarch64-darwin") {
         checks = {
           darwin-invariants = mkCheck "darwin-invariants" ''
-            test "${darwinConfiguration.config.system.primaryUser}" = "ianluo"
-            test "${boolString darwinConfiguration.config.services.aerospace.enable}" = "true"
-            test "${darwinConfiguration.config.home-manager.users.ianluo.home.stateVersion}" = "${config.repo.stateVersion}"
-            test "${darwinConfiguration.config.home-manager.users.ianluo.home.sessionVariables.EDITOR}" = "vi"
+            test "${darwinHomeConfiguration.config.home.username}" = "ianluo"
+            test "${darwinHomeConfiguration.config.home.homeDirectory}" = "/Users/ianluo"
+            test "${darwinHomeConfiguration.config.home.stateVersion}" = "${config.repo.stateVersion}"
+            test "${darwinHomeConfiguration.config.home.sessionVariables.EDITOR}" = "vi"
+            test "${boolString darwinHomeConfiguration.config.launchd.agents.nix-gc.enable}" = "true"
+            test "${boolString (darwinHomeConfiguration.config.xdg.configFile."aerospace/aerospace.toml".text != "")}" = "true"
             touch "$out"
           '';
 

@@ -6,11 +6,11 @@ This is a **configuration repo**, not an application repo. Changes are module wi
 
 This repo also maintains a **portable AI harness toolset** — skills, instructions, and CLI tools for AI agents.
 These are managed here (single source of truth) and deployed globally to the user's home directory on every
-`darwin-rebuild`, making them available to all AI agents on the machine.
+`home-manager switch`, making them available to all AI agents on the machine.
 
 - Source: maintained in this repo
 - Deploy target: user home directory (agent-accessible path)
-- Activation: triggered by `./scripts/setup.sh` / `darwin-rebuild switch`
+- Activation: triggered by `./scripts/setup.sh` (`home-manager switch` + `brew bundle`)
 - Consumers: OpenCode, Claude, Codex, and any agent that scans the deploy path
 
 ## Architecture
@@ -72,3 +72,44 @@ Darwin can evaluate and build locally. Linux/NixOS targets evaluate on Darwin bu
 5. **Ask one question at a time.** Don't dump multiple questions at once — resolve each uncertainty sequentially until the task is fully understood.
 6. **Never guess user intent.** If an instruction could be interpreted multiple ways, stop and ask.
 7. **Confirm before modifying.** Before changing any file in this repo, confirm your understanding of the task is correct. Don't assume — state what you're about to do and why.
+
+## Deeper docs
+
+| When you need… | Read… | task |
+|---|---|---|
+| product intent, scope, acceptance criteria for herdr prefix change | `docs/prd/herdr-prefix.md` | 3d1c640 |
+
+---
+
+## State-tracking protocol
+
+Current state is tracked in **`CURSOR.md`** at the repo root. Read it before every
+session. It carries forward-looking state git can't express. git history IS the
+work-history record. Rewrite `CURSOR.md` in-place at the end of every session.
+Never append — append is rot. Hard cap: ≤40 lines / ≤2000 characters.
+Every file path in it must exist at write time.
+
+### Inclusion gate — record X iff:
+(a) X is NOT recoverable by running one command against an artifact (git/code/CI), AND
+(b) a fresh agent would plausibly get WRONG without it.
+
+### Cursor fields
+
+| Field | Content |
+|---|---|
+| synced | `<!-- synced: <git sha> -->` — staleness oracle (compare to `git rev-parse HEAD`) |
+| Goal | stable hex id (12 chars), written once by `create-goal` on a fresh cursor — the Deeper-docs table tags rows to this id |
+| Position | current step + next action, merged into one field |
+| Blockers | what's stuck + why — to avoid re-hitting the wall |
+| Open issues | unresolved questions / assumptions / pending decisions |
+| Health | 🟢 green or 🔴 broken + known-broken items |
+| Verification | claimed-done vs verified-done, with evidence (test/command @ sha) |
+| Errors-that-changed-plan | only failures that redirected the work, not transient retries |
+| Decisions | one present-tense line per resolved invariant, not a deliberation timeline |
+| Active pointers | file paths → verified to exist at write time |
+
+### Rules
+- **Rewrite in-place, never append.** A cursor that only grows is a bug.
+- **Pointers over contents.** Where state lives in an artifact, store the *command* or *path*, not the output. Can't drift; costs less.
+- **Every path must exist at write time.**
+- **Decisions collapse to one present-tense line.** Not a timeline.
