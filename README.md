@@ -54,8 +54,7 @@ There are also compatibility wrappers:
 ## Update Workflow
 
 - `./scripts/update-all.sh` updates all flake inputs
-- `./scripts/update-stable.sh` updates the `nixpkgs-stable` (25.05) input
-- `./scripts/update-unstable.sh` updates the `nixpkgs` (unstable) input
+- `./scripts/update-nixpkgs.sh` updates the `nixpkgs` (unstable) input
 - `./scripts/store.sh` manages the nix store (status/gc/optimise/disk-usage)
 - Apps update via Homebrew: `brew upgrade` (see `Brewfile`)
 
