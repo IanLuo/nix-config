@@ -43,7 +43,7 @@ A declarative personal environment for macOS, standalone Linux Home Manager, and
 
 ## Installation And Apply
 
-- macOS: `./scripts/setup.sh` (home-manager switch + `brew bundle`)
+- macOS: `./scripts/setup.sh` (home-manager switch)
 - standalone Linux Home Manager: `HOME_CONFIG_NAME=ian-linux-dev ./scripts/setup.sh`
 - NixOS: `sudo NIXOS_CONFIG_NAME=nixos-vm ./scripts/setup.sh`
 
@@ -56,7 +56,8 @@ There are also compatibility wrappers:
 - `./scripts/update-all.sh` updates all flake inputs
 - `./scripts/update-nixpkgs.sh` updates the `nixpkgs` (unstable) input
 - `./scripts/store.sh` manages the nix store (status/gc/optimise/disk-usage)
-- Apps update via Homebrew: `brew upgrade` (see `Brewfile`)
+- `./scripts/update-stable.sh` updates the `nixpkgs-stable` (25.05) input
+- `./scripts/update-nixpkgs.sh` updates the `nixpkgs` (unstable) input
 
 ## Validation
 

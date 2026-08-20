@@ -22,18 +22,6 @@ apply_nix_conf() {
   fi
 }
 
-apply_brew() {
-  # Apps layer (pi, claude-code, herdr, aerospace, CLI tools)
-  if command -v brew >/dev/null 2>&1; then
-    brew bundle --file "$FLAKE_DIR/Brewfile"
-  else
-    echo "Homebrew not found — installing (one-time, may prompt for sudo)..."
-    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
-    brew bundle --file "$FLAKE_DIR/Brewfile"
-  fi
-}
-
 switch_home() {
   local target="$1"
   if command -v home-manager >/dev/null 2>&1; then
@@ -66,7 +54,6 @@ elif [ "$(uname)" = "Darwin" ]; then
 
   apply_nix_conf
   switch_home "$TARGET"
-  apply_brew
 
 else
   TARGET="${HOME_CONFIG_NAME:-ian-linux-dev}"

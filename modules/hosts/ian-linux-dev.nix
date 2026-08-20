@@ -7,7 +7,8 @@ in {
     pkgs = config.repo.mkPkgs system;
     modules = [
       config.flake.modules.homeManager.base
-      config.flake.modules.homeManager.system-packages
+      config.flake.modules.homeManager.stable-packages
+        config.flake.modules.homeManager.unstable-packages
       config.flake.modules.homeManager.cli
       config.flake.modules.homeManager.shell
       config.flake.modules.homeManager.tmux

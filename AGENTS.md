@@ -10,7 +10,7 @@ These are managed here (single source of truth) and deployed globally to the use
 
 - Source: maintained in this repo
 - Deploy target: user home directory (agent-accessible path)
-- Activation: triggered by `./scripts/setup.sh` (`home-manager switch` + `brew bundle`)
+- Activation: triggered by `./scripts/setup.sh` (`home-manager switch`)
 - Consumers: OpenCode, Claude, Codex, and any agent that scans the deploy path
 
 ## Architecture
@@ -28,9 +28,8 @@ flake.nix
 modules/
   repo.nix          checks.nix
   hosts/            ianluo.nix (darwin), ian-linux-dev.nix (linux HM), nixos-vm.nix
-  system-packages.nix  home-base.nix  cli.nix  shell.nix  tmux.nix  editor.nix
-  system-foundation.nix  window-management.nix
-Brewfile              # apps manifest (pi, claude-code, herdr, aerospace, CLI tools)
+  stable-packages.nix  unstable-packages.nix  home-base.nix  cli.nix  shell.nix
+  tmux.nix  editor.nix  system-foundation.nix  window-management.nix
 scripts/
   setup.sh
 resources/
@@ -52,7 +51,7 @@ Darwin can evaluate and build locally. Linux/NixOS targets evaluate on Darwin bu
 
 - Use `pkgs.stdenv.hostPlatform.system`, not deprecated `pkgs.system`.
 - `nixpkgs` is the default source. Use `pkgs.<name>` whenever possible.
-- Nix packages live in `modules/system-packages.nix` (one list). Apps live in the Brewfile.
+- Packages split by channel: `modules/stable-packages.nix` (nixpkgs 25.05) and `modules/unstable-packages.nix` (fast-moving apps + nix tooling).
 - Host files: declare flake outputs, compose modules. No feature logic.
 - Use assertions for invariants that should fail early.
 
