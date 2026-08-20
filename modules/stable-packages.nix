@@ -4,7 +4,7 @@
 {
   flake.modules.homeManager.stable-packages = { pkgs, lib, ... }:
     let
-      stablePkgs = import inputs.nixpkgs-stable {
+      stablePkgs = import inputs.nixpkgs {
         system = pkgs.stdenv.hostPlatform.system;
         config.allowUnfree = true;
       };

@@ -2,7 +2,7 @@
 {
   flake.modules.homeManager.tmux = { pkgs, ... }: {
     programs.tmux = {
-      enable = true;
+      enable = false;
       newSession = true;
       escapeTime = 0;
       plugins = with pkgs; [

@@ -21,6 +21,7 @@ in {
   config.repo = rec {
     stateVersion = "25.05";
 
-    mkPkgs = mkPkgsFrom inputs.nixpkgs;
+    mkPkgs = mkPkgsFrom inputs.nixpkgs-unstable; # base/home pkgs
+    mkStablePkgs = mkPkgsFrom inputs.nixpkgs;    # 25.05 release
   };
 }

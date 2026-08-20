@@ -67,7 +67,7 @@ in {
     ];
   };
 
-  flake.nixosConfigurations.nixos-vm = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.nixos-vm = inputs.nixpkgs-unstable.lib.nixosSystem {
     inherit system;
     modules = [
       topConfig.flake.modules.nixos.nixos-vm
