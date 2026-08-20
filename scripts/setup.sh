@@ -27,8 +27,10 @@ apply_brew() {
   if command -v brew >/dev/null 2>&1; then
     brew bundle --file "$FLAKE_DIR/Brewfile"
   else
-    echo "Homebrew not installed. Install first:"
-    echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+    echo "Homebrew not found — installing (one-time, may prompt for sudo)..."
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
+    brew bundle --file "$FLAKE_DIR/Brewfile"
   fi
 }
 
