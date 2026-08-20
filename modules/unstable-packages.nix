@@ -20,7 +20,6 @@
         nix-index
         nix-tree
         nix-du
-      ]
-      ++ lib.optionals pkgs.stdenv.isDarwin [ aerospace ];
+      ];
   };
 }
