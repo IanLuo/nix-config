@@ -16,6 +16,7 @@ in {
       config.flake.modules.homeManager.editor
       config.flake.modules.homeManager.aerospace
       config.flake.modules.homeManager.nix-gc
+      config.flake.modules.homeManager.macos-defaults
       {
         assertions = [
           {

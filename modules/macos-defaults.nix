@@ -1,0 +1,16 @@
+{ ... }:
+# macOS system defaults applied via home-manager activation (darwin only —
+# imported by the ianluo host). These are user-level `defaults` tweaks that
+# fix fresh-machine annoyances.
+{
+  flake.modules.homeManager.macos-defaults = { lib, ... }: {
+    home.activation.restoreKeyRepeat = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      # Restore held-key repeat: disable the accent-picker (press-and-hold)
+      # that breaks h/j/k/l repeat in vim. Restart the terminal to apply.
+      /usr/bin/defaults write -g ApplePressAndHoldEnabled -bool false
+      # Snappier repeat (System Settings → Keyboard equivalents)
+      /usr/bin/defaults write -g KeyRepeat -int 2
+      /usr/bin/defaults write -g InitialKeyRepeat -int 25
+    '';
+  };
+}
