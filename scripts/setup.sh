@@ -33,7 +33,7 @@ switch_home() {
     hm_src="$(nix flake archive --json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["inputs"]["home-manager"]["path"])' 2>/dev/null || true)"
     if [ -n "$hm_src" ]; then
       echo "Installing pinned home-manager CLI ($hm_src)..."
-      nix profile install "$hm_src#home-manager"
+      nix profile add "$hm_src#home-manager"
       home-manager switch --flake ".#$target"
     else
       echo "home-manager unavailable. Install it manually:"
