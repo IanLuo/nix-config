@@ -23,6 +23,6 @@
           podman
           nnn
         ]
-        ++ lib.optionals pkgs.stdenv.isDarwin [ m-cli ];
+        ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ m-cli ];
     };
 }
