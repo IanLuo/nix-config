@@ -22,16 +22,6 @@ apply_nix_conf() {
   fi
 }
 
-apply_brew() {
-  # Apps layer (pi, claude-code, herdr, aerospace, CLI tools)
-  if command -v brew >/dev/null 2>&1; then
-    brew bundle --file "$FLAKE_DIR/Brewfile"
-  else
-    echo "Homebrew not installed. Install first:"
-    echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-  fi
-}
-
 switch_home() {
   local target="$1"
   if command -v home-manager >/dev/null 2>&1; then
@@ -43,11 +33,11 @@ switch_home() {
     hm_src="$(nix flake archive --json 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["inputs"]["home-manager"]["path"])' 2>/dev/null || true)"
     if [ -n "$hm_src" ]; then
       echo "Installing pinned home-manager CLI ($hm_src)..."
-      nix profile install "$hm_src#home-manager"
+      nix profile add "$hm_src#home-manager"
       home-manager switch --flake ".#$target"
     else
       echo "home-manager unavailable. Install it manually:"
-      echo "  nix profile install github:nix-community/home-manager"
+      echo "  nix profile add github:nix-community/home-manager"
       return 1
     fi
   fi
@@ -64,7 +54,6 @@ elif [ "$(uname)" = "Darwin" ]; then
 
   apply_nix_conf
   switch_home "$TARGET"
-  apply_brew
 
 else
   TARGET="${HOME_CONFIG_NAME:-ian-linux-dev}"

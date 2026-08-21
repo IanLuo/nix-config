@@ -5,11 +5,8 @@ let
       inherit system;
       config.allowUnfree = true;
     };
-
-  customPackageDefinitions = {
-
-  };
 in {
+  # Shared repo-level values (read via config.repo.* from modules/hosts).
   options.repo = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
     default = { };
@@ -25,20 +22,8 @@ in {
   config.repo = rec {
     stateVersion = "25.05";
 
-    mkPkgs = mkPkgsFrom inputs.nixpkgs;
-    mkStablePkgs = mkPkgsFrom inputs.nixpkgs-stable;
-    mkUnstablePkgs = mkPkgs;
-
-    inherit customPackageDefinitions;
-
-
-    mkSystemPackages = system:
-      let
-        pkgs = mkStablePkgs system;
-        unstable-pkgs = mkUnstablePkgs system;
-      in
-      pkgs.callPackage ../packages/default.nix {
-        inherit pkgs unstable-pkgs system customPackageDefinitions;
-      };
+    # Base/home pkgs (nixpkgs-unstable). stable-packages.nix imports the
+    # nixpkgs (25.05) input directly — no helper needed for it.
+    mkPkgs = mkPkgsFrom inputs.nixpkgs-unstable;
   };
 }

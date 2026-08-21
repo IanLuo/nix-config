@@ -45,7 +45,9 @@ in {
     home-manager.users.${user} = {
       imports = [
         topConfig.flake.modules.homeManager.base
-        topConfig.flake.modules.homeManager.system-packages
+        topConfig.flake.modules.homeManager.stable-packages
+        topConfig.flake.modules.homeManager.unstable-packages
+        topConfig.flake.modules.homeManager.herdr
         topConfig.flake.modules.homeManager.cli
         topConfig.flake.modules.homeManager.shell
         topConfig.flake.modules.homeManager.tmux
@@ -65,7 +67,7 @@ in {
     ];
   };
 
-  flake.nixosConfigurations.nixos-vm = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.nixos-vm = inputs.nixpkgs-unstable.lib.nixosSystem {
     inherit system;
     modules = [
       topConfig.flake.modules.nixos.nixos-vm

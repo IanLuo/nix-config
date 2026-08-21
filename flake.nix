@@ -3,13 +3,13 @@
 
   inputs = {
     # ─── Infrastructure ─────────────────────────────────────────────────────────
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05"; # stable
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
 
     home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # ─── Apps are managed by Homebrew (Brewfile at repo root) ──────────────────
     # pi, claude-code, herdr, aerospace, and general CLI apps live in Brewfile.
