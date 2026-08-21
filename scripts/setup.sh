@@ -37,7 +37,7 @@ switch_home() {
       home-manager switch --flake ".#$target"
     else
       echo "home-manager unavailable. Install it manually:"
-      echo "  nix profile install github:nix-community/home-manager"
+      echo "  nix profile add github:nix-community/home-manager"
       return 1
     fi
   fi
