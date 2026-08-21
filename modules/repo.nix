@@ -6,6 +6,7 @@ let
       config.allowUnfree = true;
     };
 in {
+  # Shared repo-level values (read via config.repo.* from modules/hosts).
   options.repo = lib.mkOption {
     type = lib.types.attrsOf lib.types.unspecified;
     default = { };
@@ -21,7 +22,8 @@ in {
   config.repo = rec {
     stateVersion = "25.05";
 
-    mkPkgs = mkPkgsFrom inputs.nixpkgs-unstable; # base/home pkgs
-    mkStablePkgs = mkPkgsFrom inputs.nixpkgs;    # 25.05 release
+    # Base/home pkgs (nixpkgs-unstable). stable-packages.nix imports the
+    # nixpkgs (25.05) input directly — no helper needed for it.
+    mkPkgs = mkPkgsFrom inputs.nixpkgs-unstable;
   };
 }

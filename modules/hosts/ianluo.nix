@@ -8,7 +8,7 @@ in {
     modules = [
       config.flake.modules.homeManager.base
       config.flake.modules.homeManager.stable-packages
-        config.flake.modules.homeManager.unstable-packages
+      config.flake.modules.homeManager.unstable-packages
       config.flake.modules.homeManager.herdr
       config.flake.modules.homeManager.cli
       config.flake.modules.homeManager.shell
