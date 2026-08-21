@@ -7,6 +7,9 @@
       toml = pkgs.formats.toml { };
     in {
       xdg.configFile."herdr/config.toml" = {
+        # force: file pre-existed as an unmanaged regular file (herdr's own
+        # first-run config); home-manager now owns it.
+        force = true;
         source = toml.generate "herdr-config" {
           onboarding = false;
 
