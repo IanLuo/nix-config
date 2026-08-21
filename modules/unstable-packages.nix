@@ -8,7 +8,7 @@
         pi-coding-agent
         herdr
         claude-code
-        gemini-cli
+        antigravity-cli # gemini-cli → antigravity (gemini deprecated upstream)
         uv
         bun
         # nix-ecosystem tooling
