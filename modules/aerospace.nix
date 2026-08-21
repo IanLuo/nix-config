@@ -10,6 +10,12 @@
       launchd.enable = true;    # home-manager owns the launchd agent
 
       settings = {
+        # config-version 2 (aerospace 0.2x): persistent-workspaces must be
+        # explicit — v1 inferred it from bindings (all 10 here), v2 default
+        # is empty. Declared explicitly to preserve behavior.
+        "config-version" = 2;
+        persistent-workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ];
+
         gaps = {
           outer = {
             left = 8;
