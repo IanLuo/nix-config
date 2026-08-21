@@ -3,6 +3,8 @@
 # Fast-moving apps live in unstable-packages.nix; config in the other modules.
 {
   flake.modules.homeManager.stable-packages = { pkgs, lib, ... }:
+    # pkgs = homeConfiguration pkgs (nixpkgs-unstable) — used only for system.
+    # stablePkgs = the nixpkgs 25.05 input, imported directly below.
     let
       stablePkgs = import inputs.nixpkgs {
         system = pkgs.stdenv.hostPlatform.system;
