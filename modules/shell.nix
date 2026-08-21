@@ -1,8 +1,10 @@
 { ... }:
 {
-  flake.modules.homeManager.shell = { pkgs, lib, ... }: {
+  flake.modules.homeManager.shell = { pkgs, lib, config, ... }: {
     programs.zsh = {
       enable = true;
+      # Future default: zsh configs in XDG dir (~/.config/zsh).
+      dotDir = "${config.xdg.configHome}/zsh";
       autosuggestion.enable = true;
       oh-my-zsh = {
         enable = true;
