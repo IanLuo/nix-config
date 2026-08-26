@@ -15,7 +15,12 @@
       };
 
       initContent = ''
-        export TERM=screen-256color
+        # TERM: force screen-256color only inside tmux/screen (tmux sets its own
+        # default-terminal). Leave other terminals (herdr panes, iTerm, ...) with
+        # their correct TERM — a fake screen-* terminfo breaks TUI apps in herdr.
+        if [[ -n "$TMUX" || "$TERM" == screen* ]]; then
+          export TERM=screen-256color
+        fi
         export PATH="$HOME/.local/bin:$PATH"
 
         any-nix-shell zsh --info-right | source /dev/stdin

@@ -8,11 +8,12 @@
       system = pkgs.stdenv.hostPlatform.system;
       agents = inputs.llm-agents.packages.${system};
     in {
-      home.packages = [
-        agents.pi
-        agents.herdr
-        agents.claude-code
-        agents.antigravity-cli
+      home.packages = with agents; [
+        pi
+        herdr
+        claude-code
+        antigravity-cli
+        ax
       ];
     };
 }
