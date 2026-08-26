@@ -11,9 +11,16 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    # ─── Apps are managed by Homebrew (Brewfile at repo root) ──────────────────
-    # pi, claude-code, herdr, aerospace, and general CLI apps live in Brewfile.
-    # Nix handles home config (zsh/tmux/editor) + nix-integrated tooling only.
+    # LLM agent CLIs (daily-updated packages + prebuilt binaries).
+    # No follows: llm-agents pins its own nixpkgs-unstable (CI-tested combo +
+    # Numtide binary cache). See modules/llm-agents-packages.nix.
+    llm-agents.url = "github:numtide/llm-agents.nix";
+  };
+
+  # Numtide binary cache for llm-agents packages (from their README).
+  nixConfig = {
+    extra-substituters = [ "https://cache.numtide.com" ];
+    extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
   };
 
   outputs = inputs:

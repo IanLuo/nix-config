@@ -25,7 +25,7 @@
           };
 
           theme = {
-            name = "terminal";
+            name = "vesper";
             auto_switch = false;
           };
         };

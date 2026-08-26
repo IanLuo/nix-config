@@ -1,19 +1,18 @@
-{ ... }:
-# LLM agent CLIs — curated separately so this group is managed as its own
-# list (fast-moving; update via nixpkgs-unstable or per-app inputs later).
-# Same source as unstable-packages: the homeConfiguration pkgs (nixpkgs-unstable).
+{ inputs, ... }:
+# LLM agent CLIs — curated list, sourced from numtide/llm-agents.nix
+# (daily-updated packages, prebuilt binaries on cache.numtide.com).
+# No nixpkgs follows: we get their CI-tested combo + binary cache.
 {
   flake.modules.homeManager.llm-agents-packages = { pkgs, lib, ... }:
-    # pkgs = homeConfiguration pkgs = nixpkgs-unstable (repo.nix mkPkgs)
     let
-      unstablePkgs = pkgs;
+      system = pkgs.stdenv.hostPlatform.system;
+      agents = inputs.llm-agents.packages.${system};
     in {
-      home.packages =
-        with unstablePkgs; [
-          pi-coding-agent
-          herdr
-          claude-code
-          antigravity-cli # gemini-cli → antigravity (gemini deprecated upstream)
-        ];
+      home.packages = [
+        agents.pi
+        agents.herdr
+        agents.claude-code
+        agents.antigravity-cli
+      ];
     };
 }
