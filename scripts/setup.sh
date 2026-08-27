@@ -10,18 +10,6 @@ export PATH="/nix/var/nix/profiles/default/bin:$PATH"
 
 echo "Applying Nix configuration..."
 
-apply_nix_conf() {
-  # macOS nix daemon settings (from ./nix.conf). Needs sudo; non-fatal if skipped.
-  if [ -f "$FLAKE_DIR/nix.conf" ]; then
-    if sudo -n mkdir -p /etc/nix 2>/dev/null && sudo -n cp "$FLAKE_DIR/nix.conf" /etc/nix/nix.conf 2>/dev/null; then
-      echo "nix.conf applied to /etc/nix/nix.conf"
-    else
-      echo "nix.conf: skipped (needs sudo). Apply manually:"
-      echo "  sudo cp nix.conf /etc/nix/nix.conf"
-    fi
-  fi
-}
-
 switch_home() {
   local target="$1"
   if command -v home-manager >/dev/null 2>&1; then
@@ -52,7 +40,6 @@ elif [ "$(uname)" = "Darwin" ]; then
   TARGET="${HOME_CONFIG_NAME:-ianluo}"
   echo "Detected macOS. Switching Home Manager target: $TARGET"
 
-  apply_nix_conf
   switch_home "$TARGET"
 
 else
