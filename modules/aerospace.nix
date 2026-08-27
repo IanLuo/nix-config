@@ -17,11 +17,15 @@
         persistent-workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ];
 
         gaps = {
+          inner = {
+            horizontal = 4;
+            vertical = 4;
+          };
           outer = {
-            left = 8;
-            bottom = 8;
-            top = 8;
-            right = 8;
+            left = 4;
+            bottom = 4;
+            top = 4;
+            right = 4;
           };
         };
 
