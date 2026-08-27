@@ -34,7 +34,6 @@
           legendary-nvim
           dressing-nvim
           bufferline-nvim
-          vim-smoothie
           numb-nvim
           leap-nvim
           rainbow-delimiters-nvim

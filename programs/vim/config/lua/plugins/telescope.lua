@@ -27,6 +27,11 @@ telescope.setup({
 				["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist, -- send selected to quickfixlist
 			},
 		},
+		-- bigger floating window (default horizontal layout is 0.8 x 0.9)
+		layout_config = {
+			width = 0.9,
+			height = 0.95,
+		},
 	},
 })
 

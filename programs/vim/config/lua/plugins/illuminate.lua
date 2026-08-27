@@ -5,5 +5,6 @@ end
 
 illuminate.configure({
 	providers = { "lsp", "regex" },
-	filetypes_denylist = { "NvimTree", "alpha", "dirbuf", "dirvish", "fugitive" },
+	-- Telescope buffers: don't run LSP/regex reference highlighting in the picker
+	filetypes_denylist = { "NvimTree", "alpha", "dirbuf", "dirvish", "fugitive", "TelescopePrompt", "TelescopeResults" },
 })
