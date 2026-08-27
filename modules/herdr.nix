@@ -17,6 +17,11 @@
             # PRD: herdr-prefix (ctrl+a) — one-handed prefix
             prefix = "ctrl+a";
             last_pane = "prefix+;";
+            previous_workspace = "prefix+shift+p";
+            next_workspace = "prefix+shift+n";
+
+            previous_tab = "prefix+p";
+            next_tab = "prefix+n";
           };
 
           ui = {
