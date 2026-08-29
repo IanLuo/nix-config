@@ -24,6 +24,7 @@
           fd
           podman
           nnn
+          mosh
         ]
         ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ m-cli ];
     };

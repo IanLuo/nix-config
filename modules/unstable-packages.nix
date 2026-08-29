@@ -11,6 +11,10 @@
         with unstablePkgs; [
           uv
           bun
+          # terminal emulators
+          kitty
+          alacritty
+          # ghostty: nixpkgs is Linux-only — not installable on macOS
           # nix-ecosystem tooling
           nix-direnv
           any-nix-shell
