@@ -22,6 +22,15 @@
           ui = {
             show_agent_labels_on_pane_borders = true;
             toast.delivery = "herdr";
+            # Show each agent's current context (terminal title) beside its name
+            # in the sidebar's expanded agent rows.
+            sidebar.agents = {
+              row_gap = 0;
+              rows = [
+                [ "state_icon" "workspace" "tab" ]
+                [ "agent" "terminal_title_stripped" ]
+              ];
+            };
           };
 
           theme = {
