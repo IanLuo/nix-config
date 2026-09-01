@@ -28,7 +28,8 @@
               row_gap = 0;
               rows = [
                 [ "state_icon" "workspace" "tab" ]
-                [ "agent" "terminal_title_stripped" ]
+                [ "agent" ]
+                [ "terminal_title_stripped" ]
               ];
             };
           };
