@@ -13,7 +13,7 @@ opt.smartindent = true
 -- opt.autoindent = true
 
 -- line wrapping
-opt.wrap = false
+opt.wrap = true
 
 -- search
 opt.ignorecase = true
