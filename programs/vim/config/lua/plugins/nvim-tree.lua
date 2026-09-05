@@ -13,6 +13,12 @@ vim.cmd([[ highlight NvimTreeIndentMarker guifg=#3FC5FF ]])
 
 -- configure nvim-tree
 nvimtree.setup({
+	-- fit the panel to the widest file name so names aren't truncated,
+	-- bounded to a sane range.
+	view = {
+		adaptive_size = true,
+		width = { min = 50, max = 100 },
+	},
 	-- change folder arrow icons
 	renderer = {
 		icons = {

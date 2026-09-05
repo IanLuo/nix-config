@@ -41,10 +41,10 @@ keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if ne
 local opts = { noremap = true, silent = true, buffer = bufnr }
 
 -- set keybinds
-keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", opts) -- show definition, references
-keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
+-- gr/gd/K intentionally NOT bound here: lua/plugins/lsp.lua owns them with
+-- native vim.lsp.buf (buffer-local), so Lspsaga ghosts would never fire.
+keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", opts) -- references under cursor
 keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
-keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts) -- show definition, references
 
 keymap.set("n", "sl", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show definition, references
 keymap.set("n", "sb", "<cmd>Lspsaga show_buf_diagnostics<CR>", opts) -- show definition, references
@@ -56,7 +56,7 @@ keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to 
 keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts) -- see available code actions
 keymap.set("n", "<leader>o", "<cmd>Lspsaga outline<CR>", opts) -- see outline on right hand side
 
-keymap.set("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>", opts) -- show documentation for what is under cursor
+-- K (hover) intentionally NOT bound here — native vim.lsp.buf.hover owns it (see lsp.lua).
 
 keymap.set("n", "ci", "<cmd>Lspsaga incoming_calls<CR>", opts) -- show documentation for what is under cursor
 keymap.set("n", "co", "<cmd>Lspsaga outgoing_calls<CR>", opts) -- show documentation for what is under cursor
