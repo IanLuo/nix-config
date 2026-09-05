@@ -16,6 +16,8 @@ in {
       config.flake.modules.homeManager.tmux
       config.flake.modules.homeManager.editor
       config.flake.modules.homeManager.aerospace
+      config.flake.modules.homeManager.kitty
+      config.flake.modules.homeManager.alacritty
       config.flake.modules.homeManager.nix-gc
       config.flake.modules.homeManager.macos-defaults
       {
@@ -30,7 +32,7 @@ in {
           }
         ];
 
-        # allowUnfree comes from config.repo.mkPkgs (modules/repo.nix).
+        # allowUnfree comes from config.repo.mkPkgs (modules/system/repo.nix).
 
         # Standard ~/.config layout (aerospace, git, nvim, tmux ...)
         xdg.enable = true;

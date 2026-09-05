@@ -17,7 +17,7 @@ These are managed here (single source of truth) and deployed globally to the use
 
 Every `.nix` file under `modules/` (except hosts and `_`-prefixed paths) is a `flake-parts` module auto-discovered by `import-tree`. No manual import list.
 
-- Shared values live in `config.repo.*` (`modules/repo.nix`). Don't re-thread via `specialArgs`.
+- Shared values live in `config.repo.*` (`modules/system/repo.nix`). Don't re-thread via `specialArgs`.
 - `flake.nix` is an inputs manifest + one-liner. No logic.
 - **`_` prefix:** any `.nix` under a `_`-prefixed segment is excluded from auto-import. Use for support files imported explicitly.
 

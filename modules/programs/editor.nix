@@ -2,7 +2,7 @@
 {
   flake.modules.homeManager.editor = { pkgs, lib, ... }:
     let
-      vimConfigPath = ../programs/vim/config;
+      vimConfigPath = ../../programs/vim/config;
     in {
       home.activation.removeLegacyNeovimPacker = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         if [ -d "$HOME/.local/share/nvim/site/pack/packer" ]; then
@@ -54,6 +54,12 @@
           lspsaga-nvim
           tokyonight-nvim
           catppuccin-nvim
+          rose-pine
+          everforest
+          gruvbox-material
+          kanagawa-nvim
+          nightfox-nvim
+          oxocarbon-nvim
           neogit
           gitsigns-nvim
           trouble-nvim

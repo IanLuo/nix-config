@@ -6,7 +6,7 @@
   flake.modules.homeManager.aerospace = { pkgs, ... }: {
     programs.aerospace = {
       enable = true;
-      package = pkgs.aerospace; # from nixpkgs-unstable (see unstable-packages.nix)
+      package = pkgs.aerospace; # from nixpkgs-unstable (see packages/unstable-packages.nix)
       launchd.enable = true;    # home-manager owns the launchd agent
 
       settings = {

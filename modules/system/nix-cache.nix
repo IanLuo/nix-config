@@ -4,7 +4,7 @@
 # Single source of truth for substituters: cache.nixos.org is the implicit
 # default; the two below are added via extra-substituters.
 #   - cache.numtide.com: prebuilt llm-agents packages
-#     (github:numtide/llm-agents.nix — see modules/llm-agents-packages.nix).
+#     (github:numtide/llm-agents.nix — see modules/packages/llm-agents-packages.nix).
 #   - nix-community.cachix.org: general nix-community project cache.
 {
   flake.nixConfig = {

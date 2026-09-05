@@ -15,6 +15,8 @@
           kitty
           alacritty
           # ghostty: nixpkgs is Linux-only — not installable on macOS
+          # fonts (single-family — downloads only the FiraCode archive)
+          nerd-fonts.fira-code
           # nix-ecosystem tooling
           nix-direnv
           any-nix-shell

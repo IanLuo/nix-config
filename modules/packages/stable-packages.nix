@@ -1,6 +1,6 @@
 { inputs, ... }:
 # Stable channel (nixpkgs 25.05) packages — mature, slow-moving apps.
-# Fast-moving apps live in unstable-packages.nix; config in the other modules.
+# Fast-moving apps live in packages/unstable-packages.nix.
 {
   flake.modules.homeManager.stable-packages = { pkgs, lib, ... }:
     # pkgs = homeConfiguration pkgs (nixpkgs-unstable) — used only for system.

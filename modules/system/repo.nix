@@ -22,8 +22,8 @@ in {
   config.repo = rec {
     stateVersion = "25.05";
 
-    # Base/home pkgs (nixpkgs-unstable). stable-packages.nix imports the
-    # nixpkgs (25.05) input directly — no helper needed for it.
+    # Base/home pkgs (nixpkgs-unstable). packages/stable-packages.nix imports
+    # the nixpkgs (25.05) input directly — no helper needed for it.
     mkPkgs = mkPkgsFrom inputs.nixpkgs-unstable;
   };
 }
