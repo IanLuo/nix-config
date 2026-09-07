@@ -16,6 +16,12 @@
         "config-version" = 2;
         persistent-workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ];
 
+        # On focused-workspace change, tell sketchybar to re-highlight the
+        # active space indicator (script reads AEROSPACE_FOCUSED_WORKSPACE).
+        exec-on-workspace-change = [
+          "/Users/ianluo/.config/sketchybar/plugins/update_spaces.sh"
+        ];
+
         gaps = {
           inner = {
             horizontal = 4;
@@ -24,7 +30,9 @@
           outer = {
             left = 4;
             bottom = 4;
-            top = 4;
+            # Reserve the top strip for the sketchybar bar (bar ~46px tall) so
+            # tiled windows start below it instead of underneath.
+            top = 52;
             right = 4;
           };
         };

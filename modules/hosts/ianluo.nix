@@ -18,6 +18,7 @@ in {
       config.flake.modules.homeManager.aerospace
       config.flake.modules.homeManager.kitty
       config.flake.modules.homeManager.alacritty
+      config.flake.modules.homeManager.sketchybar
       config.flake.modules.homeManager.nix-gc
       config.flake.modules.homeManager.macos-defaults
       {
