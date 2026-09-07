@@ -11,7 +11,7 @@ export COLOR_MUTED=0xff3f4b60
 # its buttons, then hide again. AeroSpace's top gap keeps tiled
 # windows below the bar, so the bar stays visible without topmost.
 sketchybar --bar height=42 position=top topmost=off \
-                color=0xa6192330 blur_radius=30 \
+                color=0x46192330 blur_radius=30 \
                 corner_radius=12 \
                 margin=6 y_offset=4 padding_left=12 padding_right=12
 
