@@ -1,0 +1,81 @@
+# nightfox palette (bar color is hardcoded with its alpha prefix)
+export COLOR_FG=0xffcdcecf
+export COLOR_ACCENT=0xff719cd6
+export COLOR_MUTED=0xff3f4b60
+
+# bar — match kitty's translucent background (opacity 0.65, blur 30;
+# kitty's tint has no sketchybar equivalent, so bump alpha if washed).
+# color is ARGB: 0xa6 = alpha 0.65 over nightfox bg.
+# Bar sits at the very top. topmost=off so the auto-hidden system menu
+# bar (System Settings → Desktop & Dock) can reveal OVER this bar for
+# its buttons, then hide again. AeroSpace's top gap keeps tiled
+# windows below the bar, so the bar stays visible without topmost.
+sketchybar --bar height=42 position=top topmost=off \
+                color=0xa6192330 blur_radius=30 \
+                corner_radius=12 \
+                margin=6 y_offset=4 padding_left=12 padding_right=12
+
+# item defaults
+sketchybar --default icon.font="FiraCode Nerd Font Mono:Bold:14.0" \
+                    icon.color=$COLOR_FG \
+                    icon.padding_left=2 icon.padding_right=2 \
+                    label.font="FiraCode Nerd Font Mono:Regular:13.0" \
+                    label.color=$COLOR_FG \
+                    label.padding_left=2 label.padding_right=2
+
+# left: AeroSpace workspace indicators. Click to switch; the active
+# one is highlighted by plugins/update_spaces.sh (fired by aerospace's
+# exec-on-workspace-change).
+for ws in 1 2 3 4 5 6 7 8 9 10; do
+  # Plain text indicator: active = bold white, inactive = dimmed like
+  # the date. Fixed label width keeps layout stable as bold/regular
+  # differ in width.
+  sketchybar --add item space.$ws right \
+             --set space.$ws label="$ws" \
+                     label.width=18 label.align=center \
+                     padding_left=3 padding_right=3 \
+                     click_script="$HOME/.nix-profile/bin/aerospace workspace $ws"
+done
+
+# highlight the focused space once (aerospace re-fires on changes)
+"$HOME/.config/sketchybar/plugins/update_spaces.sh"
+
+# left: frontmost app (icon glyph + name as separate components)
+# front_app is leftmost; spaces live on the right side
+sketchybar --add item front_app left \
+           --set front_app icon.font="FiraCode Nerd Font Mono:Regular:13.0" \
+                   icon.padding_right=4 \
+                   padding_left=3 padding_right=3 \
+                   script="$HOME/.config/sketchybar/plugins/front_app.sh" \
+                   --subscribe front_app front_app_switched
+"$HOME/.config/sketchybar/plugins/front_app.sh"
+
+# right: wifi (icon+SSID when connected, dim when not; click → network)
+sketchybar --add item wifi left \
+           --set wifi icon.font="FiraCode Nerd Font Mono:Bold:17.0" \
+                   padding_left=14 padding_right=3 \
+                   script="$HOME/.config/sketchybar/plugins/wifi.sh" \
+                   click_script='open "x-apple.systempreferences:com.apple.Network-Settings.extension"' \
+                   update_freq=60 \
+                   --subscribe wifi wifi_change system_woke
+# set the icon/state immediately (script re-runs on wifi events)
+"$HOME/.config/sketchybar/plugins/wifi.sh"
+
+# right: battery (event-driven; click → power settings)
+sketchybar --add item battery left \
+           --set battery icon.padding_right=3 \
+                   padding_left=3 padding_right=3 \
+                   script="$HOME/.config/sketchybar/plugins/battery.sh" \
+                   click_script='open "x-apple.systempreferences:com.apple.Battery-Settings.extension"' \
+                   update_freq=120 \
+                   --subscribe battery system_woke power_source_change
+
+# right: clock (update_freq ticks the script)
+sketchybar --add item clock left \
+           --set clock icon= icon.color=$COLOR_ACCENT \
+                   padding_left=3 padding_right=3 \
+                   script="sketchybar --set \$NAME label=\"\$(date '+%H:%M')\"" \
+                   update_freq=10
+
+# render
+sketchybar --update
