@@ -28,12 +28,12 @@
             vertical = 4;
           };
           outer = {
-            left = 4;
-            bottom = 4;
+            left = 8;
+            bottom = 8;
             # Reserve the top strip for the sketchybar bar (bar ~46px tall) so
             # tiled windows start below it instead of underneath.
             top = 52;
-            right = 4;
+            right = 8;
           };
         };
 
