@@ -40,28 +40,19 @@ done
 # highlight the focused space once (aerospace re-fires on changes)
 "$HOME/.config/sketchybar/plugins/update_spaces.sh"
 
-# left: frontmost app (icon glyph + name as separate components)
-# front_app is leftmost; spaces live on the right side
-sketchybar --add item front_app left \
-           --set front_app icon.font="FiraCode Nerd Font Mono:Regular:13.0" \
-                   icon.padding_right=4 \
-                   padding_left=3 padding_right=3 \
-                   script="$HOME/.config/sketchybar/plugins/front_app.sh" \
-                   --subscribe front_app front_app_switched
-"$HOME/.config/sketchybar/plugins/front_app.sh"
+# left cluster (left→right): wifi, battery, clock, front_app
 
-# right: wifi (icon+SSID when connected, dim when not; click → network)
+# wifi (click → network settings)
 sketchybar --add item wifi left \
            --set wifi icon.font="FiraCode Nerd Font Mono:Bold:17.0" \
-                   padding_left=14 padding_right=3 \
+                   padding_left=3 padding_right=3 \
                    script="$HOME/.config/sketchybar/plugins/wifi.sh" \
                    click_script='open "x-apple.systempreferences:com.apple.Network-Settings.extension"' \
                    update_freq=60 \
                    --subscribe wifi wifi_change system_woke
-# set the icon/state immediately (script re-runs on wifi events)
 "$HOME/.config/sketchybar/plugins/wifi.sh"
 
-# right: battery (event-driven; click → power settings)
+# battery (click → power settings)
 sketchybar --add item battery left \
            --set battery icon.padding_right=3 \
                    padding_left=3 padding_right=3 \
@@ -70,12 +61,29 @@ sketchybar --add item battery left \
                    update_freq=120 \
                    --subscribe battery system_woke power_source_change
 
-# right: clock (update_freq ticks the script)
+# clock
 sketchybar --add item clock left \
            --set clock icon= icon.color=$COLOR_ACCENT \
+                   label.color=0xffffffff \
                    padding_left=3 padding_right=3 \
                    script="sketchybar --set \$NAME label=\"\$(date '+%H:%M')\"" \
                    update_freq=10
+
+# separator between the status group and front_app (equal space both sides)
+sketchybar --add item cluster_sep left \
+           --set cluster_sep label="|" \
+                   label.color=0xff3f4b60 \
+                   padding_left=6 padding_right=6
+
+# front_app at the end of the cluster (spaces live on the right side)
+sketchybar --add item front_app left \
+           --set front_app icon.font="FiraCode Nerd Font Mono:Regular:13.0" \
+                   icon.color=0xffffffff label.color=0xffffffff \
+                   icon.padding_right=4 \
+                   padding_left=3 padding_right=3 \
+                   script="$HOME/.config/sketchybar/plugins/front_app.sh" \
+                   --subscribe front_app front_app_switched
+"$HOME/.config/sketchybar/plugins/front_app.sh"
 
 # render
 sketchybar --update
