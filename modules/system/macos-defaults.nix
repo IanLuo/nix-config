@@ -12,5 +12,11 @@
       /usr/bin/defaults write -g KeyRepeat -int 2
       /usr/bin/defaults write -g InitialKeyRepeat -int 25
     '';
+
+    home.activation.hideDesktopIcons = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      # Hide desktop icons (cleaner desktop). Restarts Finder to apply.
+      /usr/bin/defaults write com.apple.finder CreateDesktop -bool false
+      /usr/bin/killall Finder 2>/dev/null || true
+    '';
   };
 }
