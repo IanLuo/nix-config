@@ -37,7 +37,7 @@ if [ -e /etc/NIXOS ]; then
   sudo nixos-rebuild switch --flake ".#$TARGET"
 
 elif [ "$(uname)" = "Darwin" ]; then
-  TARGET="${HOME_CONFIG_NAME:-ianluo}"
+  TARGET="${HOME_CONFIG_NAME:-$(whoami)}"
   echo "Detected macOS. Switching Home Manager target: $TARGET"
 
   switch_home "$TARGET"

@@ -14,6 +14,7 @@ with config.flake.modules.homeManager; [
   aerospace
   sketchybar
   kitty
+  ghostty
   alacritty
   nix-gc
   macos-defaults
