@@ -24,7 +24,6 @@ in {
         home.username = user;
         home.homeDirectory = "/Users/${user}";
 
-        # MacBook Pro with notch — 32pt safe area at top
         custom.safeAreaTop = 32;
       }
     ];

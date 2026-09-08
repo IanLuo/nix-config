@@ -7,7 +7,7 @@
     options.custom.safeAreaTop = lib.mkOption {
       type = lib.types.int;
       default = 0;
-      description = "Primary display safe-area inset in points (e.g. 32 for a notched MacBook). Subtracted from the sketchybar gap so tiled windows align consistently.";
+      description = "Built-in display safe-area inset in points (e.g. 32 for notched MacBook).";
     };
 
     config.programs.aerospace = {
@@ -31,7 +31,11 @@
           outer = {
             left = 8;
             bottom = 8;
-            top = 52 - config.custom.safeAreaTop;
+            top =
+              let base = 52; in
+              if config.custom.safeAreaTop > 0
+              then [ { monitor."built-in" = base - config.custom.safeAreaTop; } base ]
+              else base;
             right = 8;
           };
         };

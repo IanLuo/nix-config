@@ -16,7 +16,7 @@ fi
 ACTIVE_FONT="FiraCode Nerd Font Mono:Bold:13.0"
 ACTIVE_FG="0xffffffff"
 INACTIVE_FONT="FiraCode Nerd Font Mono:Regular:12.0"
-INACTIVE_FG="0xff3f4b60"   # COLOR_MUTED — same as the date
+INACTIVE_FG="0xff000000"
 
 # A workspace is "used" (gets an indicator) if it is the focused one
 # or currently contains at least one window. Empty workspaces are
