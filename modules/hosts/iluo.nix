@@ -1,10 +1,10 @@
 { config, inputs, ... }:
 let
   system = "aarch64-darwin";
-  user = "ianluo";
+  user = "iluo";
   darwinModules = import ./_darwin-modules.nix { inherit config; };
 in {
-  flake.homeConfigurations.ianluo = inputs.home-manager.lib.homeManagerConfiguration {
+  flake.homeConfigurations.iluo = inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = config.repo.mkPkgs system;
     modules = darwinModules ++ [
       {
@@ -23,6 +23,9 @@ in {
 
         home.username = user;
         home.homeDirectory = "/Users/${user}";
+
+        # MacBook Pro with notch — 32pt safe area at top
+        custom.safeAreaTop = 32;
       }
     ];
   };

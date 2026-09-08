@@ -3,23 +3,24 @@
 # home-manager's programs.aerospace module renders the config and manages the
 # launchd agent with the correct nix-store package path.
 {
-  flake.modules.homeManager.aerospace = { pkgs, ... }: {
-    programs.aerospace = {
+  flake.modules.homeManager.aerospace = { pkgs, config, lib, ... }: {
+    options.custom.safeAreaTop = lib.mkOption {
+      type = lib.types.int;
+      default = 0;
+      description = "Primary display safe-area inset in points (e.g. 32 for a notched MacBook). Subtracted from the sketchybar gap so tiled windows align consistently.";
+    };
+
+    config.programs.aerospace = {
       enable = true;
-      package = pkgs.aerospace; # from nixpkgs-unstable (see packages/unstable-packages.nix)
-      launchd.enable = true;    # home-manager owns the launchd agent
+      package = pkgs.aerospace;
+      launchd.enable = true;
 
       settings = {
-        # config-version 2 (aerospace 0.2x): persistent-workspaces must be
-        # explicit — v1 inferred it from bindings (all 10 here), v2 default
-        # is empty. Declared explicitly to preserve behavior.
         "config-version" = 2;
         persistent-workspaces = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" ];
 
-        # On focused-workspace change, tell sketchybar to re-highlight the
-        # active space indicator (script reads AEROSPACE_FOCUSED_WORKSPACE).
         exec-on-workspace-change = [
-          "/Users/ianluo/.config/sketchybar/plugins/update_spaces.sh"
+          "${config.home.homeDirectory}/.config/sketchybar/plugins/update_spaces.sh"
         ];
 
         gaps = {
@@ -30,9 +31,7 @@
           outer = {
             left = 8;
             bottom = 8;
-            # Reserve the top strip for the sketchybar bar (bar ~46px tall) so
-            # tiled windows start below it instead of underneath.
-            top = 52;
+            top = 52 - config.custom.safeAreaTop;
             right = 8;
           };
         };
