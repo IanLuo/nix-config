@@ -1,7 +1,7 @@
 { config, inputs, ... }:
 let
   system = "aarch64-darwin";
-  user = "ianluo";
+  user = "iluo";
 in {
   flake.homeConfigurations.ianluo = inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = config.repo.mkPkgs system;
@@ -16,6 +16,7 @@ in {
       config.flake.modules.homeManager.tmux
       config.flake.modules.homeManager.editor
       config.flake.modules.homeManager.aerospace
+      config.flake.modules.homeManager.sketchybar
       config.flake.modules.homeManager.kitty
       config.flake.modules.homeManager.alacritty
       config.flake.modules.homeManager.sketchybar

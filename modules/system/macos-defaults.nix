@@ -11,6 +11,11 @@
       # Snappier repeat (System Settings → Keyboard equivalents)
       /usr/bin/defaults write -g KeyRepeat -int 2
       /usr/bin/defaults write -g InitialKeyRepeat -int 25
+      # Hide all desktop icons (files still accessible via Finder)
+      /usr/bin/defaults write com.apple.finder CreateDesktop -bool false
+      /usr/bin/killall Finder || true
+      # Auto-hide the system menu bar (SketchyBar replaces it)
+      /usr/bin/defaults write NSGlobalDomain _HIHideMenuBar -bool true
     '';
 
     home.activation.hideDesktopIcons = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
