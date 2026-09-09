@@ -5,4 +5,10 @@ require("nightfox").setup({
   options = {
     transparent = true,
   },
+  groups = {
+    nightfox = {
+      CursorLine = { bg = "#1e2a3a" },
+      Visual = { bg = "#3b4f6b" },
+    },
+  },
 })
