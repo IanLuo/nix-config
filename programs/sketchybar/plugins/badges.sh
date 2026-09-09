@@ -32,8 +32,10 @@ if [[ -z "$COUNT" || "$COUNT" == "null" || ! "$COUNT" =~ ^[0-9]+$ ]]; then
 fi
 
 if [ "$COUNT" -gt 0 ]; then
-  "$SB" --set "$NAME" icon="●" icon.color="$COLOR" \
+  "$SB" --set "$NAME" icon="⬤" icon.color="$COLOR" \
+                      icon.font="FiraCode Nerd Font Mono:Bold:16.0" \
                       label="$COUNT" label.color="$COLOR" \
+                      label.font="FiraCode Nerd Font Mono:Bold:13.0" \
                       drawing=on
 else
   "$SB" --set "$NAME" icon="" label="" drawing=off

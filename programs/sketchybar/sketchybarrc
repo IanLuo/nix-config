@@ -37,21 +37,6 @@ for ws in 1 2 3 4 5 6 7 8 9 10; do
                      click_script="$HOME/.nix-profile/bin/aerospace workspace $ws"
 done
 
-# badge indicators for messaging apps (poll every 5s, left of workspace numbers)
-BADGE_SCRIPT="$HOME/.config/sketchybar/plugins/badges.sh"
-for app in teams outlook slack messages; do
-  sketchybar --add item badge.$app right \
-             --set badge.$app icon.font="FiraCode Nerd Font Mono:Bold:12.0" \
-                     label.font="FiraCode Nerd Font Mono:Bold:11.0" \
-                     padding_left=2 padding_right=2 \
-                     script="$BADGE_SCRIPT" \
-                     update_freq=5
-done
-sketchybar --set badge.teams    click_script="open -b com.microsoft.teams2" \
-           --set badge.outlook  click_script="open -b com.microsoft.Outlook" \
-           --set badge.slack    click_script="open -b com.tinyspeck.slackmacgap" \
-           --set badge.messages click_script="open -b com.apple.MobileSMS"
-
 # highlight the focused space once (aerospace re-fires on changes)
 "$HOME/.config/sketchybar/plugins/update_spaces.sh"
 
@@ -92,6 +77,21 @@ sketchybar --add item front_app center \
                    script="$HOME/.config/sketchybar/plugins/front_app.sh" \
                    --subscribe front_app front_app_switched
 "$HOME/.config/sketchybar/plugins/front_app.sh"
+
+# badge indicators grouped with front_app in center (poll every 5s)
+BADGE_SCRIPT="$HOME/.config/sketchybar/plugins/badges.sh"
+for app in teams outlook slack messages; do
+  sketchybar --add item badge.$app center \
+             --set badge.$app icon.font="FiraCode Nerd Font Mono:Bold:12.0" \
+                     label.font="FiraCode Nerd Font Mono:Bold:11.0" \
+                     padding_left=2 padding_right=2 \
+                     script="$BADGE_SCRIPT" \
+                     update_freq=5
+done
+sketchybar --set badge.teams    click_script="open -b com.microsoft.teams2" \
+           --set badge.outlook  click_script="open -b com.microsoft.Outlook" \
+           --set badge.slack    click_script="open -b com.tinyspeck.slackmacgap" \
+           --set badge.messages click_script="open -b com.apple.MobileSMS"
 
 # render
 sketchybar --update
