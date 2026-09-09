@@ -35,8 +35,6 @@ if [ "$COUNT" -gt 0 ]; then
   "$SB" --set "$NAME" icon="●" icon.color="$COLOR" \
                       label="$COUNT" label.color="$COLOR" \
                       drawing=on
-# else
-#   "$SB" --set "$NAME" icon="○" icon.color=0xff3f4b60 \
-#                       label="" \
-#                       drawing=on
+else
+  "$SB" --set "$NAME" icon="" label="" drawing=off
 fi
