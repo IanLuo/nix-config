@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Wi-Fi indicator. macOS 26's networksetup misreports association, so detect
-# by whether the default route goes through the Wi-Fi device.
+# Wi-Fi indicator. Check if the Wi-Fi interface has an IP address —
+# works even when the default route goes through a VPN tunnel.
 set -uo pipefail
 
 SB="$(command -v sketchybar || true)"
@@ -8,10 +8,9 @@ SB="$(command -v sketchybar || true)"
 
 WIFI_DEV="$(networksetup -listallhardwareports 2>/dev/null | awk '/Wi-Fi/{getline; print $2}')"
 [ -n "$WIFI_DEV" ] || WIFI_DEV="en0"
-DEF_IF="$(route -n get default 2>/dev/null | awk '/interface:/{print $2}')"
 
-ICON="$(printf '')"   # nerd-font wifi glyph
-if [ -n "$DEF_IF" ] && [ "$DEF_IF" = "$WIFI_DEV" ]; then
+ICON="$(printf '\xef\x87\xab')"   # nerd-font wifi glyph U+F1EB
+if ipconfig getifaddr "$WIFI_DEV" >/dev/null 2>&1; then
   "$SB" --set wifi icon="$ICON" icon.color=0xffffffff   # white: connected
 else
   "$SB" --set wifi icon="$ICON" icon.color=0xff3f4b60   # dim: no wifi
