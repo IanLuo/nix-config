@@ -6,12 +6,4 @@ SB="$(command -v sketchybar || true)"
 
 APP="$(printenv INFO || true)"
 
-case "$APP" in
-  Finder)                          GLYPH="$(printf '')" ;;
-  Safari|"Google Chrome"|Arc|Brave|Firefox) GLYPH="$(printf '')" ;;
-  kitty|herdr|Alacritty|Terminal|WezTerm|iTerm2) GLYPH="$(printf '')" ;;
-  "Visual Studio Code"|*[Cc]ode*|Cursor) GLYPH="$(printf '')" ;;
-  *)                               GLYPH="$(printf '')" ;;
-esac
-
-"$SB" --set front_app icon="$GLYPH" label="$APP"
+"$SB" --set front_app icon="" label="[ $APP ]"
