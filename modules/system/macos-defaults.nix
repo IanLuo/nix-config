@@ -16,6 +16,11 @@
       /usr/bin/killall Finder || true
       # Auto-hide the system menu bar (SketchyBar replaces it)
       /usr/bin/defaults write NSGlobalDomain _HIHideMenuBar -bool true
+      # Hide the Dock (SketchyBar + AeroSpace replace it)
+      /usr/bin/defaults write com.apple.dock autohide -bool true
+      /usr/bin/defaults write com.apple.dock autohide-delay -float 1000
+      /usr/bin/defaults write com.apple.dock autohide-time-modifier -float 0
+      /usr/bin/killall Dock 2>/dev/null || true
     '';
 
     home.activation.hideDesktopIcons = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

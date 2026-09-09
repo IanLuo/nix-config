@@ -32,6 +32,10 @@
         source = ../../programs/sketchybar/plugins/battery.sh;
         executable = true;
       };
+      ".config/sketchybar/plugins/badges.sh" = {
+        source = ../../programs/sketchybar/plugins/badges.sh;
+        executable = true;
+      };
     };
   };
 }
