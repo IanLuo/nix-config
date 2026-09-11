@@ -1,7 +1,7 @@
 { ... }:
 # Ghostty terminal — transparent + blurred background, hidden titlebar.
 # Mirrors the kitty look (modules/programs/kitty.nix): nightfox bg,
-# opacity/blur/tint, FiraCode Nerd Font Mono.
+# opacity/blur, FiraCode Nerd Font Mono. (No background_tint in ghostty.)
 {
   flake.modules.homeManager.ghostty = { pkgs, ... }: {
     programs.ghostty = {

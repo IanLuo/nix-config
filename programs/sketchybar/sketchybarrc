@@ -3,9 +3,10 @@ export COLOR_FG=0xffcdcecf
 export COLOR_ACCENT=0xff719cd6
 export COLOR_MUTED=0xff3f4b60
 
-# bar — match kitty's translucent background (opacity 0.65, blur 30;
-# kitty's tint has no sketchybar equivalent, so bump alpha if washed).
-# color is ARGB: 0xa6 = alpha 0.65 over nightfox bg.
+# bar — translucent glass over the blurred desktop: color 0x46192330 =
+# alpha 0x46 (~0.27) over nightfox bg, blur_radius 30. Deliberately
+# lighter than the terminals' 0.85 so bar text stays readable when the
+# desktop (not a terminal window) is behind it.
 # Bar sits at the very top. topmost=off so the auto-hidden system menu
 # bar (System Settings → Desktop & Dock) can reveal OVER this bar for
 # its buttons, then hide again. AeroSpace's top gap keeps tiled

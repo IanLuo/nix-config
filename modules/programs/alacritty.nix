@@ -1,7 +1,8 @@
 { ... }:
 # alacritty terminal — transparent + blurred background, hidden titlebar.
 # Mirrors the kitty look (modules/programs/kitty.nix): same nightfox bg,
-# opacity/blur, and FiraCode Nerd Font Mono. No tint (kitty-only) and no
+# blur and FiraCode Nerd Font Mono, but opacity 0.65 (more transparent —
+# tuned for alacritty's weaker macOS blur). No tint (kitty-only) and no
 # corner granularity — decorations "None" removes the whole titlebar.
 {
   flake.modules.homeManager.alacritty = { ... }: {

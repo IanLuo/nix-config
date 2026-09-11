@@ -22,8 +22,11 @@
           curl
           ripgrep
           fd
+          # modern CLI staples
+          bat
+          eza
+          jq
           podman
-          nnn
           mosh
         ]
         ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ m-cli ];

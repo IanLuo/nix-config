@@ -11,10 +11,13 @@
         with unstablePkgs; [
           uv
           bun
+          # terminal file manager — replaces nnn (maintenance mode)
+          yazi
           # terminal emulators
           kitty
           alacritty
-          # ghostty: nixpkgs is Linux-only — not installable on macOS
+          # ghostty: not here — the source-built pkg is Linux-only in nixpkgs;
+          # macOS uses ghostty-bin via modules/programs/ghostty.nix
           # fonts (single-family — downloads only the FiraCode archive)
           nerd-fonts.fira-code
           # nix-ecosystem tooling
