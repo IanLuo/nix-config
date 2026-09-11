@@ -16,6 +16,8 @@
           keys = {
             # PRD: herdr-prefix (ctrl+a) — one-handed prefix
             prefix = "ctrl+a";
+            previous_workspace = "prefix+p";        # back
+            next_workspace = "prefix+shift+n";      # forward
             last_pane = "prefix+;";
           };
 
