@@ -1,8 +1,16 @@
 { ... }:
 # Flake-level nix settings — binary caches beyond cache.nixos.org.
 # Declared here (not in flake.nix) so the input manifest stays about inputs.
-# Single source of truth for substituters: cache.nixos.org is the implicit
-# default; the two below are added via extra-substituters.
+#
+# ⚠️ INERT on hosts where the user is not a nix trusted user (the default:
+# `trusted-users = root`). `substituters` is a *restricted* setting, so the
+# daemon silently ignores the client-supplied values below — no warning,
+# no effect. The authoritative substituter config is the daemon's own file:
+#   /etc/nix/nix.custom.conf  (site-specific, root-owned; mirrors + these
+#   caches + their public keys)
+# Keep the keys below in sync with that file. Verify with:
+#   nix config show | grep -E '^(substituters|trusted-public-keys)'
+#   nix build --dry-run … # a cached pkg must be *fetched*, not *built*
 #   - cache.numtide.com: prebuilt llm-agents packages
 #     (github:numtide/llm-agents.nix — see modules/packages/llm-agents-packages.nix).
 #   - nix-community.cachix.org: general nix-community project cache.

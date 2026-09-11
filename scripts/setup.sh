@@ -48,4 +48,11 @@ else
   switch_home "$TARGET"
 fi
 
+# Pin flake inputs against GC (they are not GC roots by default, so the weekly
+# nix-gc agent would delete them and nix would re-download from github.com).
+# Best-effort: the switch above already succeeded, so do not fail the run here.
+if ! "$SCRIPT_DIR/flake-input-roots.sh"; then
+  echo "warning: could not pin flake inputs — expect re-downloads after GC" >&2
+fi
+
 echo "Configuration applied successfully."
