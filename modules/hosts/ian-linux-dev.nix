@@ -10,10 +10,10 @@ in {
       config.flake.modules.homeManager.stable-packages
         config.flake.modules.homeManager.unstable-packages
       config.flake.modules.homeManager.llm-agents-packages
+      config.flake.modules.homeManager.pi-harness
       config.flake.modules.homeManager.herdr
       config.flake.modules.homeManager.cli
       config.flake.modules.homeManager.shell
-      config.flake.modules.homeManager.tmux
       config.flake.modules.homeManager.editor
       {
         assertions = [

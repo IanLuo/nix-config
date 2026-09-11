@@ -48,10 +48,10 @@ in {
         topConfig.flake.modules.homeManager.stable-packages
         topConfig.flake.modules.homeManager.unstable-packages
         topConfig.flake.modules.homeManager.llm-agents-packages
+        topConfig.flake.modules.homeManager.pi-harness
         topConfig.flake.modules.homeManager.herdr
         topConfig.flake.modules.homeManager.cli
         topConfig.flake.modules.homeManager.shell
-        topConfig.flake.modules.homeManager.tmux
         topConfig.flake.modules.homeManager.editor
       ];
 

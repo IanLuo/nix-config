@@ -6,10 +6,10 @@ with config.flake.modules.homeManager; [
   stable-packages
   unstable-packages
   llm-agents-packages
+  pi-harness
   herdr
   cli
   shell
-  tmux
   editor
   aerospace
   sketchybar
