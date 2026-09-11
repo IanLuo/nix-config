@@ -10,12 +10,15 @@ SB="$(command -v sketchybar || true)"
 NAME="${NAME:-}"
 [ -n "$NAME" ] || exit 0
 
-# Map item name → bundle ID + accent color
+# Shared badge accent — nightfox orange, warm enough to pop on the bar
+BADGE_COLOR="0xfff4a261"
+
+# Map item name → bundle ID + nerd font icon
 case "$NAME" in
-  badge.teams)   BUNDLE="com.microsoft.teams2"       COLOR="0xff7b83eb" ;;
-  badge.outlook) BUNDLE="com.microsoft.Outlook"       COLOR="0xff0078d4" ;;
-  badge.slack)   BUNDLE="com.tinyspeck.slackmacgap"   COLOR="0xff4a154b" ;;
-  badge.messages) BUNDLE="com.apple.MobileSMS"        COLOR="0xff34c759" ;;
+  badge.teams)    BUNDLE="com.microsoft.teams2"       ICON="󰻞" ;;  # nf-md-chat
+  badge.outlook)  BUNDLE="com.microsoft.Outlook"       ICON="󰇮" ;;  # nf-md-email
+  badge.slack)    BUNDLE="com.tinyspeck.slackmacgap"   ICON="󱋊" ;;  # nf-md-message_text
+  badge.messages) BUNDLE="com.apple.MobileSMS"         ICON="󰍡" ;;  # nf-md-message_reply
   *) exit 0 ;;
 esac
 
@@ -32,9 +35,9 @@ if [[ -z "$COUNT" || "$COUNT" == "null" || ! "$COUNT" =~ ^[0-9]+$ ]]; then
 fi
 
 if [ "$COUNT" -gt 0 ]; then
-  "$SB" --set "$NAME" icon="⬤" icon.color="$COLOR" \
+  "$SB" --set "$NAME" icon="$ICON" icon.color="$BADGE_COLOR" \
                       icon.font="FiraCode Nerd Font Mono:Bold:16.0" \
-                      label="$COUNT" label.color="$COLOR" \
+                      label="$COUNT" label.color="$BADGE_COLOR" \
                       label.font="FiraCode Nerd Font Mono:Bold:13.0" \
                       drawing=on
 else
