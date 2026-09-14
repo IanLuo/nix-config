@@ -90,23 +90,13 @@
               peach = "#f4a261";     # orange
               text = "#cdcecf";      # fg1 — same value as sketchybar COLOR_FG
               subtext0 = "#aeafb0";  # fg2
-              # Inactive pane borders are drawn with overlay0 — herdr exposes no
-              # per-focus or per-border control, so this token is the only lever.
-              #
-              # Do NOT use "transparent"/"none"/"reset" here: those drop the
-              # colour, and herdr still draws the glyphs in the terminal's
-              # DEFAULT foreground (measured: 206 border glyphs emitted). Painting
-              # the nightfox background colour is what actually makes them read
-              # as hidden — at the cost of the sidebar "spaces" header and the
-              # prefix-mode hint bar (new/menu/agents), which share this token and
-              # therefore also fade into the background.
-              overlay0 = "#192330";
+              overlay0 = "#39506b";
               overlay1 = "#738091";  # comment
               surface_dim = "#131a24"; # bg0
               surface0 = "#212e3f";  # bg2
               surface1 = "#29394f";  # bg3
               panel_bg = "#212e3f";  # bg2
-              active_row_bg = "#2b3b51"; # sel0
+              active_row_bg = "#3c5372"; # sel1 — brighter to contrast with overlay0
               selection_bg = "#3c5372";  # sel1
               # Keep the host terminal's translucent nightfox background instead
               # of painting the sidebar an opaque colour.
