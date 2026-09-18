@@ -3,6 +3,10 @@ let
   system = "aarch64-darwin";
   user = "iluo";
   darwinModules = import ./_darwin-modules.nix { inherit config; };
+  stablePkgs = import inputs.nixpkgs {
+    inherit system;
+    config.allowUnfree = true;
+  };
 in {
   flake.homeConfigurations.iluo = inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = config.repo.mkPkgs system;
@@ -23,6 +27,8 @@ in {
 
         home.username = user;
         home.homeDirectory = "/Users/${user}";
+
+        home.packages = with stablePkgs; [ nodejs azure-cli ];
 
         custom.safeAreaTop = 32;
       }
