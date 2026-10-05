@@ -11,6 +11,7 @@ with config.flake.modules.homeManager; [
   cli
   shell
   editor
+  godot
   aerospace
   sketchybar
   kitty
