@@ -14,7 +14,8 @@
         claude-code
         antigravity-cli
         ax
-        opencode
+        opencode2
+        codex
       ];
     };
 }

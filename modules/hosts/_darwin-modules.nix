@@ -8,6 +8,7 @@ with config.flake.modules.homeManager; [
   llm-agents-packages
   pi-harness
   herdr
+  ollama
   cli
   shell
   editor

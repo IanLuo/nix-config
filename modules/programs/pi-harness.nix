@@ -47,9 +47,12 @@
             # owns it from now on (same reason as modules/programs/herdr.nix).
             force = true;
             source = json.generate "pi-settings.json" {
-              defaultProvider = "deepseek";
+              defaultProvider = "opencode-go";
               defaultModel = "deepseek-v4-flash";
               defaultThinkingLevel = "high";
+              # "+" keeps the read/bash/edit/write defaults and adds codemode;
+              # extension tools (todo) are unaffected (cli.md "Tools").
+              defaultTools = [ "+codemode" ];
               theme = "nightfox";
               quietStartup = true;
               packages = [ "npm:pi-web-access" ];

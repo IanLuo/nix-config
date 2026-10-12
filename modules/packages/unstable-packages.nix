@@ -20,6 +20,9 @@
           # macOS uses ghostty-bin via modules/programs/ghostty.nix
           # fonts (single-family — downloads only the FiraCode archive)
           nerd-fonts.fira-code
+          # database clients — dblab (TUI browser/editor, saved profiles) + usql (universal SQL REPL)
+          dblab
+          usql
           # nix-ecosystem tooling
           nix-direnv
           any-nix-shell
