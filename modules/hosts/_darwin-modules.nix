@@ -19,5 +19,6 @@ with config.flake.modules.homeManager; [
   ghostty
   alacritty
   nix-gc
+  cap
   macos-defaults
 ]

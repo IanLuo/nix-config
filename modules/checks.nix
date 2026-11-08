@@ -24,6 +24,8 @@ in {
             test "${darwinHomeConfiguration.config.home.stateVersion}" = "${config.repo.stateVersion}"
             test "${darwinHomeConfiguration.config.home.sessionVariables.EDITOR}" = "vi"
             test "${boolString darwinHomeConfiguration.config.launchd.agents.nix-gc.enable}" = "true"
+            test "${boolString darwinHomeConfiguration.config.programs.cap.enable}" = "true"
+            test "${boolString darwinHomeConfiguration.config.launchd.agents.cap.config.KeepAlive}" = "true"
             test "${boolString darwinHomeConfiguration.config.programs.aerospace.enable}" = "true"
             test "${boolString darwinHomeConfiguration.config.programs.aerospace.launchd.enable}" = "true"
             touch "$out"

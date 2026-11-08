@@ -15,6 +15,11 @@
     # No follows: llm-agents pins its own nixpkgs-unstable (CI-tested combo +
     # Numtide binary cache). See modules/llm-agents-packages.nix.
     llm-agents.url = "github:numtide/llm-agents.nix";
+
+    # cap — the fs board watcher. git+file input: this machine's local repo,
+    # pinned by commit rather than by a hash of whatever is in the worktree.
+    cap.url = "git+file:///Users/ianluo/Documents/apps/cap";
+    cap.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   outputs = inputs:
