@@ -41,11 +41,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794148466,
-        "narHash": "sha256-1b4TrEbkDyiWrPmNrYfGZtIz+IahXxMONYOSG/CMEnA=",
+        "lastModified": 1794150025,
+        "narHash": "sha256-UX49vFQC3/tlDqHgSzEMR6bmdzwnLFgtEfPe97ZYwr8=",
         "ref": "refs/heads/master",
-        "rev": "69f6014853135b3ce27fe15562029dd17e6494a8",
-        "revCount": 10,
+        "rev": "0527973b5b658b3a1731d5d86c95d20e8186fb09",
+        "revCount": 11,
         "type": "git",
         "url": "file:///Users/ianluo/Documents/apps/cap"
       },
