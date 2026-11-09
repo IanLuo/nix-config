@@ -43,15 +43,15 @@
       "locked": {
         "lastModified": 1794150025,
         "narHash": "sha256-UX49vFQC3/tlDqHgSzEMR6bmdzwnLFgtEfPe97ZYwr8=",
-        "ref": "refs/heads/master",
+        "owner": "IanLuo",
+        "repo": "cap",
         "rev": "0527973b5b658b3a1731d5d86c95d20e8186fb09",
-        "revCount": 11,
-        "type": "git",
-        "url": "file:///Users/ianluo/Documents/apps/cap"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///Users/ianluo/Documents/apps/cap"
+        "owner": "IanLuo",
+        "repo": "cap",
+        "type": "github"
       }
     },
     "flake-parts": {
