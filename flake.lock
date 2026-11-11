@@ -41,11 +41,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794150025,
-        "narHash": "sha256-UX49vFQC3/tlDqHgSzEMR6bmdzwnLFgtEfPe97ZYwr8=",
+        "lastModified": 1794397521,
+        "narHash": "sha256-shy0kLDSzG5w81bCTi7MW480pJxv/xiSMKUercpgNGc=",
         "owner": "IanLuo",
         "repo": "cap",
-        "rev": "0527973b5b658b3a1731d5d86c95d20e8186fb09",
+        "rev": "ca3683b68111cf75f6bfdba2929efb8461175634",
         "type": "github"
       },
       "original": {
