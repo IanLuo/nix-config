@@ -19,6 +19,12 @@
     # cap — the fs board watcher, from GitHub. flake.lock pins the commit.
     cap.url = "github:IanLuo/cap";
     cap.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # In-house tools, from GitHub. No follows: each pins the nixpkgs its build
+    # was tested against (fs and memstore need go_1_27 from that pin).
+    observe.url = "github:IanLuo/observe";
+    fs.url = "github:IanLuo/fs";
+    memstore.url = "github:IanLuo/memstore";
   };
 
   outputs = inputs:

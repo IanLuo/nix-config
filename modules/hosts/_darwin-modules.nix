@@ -6,6 +6,7 @@ with config.flake.modules.homeManager; [
   stable-packages
   unstable-packages
   llm-agents-packages
+  ianluo-tools-packages
   pi-harness
   herdr
   ollama
