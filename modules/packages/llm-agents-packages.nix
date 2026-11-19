@@ -11,6 +11,8 @@
       home.packages = with agents; [
         pi
         herdr
+        herdr-core
+        herdr-app
         claude-code
         antigravity-cli
         ax
