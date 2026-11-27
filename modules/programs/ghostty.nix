@@ -9,8 +9,8 @@
       package = pkgs.ghostty-bin;
       settings = {
         background = "192330"; # nightfox bg
-        background-opacity = 0.85;
-        background-blur-radius = 30;
+        # background-opacity = 1; 
+        # background-blur-radius = 30;
         font-family = "FiraCode Nerd Font Mono";
         font-size = 13;
         macos-titlebar-style = "hidden";
