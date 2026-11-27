@@ -11,10 +11,20 @@ export COLOR_MUTED=0xff3f4b60
 # bar (System Settings → Desktop & Dock) can reveal OVER this bar for
 # its buttons, then hide again. AeroSpace's top gap keeps tiled
 # windows below the bar, so the bar stays visible without topmost.
+#
+# Geometry is tied to AeroSpace's gaps (modules/programs/aerospace.nix):
+#   margin=20 = gaps.outer.left/right, so the bar's edges line up with
+#     the left/right edge of tiled windows. margin is horizontal only in
+#     sketchybar — vertical placement comes from y_offset.
+#   y_offset=20 puts the bar's top edge at 20 and its bottom edge at
+#     20 + 42 = 62. (Measured: y_offset is the top inset, not margin.)
+#   AeroSpace's gaps.outer.top is therefore 62 + 12 = 74: windows start
+#     12pt below the bar. Change one file, change both.
 sketchybar --bar height=42 position=top topmost=off \
                 color=0x46192330 blur_radius=30 \
                 corner_radius=12 \
-                margin=6 y_offset=4 padding_left=12 padding_right=12
+                margin=20 y_offset=20 \
+                padding_left=12 padding_right=12
 
 # item defaults
 sketchybar --default icon.font="FiraCode Nerd Font Mono:Bold:14.0" \

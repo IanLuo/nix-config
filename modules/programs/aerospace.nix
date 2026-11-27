@@ -29,14 +29,16 @@
             vertical = 4;
           };
           outer = {
-            left = 8;
-            bottom = 8;
+            left = 20;
+            bottom = 20;
+            # 74 = sketchybar bar bottom (20 + 42) + 12pt gap.
+            # See programs/sketchybar/sketchybarrc — change one, change both.
             top =
-              let base = 52; in
+              let base = 74; in
               if config.custom.safeAreaTop > 0
               then [ { monitor."built-in" = base - config.custom.safeAreaTop; } base ]
               else base;
-            right = 8;
+            right = 20;
           };
         };
 
