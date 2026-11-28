@@ -3,10 +3,10 @@ export COLOR_FG=0xffcdcecf
 export COLOR_ACCENT=0xff719cd6
 export COLOR_MUTED=0xff3f4b60
 
-# bar — translucent glass over the blurred desktop: color 0x46192330 =
-# alpha 0x46 (~0.27) over nightfox bg, blur_radius 30. Deliberately
-# lighter than the terminals' 0.85 so bar text stays readable when the
-# desktop (not a terminal window) is behind it.
+# bar — nightfox, transparent: color 0xCC192330 = alpha 0xCC (0.8)
+# over nightfox bg. blur_radius=0 on purpose: with blur > 0 sketchybar
+# paints the full rectangle and the rounded corners disappear (measured
+# both ways: blur 30 -> square, blur 0 -> rounded).
 # Bar sits at the very top. topmost=off so the auto-hidden system menu
 # bar (System Settings → Desktop & Dock) can reveal OVER this bar for
 # its buttons, then hide again. AeroSpace's top gap keeps tiled
@@ -21,7 +21,7 @@ export COLOR_MUTED=0xff3f4b60
 #   AeroSpace's gaps.outer.top is therefore 62 + 12 = 74: windows start
 #     12pt below the bar. Change one file, change both.
 sketchybar --bar height=42 position=top topmost=off \
-                color=0x46192330 blur_radius=30 \
+                color=0xCC192330 blur_radius=0 \
                 corner_radius=12 \
                 margin=20 y_offset=20 \
                 padding_left=12 padding_right=12
