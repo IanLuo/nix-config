@@ -98,11 +98,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1795847069,
-        "narHash": "sha256-Ie+uKwcDSum9MBeJ3ruKKBIXCGAVvJnxeOS6nK6d8gY=",
+        "lastModified": 1795853226,
+        "narHash": "sha256-SfNKtnMuI80vcUCN2a9aIvQBRh2NSBKxqwDzgp3bWgw=",
         "owner": "IanLuo",
         "repo": "fs",
-        "rev": "c39e10797be0ee1a37f6dbfe9e821f50c4368152",
+        "rev": "d849ebcf755808b5116ca13eb5809a4d072afe25",
         "type": "github"
       },
       "original": {
